@@ -14,3 +14,17 @@
 .header .menu .active {
     border-bottom: 2px solid var(--primary);
 }
+
+/* =================================
+   背景色注入：营造水的氛围
+   ================================= */
+
+/* 浅色模式：整体背景带一点极淡的水蓝色 */
+:root:not(.dark) body {
+    background-color: #f5fafc;
+}
+
+/* 暗色模式：背景使用深海蓝黑，比默认的深灰更有质感 */
+:root.dark body {
+    background-color: #020617;
+}

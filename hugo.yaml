@@ -19,6 +19,10 @@ params:
   description: "Undergraduate CS Student | AI & 3D Editing, Deep Learning"
   author: "Yaohui Ru (RiverYu)"
   
+  label:
+    text: "RiverYu's Lab"
+    icon: /river-logo.svg
+    iconHeight: 30
   # 界面设置
   defaultTheme: auto 
   ShowReadingTime: true
