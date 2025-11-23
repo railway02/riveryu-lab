@@ -1,4 +1,4 @@
-baseURL: "https://example.org"  # ? 不用 localhost，占位即可，部署后改成你真正的域名
+baseURL: "https://riveryu-lab.vercel.app"  # ? 不用 localhost，占位即可，部署后改成你真正的域名
 title: "RiverYu's Lab"
 languageCode: "zh-cn"
 theme: "PaperMod"
