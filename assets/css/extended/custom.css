@@ -1,0 +1,16 @@
+:root {
+    /* 主水色：青色，做高亮和强调 */
+    --primary: #06b6d4;
+    /* 链接颜色：偏深一点的蓝 */
+    --link-color: #0ea5e9;
+}
+
+:root[class="dark"] {
+    /* 暗色模式下稍亮一点 */
+    --primary: #67e8f9;
+}
+
+/* 顶部导航栏当前页面的下划线高亮 */
+.header .menu .active {
+    border-bottom: 2px solid var(--primary);
+}

@@ -1,4 +1,4 @@
-baseURL: "https://ruyaohui.com"  # ? 不用 localhost，占位即可，部署后改成你真正的域名
+baseURL: "https://ruyaohui.com"  #  不用 localhost，占位即可，部署后改成你真正的域名
 title: "RiverYu's Lab"
 languageCode: "zh-cn"
 theme: "PaperMod"
@@ -38,7 +38,7 @@ params:
 
       Currently focusing on **AI**, **3D Editing**, and **Deep Learning**.
 
-      I believe in “show me the code” — projects and experiments speak louder than words.
+      "Water shapes the stone, not through force, but through persistence."
 
   # 社交图标
   socialIcons:
@@ -50,22 +50,23 @@ params:
 # 菜单栏 (About / Projects / Archives / Search)
 menu:
   main:
-    - identifier: projects
-      name: "🛠 Projects"
-      url: /projects/
-      weight: 10
-    - identifier: archives
-      name: "📂 Archives"
+    - identifier: river
+      name: "🌊 The River"   # 归档页，河流 = 你的时间线
       url: /archives/
+      weight: 10
+    - identifier: projects
+      name: "Projects"
+      url: /projects/
       weight: 20
     - identifier: search
-      name: "🔍 Search"
+      name: "Search"
       url: /search/
       weight: 30
     - identifier: about
-      name: "🙋 About"
+      name: "About"
       url: /about/
       weight: 40
+
 
 # 代码高亮配置
 markup:
