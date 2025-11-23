@@ -1,0 +1,77 @@
+baseURL: "https://example.org"  # ? 不用 localhost，占位即可，部署后改成你真正的域名
+title: "RiverYu's Lab"
+languageCode: "zh-cn"
+theme: "PaperMod"
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+
+# 搜索功能输出
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+params:
+  env: production
+  description: "Undergraduate CS Student | AI & 3D Editing, Deep Learning"
+  author: "Yaohui Ru (RiverYu)"
+  
+  # 界面设置
+  defaultTheme: auto 
+  ShowReadingTime: true
+  ShowShareButtons: false 
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true 
+  ShowWordCount: true
+  
+  # 首页简介
+  homeInfoParams:
+    Title: "Hi, I'm RiverYu 👋"
+    Content: >
+      Welcome to my lab.
+
+      I'm an undergraduate CS student (Network Engineering) at Henan Normal University.
+
+      Currently focusing on **AI**, **3D Editing**, and **Deep Learning**.
+
+      I believe in “show me the code” — projects and experiments speak louder than words.
+
+  # 社交图标
+  socialIcons:
+    - name: github
+      url: "https://github.com/railway02"
+    - name: email
+      url: "mailto:railway0206@gmail.com"
+
+# 菜单栏 (About / Projects / Archives / Search)
+menu:
+  main:
+    - identifier: projects
+      name: "🛠 Projects"
+      url: /projects/
+      weight: 10
+    - identifier: archives
+      name: "📂 Archives"
+      url: /archives/
+      weight: 20
+    - identifier: search
+      name: "🔍 Search"
+      url: /search/
+      weight: 30
+    - identifier: about
+      name: "🙋 About"
+      url: /about/
+      weight: 40
+
+# 代码高亮配置
+markup:
+  highlight:
+    codeFences: true      # 高亮 ``` 代码块
+    guessSyntax: true     # 没写语言名时自动猜
+    style: monokai        # 主题
+    noClasses: true       # ? 保持默认，用内联 CSS，最省事最稳
+    tabWidth: 4
