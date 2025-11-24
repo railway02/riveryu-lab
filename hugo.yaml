@@ -1,5 +1,6 @@
 baseURL: "https://ruyaohui.com"
 title: "RiverYu's Lab"
+googleAnalytics: "G-9W7L6YT5ER"
 languageCode: "zh-cn"
 theme: "PaperMod"
 
@@ -17,7 +18,7 @@ params:
   env: production
   description: "Undergraduate CS Student | AI & 3D Editing, Deep Learning"
   author: "Yaohui Ru (RiverYu)"
-
+  math: true
  
 
   # Favicon 配置
