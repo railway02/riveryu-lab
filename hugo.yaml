@@ -14,14 +14,16 @@ outputs:
     - RSS
     - JSON
 
+copyright: >
+    &copy; 2025 RiverYu's Lab ·
+    <span class="footer-motto">Per aspera ad astra</span>
+
 params:
   env: production
   description: "Undergraduate CS Student | AI & 3D Editing, Deep Learning"
   author: "Yaohui Ru (RiverYu)"
   math: true
-  copyright: >
-    &copy; 2025 RiverYu's Lab ·
-    <span class="footer-motto">Per aspera ad astra</span>
+
  
 
   # Favicon 配置
