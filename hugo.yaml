@@ -89,6 +89,9 @@ menu:
 
 # 代码高亮
 markup:
+  goldmark:
+    renderer:
+      unsafe: true  # ✅ 允许在 Markdown/配置中使用 HTML 标签
   highlight:
     codeFences: true
     guessSyntax: true
