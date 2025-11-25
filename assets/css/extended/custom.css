@@ -56,6 +56,19 @@ samp {
     --link-hover-color: var(--primary);
 }
 
+/* 页脚座右铭的样式 */
+.footer-motto {
+    color: var(--primary);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+/* 深色模式下稍微亮一点 */
+:root.dark .footer-motto {
+    color: var(--primary-strong);
+}
+
+
 /* ================================
    2. 背景：营造水的氛围
    ================================ */
@@ -69,6 +82,7 @@ samp {
 :root.dark body {
     background-color: #020617;
 }
+
 
 /* ================================
    3. 导航与链接状态
