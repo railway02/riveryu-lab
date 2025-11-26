@@ -11,7 +11,7 @@ Currently focusing on **AI**, **3D Editing**, and **Deep Learning**.
 
 ### Research / Groups
 
-- Member of **3D Editing** (3D 编辑) research group  
+- Member of **3D Editing**  research group  
 - Interested in 3D reconstruction, 3D editing, NeRF / 3D Gaussian Splatting
 
 ### Goals
