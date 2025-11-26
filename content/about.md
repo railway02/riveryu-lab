@@ -6,21 +6,22 @@ draft = false
 
 ## Hi, I'm RiverYu 👋
 
-I'm an undergraduate CS student (Network Engineering) at **Henan Normal University**.  
-Currently focusing on **AI**, **3D Editing**, and **Deep Learning**.
+I am an undergraduate student majoring in **CS (Network Engineering)** at **Henan Normal University**.  
+My research interests lie in **Computer Vision**, specifically **3D Generation & Editing**.
 
-### Research / Groups
+### Research Experience
 
-- Member of **3D Editing**  research group  
-- Interested in 3D reconstruction, 3D editing, NeRF / 3D Gaussian Splatting
+- **Undergraduate Researcher** at the **3D Vision Group**.
+- Currently focusing on **EG3D-based Facial/Body Editing**, **3D Reconstruction**, and **Neural Rendering (NeRF / 3DGS)**.
 
 ### Goals
 
-- Build solid foundations in math & CS
+- Build solid foundations in Math & CS
 - Complete several high-quality projects for research & applications
-- Prepare for summer camps and future CS master applications
+- Prepare for future CS master applications
 
 ### Tech Stack
 
 - **Languages:** Python, C++
-- **Tools:** PyTorch, Git, Hugo, LaTeX
+- **Frameworks:** PyTorch, CUDA
+- **Tools:** Git, Linux, Hugo, LaTeX
