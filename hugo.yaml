@@ -22,7 +22,10 @@ params:
   description: "Undergraduate CS Student | AI & 3D Editing, Deep Learning"
   author: "Yaohui Ru (RiverYu)"
   math: true
-
+  mainSections:
+    - projects
+    - notes
+    - posts
  
 
   # Favicon 配置
