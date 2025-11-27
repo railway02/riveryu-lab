@@ -5,9 +5,9 @@ theme: "PaperMod"
 
 # 这里的逻辑是：让文章链接直接使用文件名，去掉年月日文件夹
 permalinks:
-  projects: /projects/:filename/
-  notes: /notes/:filename/
-  posts: /posts/:filename/
+  projects: /projects/:contentbasename/
+  notes: /notes/:contentbasename/
+  posts: /posts/:contentbasename/
 
 enableRobotsTXT: true
 buildDrafts: false
