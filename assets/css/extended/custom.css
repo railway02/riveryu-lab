@@ -118,3 +118,27 @@ a:focus-visible {
     background-color: rgba(56, 189, 248, 0.25);
     /* 水蓝高亮 */
 }
+
+/* =================================
+   文章卡片 (Entry) 优化
+   ================================= */
+
+/* 1. 增加摘要文字的行间距，不再挤成一坨 */
+.entry-content {
+    line-height: 1.8 !important;
+    /* 拉开行距 */
+    color: var(--secondary);
+    /* 稍微变灰一点，突出标题 */
+    font-size: 15px;
+    /* 字号适中 */
+    margin-top: 8px;
+    /* 和标题拉开一点距离 */
+}
+
+/* 2. 优化卡片标题 */
+.entry-header h2 {
+    font-size: 22px;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+

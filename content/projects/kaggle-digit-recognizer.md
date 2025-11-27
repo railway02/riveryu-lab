@@ -5,6 +5,9 @@ draft = false
 tags = ["Kaggle", "CNN", "PyTorch"]
 +++
 
+summary: |
+  基于 CNN (LeNet-5) 实现的手写数字识别项目。
+
 ## 项目概述
 
 - 平台：Kaggle
@@ -22,3 +25,4 @@ tags = ["Kaggle", "CNN", "PyTorch"]
 - 熟悉了 Kaggle 提交流程
 - 复习了图像分类基本 pipeline
 - 为后续更复杂的比赛打基础
+

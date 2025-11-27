@@ -3,9 +3,16 @@ title: "RiverYu's Lab"
 languageCode: "zh-cn"
 theme: "PaperMod"
 
+# 这里的逻辑是：让文章链接直接使用文件名，去掉年月日文件夹
+permalinks:
+  projects: /projects/:filename/
+  notes: /notes/:filename/
+  posts: /posts/:filename/
+
 enableRobotsTXT: true
 buildDrafts: false
 buildFuture: false
+
 
 outputs:
   home:
@@ -26,8 +33,9 @@ params:
     - projects
     - notes
     - posts
- 
-
+  ShowToc: true
+  TocOpen: true  # 默认展开目录，方便读者概览
+  images: ["images/cover.png"]
   # Favicon 配置
   assets:
     favicon: /river-logo.svg
@@ -47,14 +55,14 @@ params:
   # 首页信息
   homeInfoParams:
     Title: "Hi, I'm RiverYu 👋"
-    Content: >
+    Content: |
       Welcome to my lab.
 
       I'm an undergraduate CS student (Network Engineering) at Henan Normal University.
 
-      Currently focusing on **AI**, **3D Editing**, and **Deep Learning**.
+      Currently focusing on **Computer Vision**.
 
-      "Water shapes the stone, not through force, but through persistence."
+      > *"Still waters run deep."*
 
   # 社交链接
   socialIcons:
