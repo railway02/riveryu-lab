@@ -1,9 +1,10 @@
-+++
-date = '2025-11-27T19:40:47+08:00'
-draft = true
-math = true
-title = 'e4e 与 HairCLIPv2 的反演解码机制和代码对比研究'
-+++
+---
+title: "e4e 与 HairCLIPv2 的反演解码机制和代码对比研究"
+date: 2025-11-27T19:40:47+08:00
+draft: false
+math: true
+summary: "A deep dive comparison between two classic CNN architectures."
+---
 
 ---
 # e4e 与 HairCLIPv2 的反演解码机制和代码对比研究
