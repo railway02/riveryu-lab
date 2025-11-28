@@ -4,7 +4,7 @@ languageCode: "zh-cn"
 theme: "PaperMod"
 
 # -----------------------------------------------------------------------------
-# URL & Permalink policy: drop date folders so URLs use only the filename slug.
+# URL & Permalink policy
 # -----------------------------------------------------------------------------
 permalinks:
   projects: /projects/:contentbasename/
@@ -12,21 +12,21 @@ permalinks:
   posts: /posts/:contentbasename/
 
 # -----------------------------------------------------------------------------
-# Build & deploy: production defaults for Vercel (no drafts/future posts).
+# Build & deploy
 # -----------------------------------------------------------------------------
 enableRobotsTXT: true
 buildDrafts: false
 buildFuture: false
 
 build:
-  writeStats: true # Keep build stats to surface bundle sizes in Vercel logs.
+  writeStats: true
 
 minify:
   disableXML: false
-  minifyOutput: true # Compress HTML/CSS/JS/XML for smaller responses.
+  minifyOutput: true
 
 # -----------------------------------------------------------------------------
-# Output formats: JSON enables search indexes for PaperMod.
+# Output formats
 # -----------------------------------------------------------------------------
 outputs:
   home:
@@ -35,14 +35,14 @@ outputs:
     - JSON
 
 # -----------------------------------------------------------------------------
-# Site-wide metadata used in head/footer.
+# Site-wide metadata
 # -----------------------------------------------------------------------------
 copyright: >
   &copy; 2025 RiverYu's Lab ·
   <span class="footer-motto">Per aspera ad astra</span>
 
 # -----------------------------------------------------------------------------
-# Theme parameters grouped by purpose for clarity/maintainability.
+# Theme parameters
 # -----------------------------------------------------------------------------
 params:
   env: production
@@ -55,11 +55,11 @@ params:
     changefreq: weekly
     priority: 0.6
 
-  # Assets & caching
+  # ✅ 修复：合并后的 Assets 配置 (性能 + 图标)
   assets:
-    disableHLJS: true            # Use Hugo Chroma (CSS only), drop Highlight.js JS.
-    disableFingerprinting: false # Keep fingerprinting for long-lived CDN caching.
-    disableScrollBarStyle: true  # Trim unused scrollbar styling.
+    disableHLJS: true            # Use Hugo Chroma (CSS only)
+    disableFingerprinting: false
+    disableScrollBarStyle: true
     favicon: /river-logo.svg
     favicon16x16: /river-logo.svg
     favicon32x32: /river-logo.svg
@@ -72,7 +72,7 @@ params:
     - notes
     - posts
   ShowToc: true
-  TocOpen: true                  # Keep TOC expanded by default for readability.
+  TocOpen: true
 
   # UI toggles
   defaultTheme: auto
@@ -103,7 +103,7 @@ params:
       url: "mailto:railway0206@gmail.com"
 
 # -----------------------------------------------------------------------------
-# Menu architecture (ensure matching content exists under /content).
+# Menu architecture
 # -----------------------------------------------------------------------------
 menu:
   main:
@@ -133,12 +133,12 @@ menu:
       weight: 50
 
 # -----------------------------------------------------------------------------
-# Markup & rendering: Goldmark passthrough keeps KaTeX delimiters; Chroma for code.
+# Markup & rendering
 # -----------------------------------------------------------------------------
 markup:
   goldmark:
     renderer:
-      unsafe: true  # 允许 HTML 标签
+      unsafe: true
     extensions:
       passthrough:
         enable: true
