@@ -1,5 +1,5 @@
 /* ================================
-   Typography
+   Typography (字体排版)
    ================================ */
 
 html,
@@ -23,6 +23,7 @@ body {
         sans-serif;
 }
 
+/* 等宽字体 (代码/终端) */
 pre,
 code,
 kbd,
@@ -32,16 +33,16 @@ samp {
 
 
 /* ================================
-   Color System (Light & Dark)
+   Color System (Light & Dark 变量系统)
    ================================ */
 
 :root {
-    /* Primaries: river cyan */
+    /* 主色调：赛博青 (River Cyan) */
     --primary: #06b6d4;
     --primary-strong: #0ea5e9;
     --primary-soft: #f0f9ff;
 
-    /* Text & surfaces */
+    /* 文本与背景 */
     --text-main: #0f172a;
     --text-muted: #334155;
     --surface: #ffffff;
@@ -49,27 +50,30 @@ samp {
     --surface-border: rgba(6, 182, 212, 0.16);
     --body-bg: #f5fafc;
     --body-bg-dark: #020617;
+
+    /* 阴影系统 */
     --shadow-soft: 0 10px 30px rgba(8, 47, 73, 0.08);
     --shadow-hover: 0 14px 38px rgba(8, 47, 73, 0.12);
     --shadow-strong: 0 14px 40px rgba(8, 47, 73, 0.08);
     --image-shadow: 0 12px 34px rgba(8, 47, 73, 0.15);
     --code-shadow: 0 14px 32px rgba(0, 0, 0, 0.35);
 
-    /* Code & accent */
+    /* 代码块颜色 */
     --code-bg: #2f343d;
     --code-text: #e6edf3;
     --code-border: rgba(255, 255, 255, 0.05);
 
-    /* Links */
+    /* 链接颜色 */
     --link-color: var(--primary-strong);
     --link-hover-color: var(--primary);
 
-    /* Utility tints */
+    /* 辅助色 */
     --blockquote-bg: rgba(14, 165, 233, 0.08);
     --selection-bg: rgba(56, 189, 248, 0.25);
     --table-border: #e2e8f0;
 }
 
+/* 深色模式变量重写 */
 :root.dark {
     --primary: #67e8f9;
     --primary-strong: #38bdf8;
@@ -82,6 +86,7 @@ samp {
     --surface-border: rgba(103, 232, 249, 0.18);
     --body-bg: #020617;
     --body-bg-dark: #020617;
+
     --shadow-soft: 0 12px 32px rgba(8, 47, 73, 0.45);
     --shadow-hover: 0 14px 38px rgba(8, 47, 73, 0.5);
     --shadow-strong: 0 12px 32px rgba(8, 47, 73, 0.45);
@@ -99,7 +104,7 @@ samp {
 
 
 /* ================================
-   Backgrounds
+   Global Styles (全局样式)
    ================================ */
 
 :root:not(.dark) body {
@@ -110,9 +115,13 @@ samp {
     background-color: var(--body-bg-dark);
 }
 
+::selection {
+    background-color: var(--selection-bg);
+}
+
 
 /* ================================
-   Navigation & Links
+   Navigation (导航栏)
    ================================ */
 
 .header .menu .active {
@@ -154,17 +163,8 @@ a:focus-visible {
 }
 
 
-/* ================================
-   Selection
-   ================================ */
-
-::selection {
-    background-color: var(--selection-bg);
-}
-
-
 /* =================================
-   Entry Cards (Lists)
+   Entry Cards (首页文章列表)
    ================================= */
 
 .entry-content {
@@ -187,6 +187,7 @@ a:focus-visible {
     background: var(--surface);
     box-shadow: var(--shadow-soft);
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    margin-bottom: 20px;
 }
 
 .post-entry:hover {
@@ -203,6 +204,7 @@ a:focus-visible {
     border-color: var(--primary);
 }
 
+/* 防止长单词溢出 */
 .post-entry h2,
 .post-entry .entry-content {
     overflow-wrap: anywhere;
@@ -210,9 +212,10 @@ a:focus-visible {
 
 
 /* =================================
-   Article Body
+   Article Body (正文区域)
    ================================= */
 
+/* 文章容器：信纸质感 */
 .post-single {
     border-radius: 18px;
     padding: 26px 26px 30px;
@@ -225,6 +228,7 @@ a:focus-visible {
     box-shadow: var(--shadow-strong);
 }
 
+/* 正文排版 */
 .post-content {
     font-size: 16.5px;
     line-height: 1.85;
@@ -257,6 +261,7 @@ a:focus-visible {
     line-height: 1.8;
 }
 
+/* 引用块 */
 .post-content blockquote {
     margin: 1.4rem 0;
     padding: 1rem 1.2rem;
@@ -266,6 +271,7 @@ a:focus-visible {
     color: inherit;
 }
 
+/* 图片 */
 .post-content img {
     max-width: 100%;
     height: auto;
@@ -275,6 +281,7 @@ a:focus-visible {
     box-shadow: var(--image-shadow);
 }
 
+/* 表格 */
 .post-content table {
     width: 100%;
     border-collapse: collapse;
@@ -290,19 +297,21 @@ a:focus-visible {
 
 
 /* =================================
-   Code & Math
+   Code & Math (代码与公式)
    ================================= */
 
+/* 修复了之前的冲突，统一使用变量 */
 .post-content pre {
     padding: 16px 18px;
     border-radius: 12px;
     overflow-x: auto;
-    background: var(--code-bg);
+    background: var(--code-bg) !important;
     color: var(--code-text);
     box-shadow: var(--code-shadow);
     border: 1px solid var(--code-border);
 }
 
+/* 行内代码 */
 .post-content code {
     background: color-mix(in srgb, var(--primary) 18%, transparent);
     padding: 2px 6px;
@@ -314,6 +323,7 @@ a:focus-visible {
     padding: 0;
 }
 
+/* LaTeX 公式横向滚动 */
 .katex-display {
     overflow-x: auto;
     padding: 8px 4px;
@@ -321,7 +331,7 @@ a:focus-visible {
 
 
 /* =================================
-   Layout & Forms
+   Layout & Forms (布局与表单)
    ================================= */
 
 .main {
@@ -343,6 +353,12 @@ textarea {
     background: var(--surface);
 }
 
+/* 隐藏页脚 Powered By */
+.footer span:not(:first-child) {
+    display: none;
+}
+
+/* 移动端适配 */
 @media (max-width: 640px) {
     .post-single {
         padding: 20px 18px 24px;
@@ -352,4 +368,3 @@ textarea {
         padding: 0 16px 48px;
     }
 }
-
