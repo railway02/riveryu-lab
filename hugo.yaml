@@ -3,77 +3,87 @@ title: "RiverYu's Lab"
 languageCode: "zh-cn"
 theme: "PaperMod"
 
-# 这里的逻辑是：让文章链接直接使用文件名，去掉年月日文件夹
+# -----------------------------------------------------------------------------
+# URL & Permalink policy: drop date folders so URLs use only the filename slug.
+# -----------------------------------------------------------------------------
 permalinks:
   projects: /projects/:contentbasename/
   notes: /notes/:contentbasename/
   posts: /posts/:contentbasename/
 
+# -----------------------------------------------------------------------------
+# Build & deploy: production defaults for Vercel (no drafts/future posts).
+# -----------------------------------------------------------------------------
 enableRobotsTXT: true
 buildDrafts: false
 buildFuture: false
 
 build:
-  writeStats: true
+  writeStats: true # Keep build stats to surface bundle sizes in Vercel logs.
 
-# ✅ 新增：强制开启资源压缩（HTML/CSS/JS/XML 都会被压缩去空格，体积变小）
 minify:
   disableXML: false
-  minifyOutput: true
+  minifyOutput: true # Compress HTML/CSS/JS/XML for smaller responses.
 
-
+# -----------------------------------------------------------------------------
+# Output formats: JSON enables search indexes for PaperMod.
+# -----------------------------------------------------------------------------
 outputs:
   home:
     - HTML
     - RSS
     - JSON
 
+# -----------------------------------------------------------------------------
+# Site-wide metadata used in head/footer.
+# -----------------------------------------------------------------------------
 copyright: >
-    &copy; 2025 RiverYu's Lab ·
-    <span class="footer-motto">Per aspera ad astra</span>
+  &copy; 2025 RiverYu's Lab ·
+  <span class="footer-motto">Per aspera ad astra</span>
 
-
-
-
+# -----------------------------------------------------------------------------
+# Theme parameters grouped by purpose for clarity/maintainability.
+# -----------------------------------------------------------------------------
 params:
   env: production
   description: "Undergraduate CS Student | AI & 3D Editing, Deep Learning"
   author: "Yaohui Ru (RiverYu)"
-  
-  # ✅ 关键优化：资源精简
-  assets:
-    disableHLJS: true            # ⭐ 禁用 Highlight.js (JS库)，只用 Hugo 原生 Chroma (CSS)，大幅减少 JS 体积！
-    disableFingerprinting: false # 保持指纹 (利于缓存)
-    disableScrollBarStyle: true  # 移除自定义滚动条 CSS，减少代码量
-    favicon: /river-logo.svg
-    favicon16x16: /river-logo.svg
-    favicon32x32: /river-logo.svg
-    apple_touch_icon: /river-logo.svg
-  
+
+  # SEO & feeds
+  images: ["images/cover.png"]
   sitemap:
     changefreq: weekly
     priority: 0.6
 
+  # Assets & caching
+  assets:
+    disableHLJS: true            # Use Hugo Chroma (CSS only), drop Highlight.js JS.
+    disableFingerprinting: false # Keep fingerprinting for long-lived CDN caching.
+    disableScrollBarStyle: true  # Trim unused scrollbar styling.
+    favicon: /river-logo.svg
+    favicon16x16: /river-logo.svg
+    favicon32x32: /river-logo.svg
+    apple_touch_icon: /river-logo.svg
+
+  # Content behavior
   math: true
   mainSections:
     - projects
     - notes
     - posts
   ShowToc: true
-  TocOpen: true  # 默认展开目录，方便读者概览
-  images: ["images/cover.png"]
-  
-  
-  # 界面开关
-  defaultTheme: auto 
+  TocOpen: true                  # Keep TOC expanded by default for readability.
+
+  # UI toggles
+  defaultTheme: auto
   ShowReadingTime: true
-  ShowShareButtons: false 
+  ShowShareButtons: false
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
-  ShowCodeCopyButtons: true 
+  ShowCodeCopyButtons: true
   ShowWordCount: true
-  
-  # 首页信息
+
+  # Homepage hero
   homeInfoParams:
     Title: "Hi, I'm RiverYu 👋"
     Content: |
@@ -85,21 +95,23 @@ params:
 
       > *"Still waters run deep."*
 
-  # 社交链接
+  # Social links
   socialIcons:
     - name: github
       url: "https://github.com/railway02"
     - name: email
       url: "mailto:railway0206@gmail.com"
 
-# 菜单架构 (确保 content 下有对应的文件！)
+# -----------------------------------------------------------------------------
+# Menu architecture (ensure matching content exists under /content).
+# -----------------------------------------------------------------------------
 menu:
   main:
     - identifier: projects
       name: "Projects"
       url: /projects/
       weight: 10
-      
+
     - identifier: notes
       name: "Notes"
       url: /notes/
@@ -109,22 +121,36 @@ menu:
       name: "🌊 The River"
       url: /archives/
       weight: 30
-      
+
     - identifier: search
       name: "Search"
       url: /search/
       weight: 40
-      
+
     - identifier: about
       name: "About"
       url: /about/
       weight: 50
 
-# 代码高亮
+# -----------------------------------------------------------------------------
+# Markup & rendering: Goldmark passthrough keeps KaTeX delimiters; Chroma for code.
+# -----------------------------------------------------------------------------
 markup:
   goldmark:
+    extensions:
+      passthrough:
+        enable: true
+        delimiters:
+          inline:
+            - left: "$"
+              right: "$"
+              display: false
+          block:
+            - left: "$$"
+              right: "$$"
+              display: true
     renderer:
-      unsafe: true  # ✅ 允许在 Markdown/配置中使用 HTML 标签
+      unsafe: true  # Allow HTML in Markdown for shortcodes/embeds.
   highlight:
     codeFences: true
     guessSyntax: true
