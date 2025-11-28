@@ -44,6 +44,11 @@ samp {
     /* 提供给 PaperMod 使用的通用链接变量 */
     --link-color: var(--primary-strong);
     --link-hover-color: var(--primary);
+
+    /* 辅助色：用于边框/阴影 */
+    --surface: #ffffff;
+    --surface-strong: #f8fdff;
+    --surface-border: rgba(6, 182, 212, 0.16);
 }
 
 /* 暗色模式下的水色版本：整体更亮一点，避免发灰 */
@@ -54,6 +59,10 @@ samp {
 
     --link-color: var(--primary-strong);
     --link-hover-color: var(--primary);
+
+    --surface: #0b1220;
+    --surface-strong: #0f172a;
+    --surface-border: rgba(103, 232, 249, 0.18);
 }
 
 /* 页脚座右铭的样式 */
@@ -93,6 +102,16 @@ samp {
     border-bottom: 2px solid var(--primary);
 }
 
+.header .menu a {
+    padding: 6px 10px;
+    border-radius: 10px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.header .menu a:hover {
+    background-color: var(--primary-soft);
+}
+
 /* 链接默认/悬停颜色（正文与导航都会受益） */
 a {
     color: var(--link-color);
@@ -110,6 +129,7 @@ a:focus-visible {
     outline-offset: 2px;
 }
 
+
 /* ================================
    4. 文本选中：水光效果
    ================================ */
@@ -120,7 +140,7 @@ a:focus-visible {
 }
 
 /* =================================
-   文章卡片 (Entry) 优化
+   列表页卡片 (Entry) 优化
    ================================= */
 
 /* 1. 增加摘要文字的行间距，不再挤成一坨 */
@@ -140,5 +160,196 @@ a:focus-visible {
     font-size: 22px;
     margin-bottom: 5px;
     font-weight: 700;
+}
+
+/* 3. 卡片排版与 hover 反馈，避免贴边和拥挤 */
+.post-entry {
+    border: 1px solid var(--surface-border);
+    border-radius: 16px;
+    padding: 18px 20px;
+    background: var(--surface);
+    box-shadow: 0 10px 30px rgba(8, 47, 73, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.post-entry:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 38px rgba(8, 47, 73, 0.12);
+    border-color: var(--primary);
+}
+
+:root.dark .post-entry {
+    background: var(--surface);
+    box-shadow: 0 8px 26px rgba(8, 47, 73, 0.45);
+}
+
+:root.dark .post-entry:hover {
+    border-color: var(--primary);
+}
+
+/* 4. 避免标题/摘要被长单词撑破布局 */
+.post-entry h2,
+.post-entry .entry-content {
+    overflow-wrap: anywhere;
+}
+
+
+/* =================================
+   正文排版优化：更易读的内容框架
+   ================================= */
+
+/* 文章主体容器：留出呼吸空间，增强可读性 */
+.post-single {
+    border-radius: 18px;
+    padding: 26px 26px 30px;
+    background: linear-gradient(180deg, var(--surface) 0%, var(--surface-strong) 100%);
+    box-shadow: 0 14px 40px rgba(8, 47, 73, 0.08);
+    border: 1px solid var(--surface-border);
+}
+
+:root.dark .post-single {
+    box-shadow: 0 12px 32px rgba(8, 47, 73, 0.45);
+}
+
+/* 主体文本行距/字号：中文和英文都舒适 */
+.post-content {
+    font-size: 16.5px;
+    line-height: 1.85;
+    color: #0f172a;
+    overflow-wrap: break-word;
+}
+
+:root.dark .post-content {
+    color: #e2e8f0;
+}
+
+.post-content p,
+.post-content li {
+    margin-bottom: 0.95rem;
+}
+
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+    scroll-margin-top: 90px;
+    letter-spacing: 0.01em;
+}
+
+.post-content h2 {
+    font-size: 28px;
+}
+
+.post-content h3 {
+    font-size: 22px;
+}
+
+.post-content h4 {
+    font-size: 18px;
+}
+
+/* 列表与引用的视觉层次 */
+.post-content ul,
+.post-content ol {
+    padding-left: 1.4rem;
+    margin-bottom: 1.1rem;
+    line-height: 1.8;
+}
+
+.post-content blockquote {
+    margin: 1.4rem 0;
+    padding: 1rem 1.2rem;
+    border-left: 4px solid var(--primary);
+    background: rgba(14, 165, 233, 0.08);
+    border-radius: 12px;
+    color: inherit;
+}
+
+:root.dark .post-content blockquote {
+    background: rgba(8, 47, 73, 0.65);
+}
+
+/* 图片与表格：保证自适应与对齐，避免溢出 */
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 1.2rem auto;
+    display: block;
+    border-radius: 14px;
+    box-shadow: 0 12px 34px rgba(8, 47, 73, 0.15);
+}
+
+.post-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2rem 0;
+    font-size: 15px;
+}
+
+.post-content th,
+.post-content td {
+    padding: 0.7rem 0.85rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+:root.dark .post-content th,
+:root.dark .post-content td {
+    border-color: #1f2937;
+}
+
+/* 代码块：增加内边距和圆角，修复超长行溢出问题 */
+.post-content pre {
+    padding: 14px 16px;
+    border-radius: 14px;
+    overflow-x: auto;
+    background: #0b1220;
+    color: #e5e7eb;
+    box-shadow: inset 0 0 0 1px rgba(103, 232, 249, 0.08);
+}
+
+:root:not(.dark) .post-content pre {
+    background: #0b1220;
+}
+
+.post-content code {
+    background: rgba(6, 182, 212, 0.14);
+    padding: 2px 6px;
+    border-radius: 8px;
+}
+
+.post-content pre code {
+    background: transparent;
+    padding: 0;
+}
+
+/* 数学公式在窄屏下容易溢出，这里允许横向滚动 */
+.katex-display {
+    overflow-x: auto;
+    padding: 8px 4px;
+}
+
+/* =================================
+   页面容器：限制宽度，避免行长过长
+   ================================= */
+
+.main {
+    max-width: 1100px;
+    padding: 0 20px 60px;
+}
+
+.page-header {
+    margin-bottom: 22px;
+}
+
+/* 搜索框等表单元素对齐 */
+input[type="search"],
+input[type="text"],
+input[type="email"],
+textarea {
+    border-radius: 12px;
+    border: 1px solid var(--surface-border);
+    padding: 10px 12px;
+    background: var(--surface);
 }
 
