@@ -13,6 +13,14 @@ enableRobotsTXT: true
 buildDrafts: false
 buildFuture: false
 
+build:
+  writeStats: true
+
+# ✅ 新增：强制开启资源压缩（HTML/CSS/JS/XML 都会被压缩去空格，体积变小）
+minify:
+  disableXML: false
+  minifyOutput: true
+
 
 outputs:
   home:
@@ -24,10 +32,24 @@ copyright: >
     &copy; 2025 RiverYu's Lab ·
     <span class="footer-motto">Per aspera ad astra</span>
 
+
+
+
 params:
   env: production
   description: "Undergraduate CS Student | AI & 3D Editing, Deep Learning"
   author: "Yaohui Ru (RiverYu)"
+  
+  # ✅ 关键优化：资源精简
+  assets:
+    disableHLJS: true            # ⭐ 禁用 Highlight.js (JS库)，只用 Hugo 原生 Chroma (CSS)，大幅减少 JS 体积！
+    disableFingerprinting: false # 保持指纹 (利于缓存)
+    disableScrollBarStyle: true  # 移除自定义滚动条 CSS，减少代码量
+  
+  sitemap:
+    changefreq: weekly
+    priority: 0.6
+
   math: true
   mainSections:
     - projects
