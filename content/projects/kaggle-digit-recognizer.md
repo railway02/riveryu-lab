@@ -1,11 +1,11 @@
-+++
+---
 title = "Kaggle Digit Recognizer"
 date = "2025-11-23T11:20:00+08:00"
 draft = false
 tags = ["Kaggle", "CNN", "PyTorch"]
 summary: |
   基于 CNN (LeNet-5) 实现的手写数字识别项目。
-+++
+---
 
 
 
