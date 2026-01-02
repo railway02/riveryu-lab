@@ -1,10 +1,15 @@
 ---
-title = "Kaggle Digit Recognizer"
-date = "2025-11-23T11:20:00+08:00"
-draft = false
-tags = ["Kaggle", "CNN", "PyTorch"]
+title: "Kaggle Digit Recognizer"
+date: 2025-11-23T11:20:00+08:00
+draft: false
+tags: 
+  - "Kaggle"
+  - "CNN"
+  - "PyTorch"
 summary: |
   基于 CNN (LeNet-5) 实现的手写数字识别项目。
+  完成了数据预处理、模型搭建与训练，最终在 Kaggle 取得 Top 15% 的成绩。
+  包含完整的 PyTorch 代码复现与参数调优记录。
 ---
 
 
