@@ -1,0 +1,109 @@
+:root {
+  --layout-max-width: 1160px;
+  --content-max-width: 880px;
+  --content-padding: clamp(16px, 3vw, 28px);
+  --section-gap: clamp(18px, 3vw, 32px);
+  --card-radius: 18px;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+main,
+.main {
+  max-width: var(--layout-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 var(--content-padding) 64px;
+}
+
+.page-header,
+.post-single,
+.post-entry,
+.profile,
+.home-info {
+  max-width: var(--content-max-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.page-header {
+  margin-top: var(--section-gap);
+  margin-bottom: calc(var(--section-gap) * 0.75);
+}
+
+.post-title {
+  letter-spacing: 0.2px;
+}
+
+.post-single {
+  border-radius: var(--card-radius);
+}
+
+.post-entry {
+  border-radius: var(--card-radius);
+  margin-bottom: var(--section-gap);
+}
+
+.post-entry .entry-header h2 {
+  line-height: 1.35;
+}
+
+.post-entry .entry-content {
+  margin-top: 0.6rem;
+}
+
+.post-content {
+  scroll-margin-top: 90px;
+}
+
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+  scroll-margin-top: 90px;
+}
+
+.post-content img {
+  border-radius: 16px;
+}
+
+.header {
+  padding: 12px 0;
+}
+
+.header .logo,
+.logo a {
+  letter-spacing: 0.3px;
+}
+
+.footer {
+  padding: 24px 0 40px;
+}
+
+.footer .footer-motto {
+  display: inline-block;
+  margin-top: 6px;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --layout-max-width: 96vw;
+    --content-max-width: 92vw;
+  }
+
+  .post-entry {
+    margin-bottom: calc(var(--section-gap) * 0.85);
+  }
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding-bottom: 48px;
+  }
+
+  .page-header {
+    margin-top: 16px;
+  }
+}
