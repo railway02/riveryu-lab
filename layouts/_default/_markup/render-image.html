@@ -1,0 +1,42 @@
+{{- $alt := .Text | plainify -}}
+{{- $title := .Title -}}
+{{- $dest := .Destination -}}
+{{- $img := .Page.Resources.GetMatch $dest -}}
+
+{{- if and $img (ne $img.MediaType.SubType "svg") -}}
+  {{- $sizes := slice 480 768 1024 1440 -}}
+  {{- $srcset := slice -}}
+  {{- range $sizes -}}
+    {{- if ge $img.Width . -}}
+      {{- $resized := $img.Resize (printf "%dx" .) -}}
+      {{- $srcset = $srcset | append (printf "%s %dw" $resized.RelPermalink .) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $fallback := $img -}}
+  {{- if ge $img.Width 1024 -}}
+    {{- $fallback = $img.Resize "1024x" -}}
+  {{- end -}}
+  <figure class="post-image">
+    <img
+      src="{{ $fallback.RelPermalink }}"
+      {{- if gt (len $srcset) 0 }}
+      srcset="{{ delimit $srcset ", " }}"
+      sizes="(max-width: 768px) 100vw, 768px"
+      {{- end }}
+      alt="{{ $alt }}"
+      loading="lazy"
+      decoding="async"
+      {{- with $title }} title="{{ . }}"{{- end -}}
+    >
+  </figure>
+{{- else -}}
+  <figure class="post-image">
+    <img
+      src="{{ $dest | safeURL }}"
+      alt="{{ $alt }}"
+      loading="lazy"
+      decoding="async"
+      {{- with $title }} title="{{ . }}"{{- end -}}
+    >
+  </figure>
+{{- end -}}
