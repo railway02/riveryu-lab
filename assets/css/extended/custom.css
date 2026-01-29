@@ -38,69 +38,69 @@ samp {
 
 :root {
     /* 主水色：青色，高亮用 */
-    --primary: #06b6d4;
+    --primary: #0ea5e9;
     /* 稍深一点的蓝，用于链接等 */
-    --primary-strong: #0ea5e9;
+    --primary-strong: #0284c7;
     /* 很浅的水色，用在背景/hover 等柔和场景 */
-    --primary-soft: #f0f9ff;
+    --primary-soft: #e0f2fe;
 
     /* 文本与背景 */
-    --text-main: #0f172a;
-    --text-muted: #334155;
+    --text-main: #0b1220;
+    --text-muted: #475569;
     --surface: #ffffff;
-    --surface-strong: #f8fdff;
-    --surface-border: rgba(6, 182, 212, 0.16);
-    --body-bg: #f5fafc;
+    --surface-strong: #f4f8fb;
+    --surface-border: rgba(2, 132, 199, 0.18);
+    --body-bg: #eef5fa;
     --body-bg-dark: #020617;
 
     /* 阴影系统 */
-    --shadow-soft: 0 10px 30px rgba(8, 47, 73, 0.08);
-    --shadow-hover: 0 14px 38px rgba(8, 47, 73, 0.12);
-    --shadow-strong: 0 14px 40px rgba(8, 47, 73, 0.08);
-    --image-shadow: 0 12px 34px rgba(8, 47, 73, 0.15);
-    --code-shadow: 0 14px 32px rgba(0, 0, 0, 0.35);
+    --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
+    --shadow-hover: 0 14px 36px rgba(15, 23, 42, 0.14);
+    --shadow-strong: 0 16px 40px rgba(15, 23, 42, 0.12);
+    --image-shadow: 0 16px 32px rgba(15, 23, 42, 0.18);
+    --code-shadow: 0 16px 30px rgba(15, 23, 42, 0.25);
 
     /* 代码块颜色 */
-    --code-bg: #2f343d;
-    --code-text: #e6edf3;
-    --code-border: rgba(255, 255, 255, 0.05);
+    --code-bg: #0f172a;
+    --code-text: #e2e8f0;
+    --code-border: rgba(148, 163, 184, 0.2);
 
     /* 链接颜色 */
     --link-color: var(--primary-strong);
     --link-hover-color: var(--primary);
 
     /* 辅助色 */
-    --blockquote-bg: rgba(14, 165, 233, 0.08);
-    --selection-bg: rgba(56, 189, 248, 0.25);
+    --blockquote-bg: rgba(14, 165, 233, 0.1);
+    --selection-bg: rgba(56, 189, 248, 0.3);
     --table-border: #e2e8f0;
 }
 
 /* 深色模式下的变量重写 */
 :root.dark {
-    --primary: #67e8f9;
-    --primary-strong: #38bdf8;
-    --primary-soft: #082f49;
+    --primary: #38bdf8;
+    --primary-strong: #0ea5e9;
+    --primary-soft: #0b3b5b;
 
     --text-main: #e2e8f0;
-    --text-muted: #cbd5e1;
+    --text-muted: #94a3b8;
     --surface: #0b1220;
     --surface-strong: #0f172a;
-    --surface-border: rgba(103, 232, 249, 0.18);
+    --surface-border: rgba(56, 189, 248, 0.2);
     --body-bg: #020617;
     --body-bg-dark: #020617;
 
-    --shadow-soft: 0 12px 32px rgba(8, 47, 73, 0.45);
-    --shadow-hover: 0 14px 38px rgba(8, 47, 73, 0.5);
-    --shadow-strong: 0 12px 32px rgba(8, 47, 73, 0.45);
-    --image-shadow: 0 12px 34px rgba(8, 47, 73, 0.35);
-    --code-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+    --shadow-soft: 0 12px 32px rgba(2, 6, 23, 0.55);
+    --shadow-hover: 0 16px 40px rgba(2, 6, 23, 0.6);
+    --shadow-strong: 0 18px 42px rgba(2, 6, 23, 0.65);
+    --image-shadow: 0 16px 34px rgba(2, 6, 23, 0.6);
+    --code-shadow: 0 16px 32px rgba(2, 6, 23, 0.7);
 
-    --code-bg: #282c34;
-    --code-text: #e6edf3;
-    --code-border: rgba(255, 255, 255, 0.08);
+    --code-bg: #0b1220;
+    --code-text: #e2e8f0;
+    --code-border: rgba(148, 163, 184, 0.18);
 
-    --blockquote-bg: rgba(8, 47, 73, 0.65);
-    --selection-bg: rgba(103, 232, 249, 0.24);
+    --blockquote-bg: rgba(15, 23, 42, 0.7);
+    --selection-bg: rgba(56, 189, 248, 0.25);
     --table-border: #1f2937;
 }
 
