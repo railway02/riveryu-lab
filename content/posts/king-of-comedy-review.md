@@ -1,5 +1,5 @@
 ---
-title: "《喜剧之王》-小人物的不平凡
+title: "《喜剧之王》-小人物的不平凡"
 date: 2026-04-08T10:00:00+08:00
 draft: false
 tags: ["Movie", "Reflection", "Life"]
