@@ -1,6 +1,6 @@
 ---
 title: "破局与重构：从“静态近似”到“动态建模”——一次关键的科研方向校准"
-date: 2026-04-10T10:00:00+08:00
+date: 2026-04-09T10:00:00+08:00
 draft: false
 tags: ["3DGS", "Research Log", "Computer Vision"]
 summary: "导师的指点"
