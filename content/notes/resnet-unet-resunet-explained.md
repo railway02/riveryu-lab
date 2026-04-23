@@ -1,6 +1,6 @@
-﻿---
+---
 title: "从 ResNet 到 U-Net，再到 ResUNet：我终于把这三者想明白了"
-date: 2026-04-24T10:00:00+08:00
+date: 2026-04-23T10:00:00+08:00
 draft: false
 tags: ["Deep Learning", "Computer Vision"]
 summary: "为什么 U-Net 和 ResNet 看起来很像？Skip Connection 在解决什么问题？"
@@ -424,11 +424,11 @@ ResNet 的优势：
 
 ## 十一、三者最核心的区别
 
-| 模型 | 主要目标 | 核心结构 | skip connection 的作用 |
-| --- | --- | --- | --- |
-| ResNet | 让深网络更容易训练 | residual block | 学残差、帮助优化 |
-| U-Net | 做高精度分割 | encoder-decoder + long skip | 补细节、做定位 |
-| ResUNet | 更强的分割模型 | U-Net 框架 + residual unit | 同时兼顾定位与优化 |
+| 模型    | 主要目标           | 核心结构                    | skip connection 的作用 |
+| ------- | ------------------ | --------------------------- | ---------------------- |
+| ResNet  | 让深网络更容易训练 | residual block              | 学残差、帮助优化       |
+| U-Net   | 做高精度分割       | encoder-decoder + long skip | 补细节、做定位         |
+| ResUNet | 更强的分割模型     | U-Net 框架 + residual unit  | 同时兼顾定位与优化     |
 
 ---
 
