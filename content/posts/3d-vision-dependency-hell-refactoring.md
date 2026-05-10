@@ -6,8 +6,6 @@ tags: ["Environment Setup", "Engineering", "Python", "Conda", "3D Vision", "Debu
 summary: "在复现 FlashAvatar、MICA 等复杂 3D 视觉项目时，我经历了一场堪称教科书级别的“依赖地狱”。本文详细拆解这次连环爆雷过程，并给出大型 AI 项目的标准环境搭建实践。"
 ---
 
-# 告别 Dependency Hell：记一次 3D 视觉项目环境配置的“连环爆雷”与工程重构
-
 在复现大型 3D 视觉项目（如结合了 3DGS、FLAME、MICA 的复杂系统）时，很多时候我们认为的“配置失败”，并非输错了一行命令，而是整个链路里连续叠加了多维度的系统性错误。
 
 最近在跑一个包含 FlashAvatar、MICA 和 metrical-tracker 的综合项目时，我经历了一场堪称教科书级别的“依赖地狱（Dependency Hell）”。这篇文章将详细拆解这次连环爆雷的过程，并给出针对这类复杂 AI 项目的最佳工程实践。
