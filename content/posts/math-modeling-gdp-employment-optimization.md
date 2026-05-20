@@ -1,6 +1,6 @@
 ---
 title: "一次数学建模复盘：从普通思路到 GDP—就业双目标混合整数规划模型"
-date: 2026-05-18T10:00:00+08:00
+date: 2026-05-20T10:00:00+08:00
 draft: false
 tags: ["Math Modeling", "Optimization", "Operations Research", "Reflection", "Teamwork"]
 summary: "把现实问题拆解为目标函数与约束条件。复盘如何一步步将工业投资分配问题，打磨成一个混合整数规划模型，并反思最终交付的教训。"
