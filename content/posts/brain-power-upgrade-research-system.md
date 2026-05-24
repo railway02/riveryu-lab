@@ -1,6 +1,6 @@
 ---
 title: "脑力提升：把自己训练成高耐力、高抽象、高产出的科研型大脑"
-date: 2026-05-25T10:00:00+08:00
+date: 2026-05-24T10:00:00+08:00
 draft: false
 tags: ["Cognitive Upgrade", "Methodology", "Research WorkFlow", "Self Management", "Productivity"]
 summary: "建立一套从供能到输出的长期系统。"
