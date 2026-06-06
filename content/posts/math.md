@@ -1,6 +1,6 @@
 ---
 title: "计算机科研数学学习笔记：系统版"
-date: 2026-05-08T10:00:00+08:00
+date: 2026-06-06T10:00:00+08:00
 draft: false
 tags: ["Math", "Virtual Human", "First Principles", "Computer Vision"]
 summary: "数学整理"
