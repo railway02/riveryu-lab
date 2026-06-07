@@ -1,6 +1,12 @@
-# FGSM 对抗攻击代码深度笔记：从 LeNet、梯度、图像扰动到模型误判
+---
+title: "FGSM 对抗攻击代码深度笔记：从 LeNet、梯度、图像扰动到模型误判"
+date: 2026-06-07T10:00:00+08:00
+draft: false
+tags: [ "Computer Vision", "FGSM", "Pytorch"]
+summary: "对抗笔记"
+---
 
-
+学习了[Pytorch官方文档的教程](https://docs.pytorch.org/tutorials/beginner/fgsm_tutorial.html)，并且进行了扩展补充与思考
 
 这段代码完整展示了一个经典流程：
 
