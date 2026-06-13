@@ -6,7 +6,7 @@ tags: ["Math", "Virtual Human", "First Principles", "Computer Vision"]
 summary: "数学整理"
 ---
 
-## 0. 你到底要学什么？
+## 0. 学习内容
 
 计算机科研里的数学，不是按“高数、线代、概率论”这种考试顺序学，而是**围绕科研问题学**。
 
