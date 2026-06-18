@@ -37,11 +37,11 @@ $$X \in \mathbb{R}^{C \times H \times W}$$
 
 $$X[u]$$
 
-不是信号本身，而是某个连续函数 $x(t)$ 在离散网格上的采样。也就是说：
+
 
 > **离散 feature map = 连续空间信号在采样点上的取值**
 
-这一步非常关键。只有把 feature map 看成连续信号的采样结果，才有办法严肃讨论：
+只有把 feature map 看成连续信号的采样结果，才有办法严肃讨论：
 * 平移 0.25 个像素
 * 旋转 3 度
 * 亚像素级运动
@@ -100,7 +100,6 @@ grid = build_2d_sampling_grid()
 x = grid @ freqs.T
 x = x + phases
 x = torch.sin(2 * torch.pi * x)
-
 ```
 
 输出形状是：`[batch, channels, height, width]`。
@@ -111,7 +110,7 @@ x = torch.sin(2 * torch.pi * x)
 
 ## 5. StyleGAN3 不是在做标准傅里叶变换
 
-这里容易误解。StyleGAN3 并没有对图像做 FFT，也没有密集枚举所有频率。它只是随机采样一批二维频率，构造一组 Fourier features。
+StyleGAN3 并没有对图像做 FFT，也没有密集枚举所有频率。它只是随机采样一批二维频率，构造一组 Fourier features。
 
 标准傅里叶变换的目标是分析一个已有信号：
 
@@ -119,7 +118,7 @@ $$f(x) = \sum_k a_k \cos(2\pi kx) + b_k \sin(2\pi kx)$$
 
 它关心的是：一个信号里面有哪些频率成分？每个频率的系数是多少？
 
-StyleGAN3 的傅里叶特征不是用来分析已有图像，而是用来给生成器提供一个连续坐标场。它关心的是：
+而StyleGAN3 的傅里叶特征是用来给生成器提供一个连续坐标场。它关心的是：
 
 * 如何让生成器的起始特征具有连续空间结构？
 * 如何让这个结构可以被解析地平移和旋转？
@@ -138,7 +137,6 @@ freqs = torch.randn([channels, 2])
 radii = freqs.square().sum(dim=1, keepdim=True).sqrt()
 freqs /= radii * radii.square().exp().pow(0.25)
 freqs *= bandwidth
-
 ```
 
 这段代码的目的不是让所有频率大小相等，而是让频率落在一个**二维圆盘**内。也就是说：
@@ -153,7 +151,7 @@ freqs *= bandwidth
 
 ## 7. bandwidth 和 sampling_rate 的意义
 
-StyleGAN3 中的两个重要参数是 `bandwidth` 和 `sampling_rate`。它们来自信号处理，而不是普通神经网络经验超参。
+StyleGAN3 中的两个重要参数是 `bandwidth` 和 `sampling_rate`。它们来自信号处理。
 
 ### 7.1 bandwidth
 
