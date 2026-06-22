@@ -4,7 +4,7 @@ date: 2026-04-30T10:00:00+08:00
 draft: false
 tags: ["Product Design", "AI", "Social App", "Hackathon", "Tencent"]
 summary: "面对腾讯创新赛，我构思了一款名为【有应】的视觉社交产品。AI 不应替代人类陪伴，而应帮我们找到愿意回应的人，为“社交落空”提供终极兜底。"
---
+---
 
 **导语：**
 
