@@ -8,7 +8,7 @@ summary: "数学整理"
 
 ## 0. 学习内容
 
-计算机科研里的数学，不是按“高数、线代、概率论”这种考试顺序学，而是**围绕科研问题学**。
+计算机科研里的数学，主要是**围绕科研问题**。
 
 所有计算机视觉与 AI 研究问题，大致都可以拆成这条链：
 
@@ -27,7 +27,7 @@ $$\text{数据} \rightarrow \text{表示} \rightarrow \text{比较} \rightarrow 
 | **图像、视频、3D 有什么结构？**  | 信号处理、几何、时序建模 |
 | **模型是不是学了 shortcut？**    | 因果推断、不变性、鲁棒性 |
 
-**你的学习路径优先级：**
+**学习路径优先级：**
 
 1. **核心基石**：`线性代数` + `微积分` + `概率统计` + `信息论` + `最优化`
 2. **领域进阶（CV/3D/AIGC）**：`信号处理` + `几何` + `时序建模` + `因果鲁棒性`
@@ -56,7 +56,6 @@ $$z \in \mathbb{R}^{512}$$
 
 ```python
 nn.Linear(in_features=d, out_features=m)
-
 ```
 
 数学上就是：
@@ -69,9 +68,9 @@ $x \in \mathbb{R}^{d}$，$W \in \mathbb{R}^{m \times d}$，最终映射为 $y \i
 * **图像 batch**：$X \in \mathbb{R}^{B \times C \times H \times W}$
 * **视频 batch**：$X \in \mathbb{R}^{B \times T \times C \times H \times W}$
 
-（其中：$B$ = batch size，$T$ = 帧数，$C$ = 通道数，$H$ = 高度，$W$ = 宽度）
+（$B$ = batch size，$T$ = 帧数，$C$ = 通道数，$H$ = 高度，$W$ = 宽度）
 
-**核心经验：以后看代码，第一件事不是看公式，而是看 shape。**
+**核心经验：以后看代码，先看 shape。**
 
 例如：
 
@@ -79,7 +78,6 @@ $x \in \mathbb{R}^{d}$，$W \in \mathbb{R}^{m \times d}$，最终映射为 $y \i
 q.shape = [B, D]
 k_neg.shape = [B, N, D]
 q.unsqueeze(2).shape = [B, D, 1]
-
 ```
 
 此时执行 `torch.bmm(k_neg, q.unsqueeze(2))`，对应的就是：
@@ -156,7 +154,6 @@ $$\nabla_\theta\mathcal{L} = \left[ \frac{\partial \mathcal{L}}{\partial \theta_
 optimizer.zero_grad()  # 清空旧梯度
 loss.backward()        # 计算梯度
 optimizer.step()       # 根据梯度更新参数
-
 ```
 
 ### 2.2 泰勒展开：梯度下降的根本原因
@@ -190,7 +187,7 @@ $$\frac{\partial \mathcal{L}}{\partial W_1} = \frac{\partial \mathcal{L}}{\parti
 
 ## 3. 概率论：不确定性的语言
 
-机器学习不是在处理绝对确定的世界，而是在处理不确定性。
+机器学习是在处理不确定性，因此我们需要概率论的帮助。
 
 ### 3.1 期望与方差
 
@@ -215,13 +212,15 @@ $$\mathbb{E}_{x\sim p(x)}[f(x)] = \int p(x)f(x)dx$$
 
 $$p(\theta|D) = \frac{p(D|\theta)p(\theta)}{p(D)}$$
 
-> **💡 科研贝叶斯思维**：看到一个好结果，你应该问：这结果来自方法本身的概率有多大？来自数据泄漏的概率多大？来自 random seed 的概率多大？来自 shortcut 的概率多大？
+> **💡 科研思维**：看到一个好结果，我们应该追问：这结果来自方法本身的概率有多大？来自数据泄漏的概率多大？来自 random seed 的概率多大？来自 shortcut 的概率多大？
+
+不断搞清结果的来源，打造地基。
 
 ---
 
 ## 4. 统计学：实验结论是否可信
 
-> **核心问题**：你看到的提升是真的，还是偶然？
+> **核心问题**：我们看到的提升是真的，还是偶然？
 
 ### 4.1 经验风险与数据泄漏
 
@@ -326,7 +325,7 @@ $$s \begin{bmatrix} u \\ v \\ 1 \end{bmatrix} = K[R|t] \begin{bmatrix} X \\ Y \\
 
 ## 8. 总结：读论文公式的 7 步法
 
-以后看到天书一样的公式，按这个框架拆：
+按这个框架拆：
 
 1. **找变量**：谁是输入？特征？参数？标签？
 2. **看 shape**：维度是怎么变换的？
@@ -337,4 +336,4 @@ $$s \begin{bmatrix} u \\ v \\ 1 \end{bmatrix} = K[R|t] \begin{bmatrix} X \\ Y \\
 7. **翻译成人话**：用自己的直觉语言把公式的物理意义讲出来。
 
 > **🌟 最终信仰**
-> 线性代数让数据能表示，微积分让模型能学习，概率统计让结论可信，信息论让 loss 有意义，优化让训练可执行，信号与几何让你真正理解视觉世界。
+> 线性代数让数据能表示，微积分让模型能学习，概率统计让结论可信，信息论让 loss 有意义，优化让训练可执行，信号与几何让我们真正理解视觉世界。
