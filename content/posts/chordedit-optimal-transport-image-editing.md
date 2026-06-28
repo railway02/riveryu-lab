@@ -1,9 +1,9 @@
 ---
-title: "ChordEdit 论文精读：一步图像编辑为什么需要低能量传输？"
+title: "ChordEdit：一步图像编辑为什么需要低能量传输？"
 date: 2026-06-11T22:00:00+08:00
 draft: false
 tags: ["Computer Vision", "Image Editing", "Diffusion", "Optimal Transport", "Paper Reading"]
-summary: "梳理 ChordEdit 的核心思想：为什么一步图像编辑会因为高能量漂移场而失稳，以及论文如何用动态最优传输、局部二次估计和时间平滑构造稳定的 Chord Control Field"
+summary: "为什么一步图像编辑会因为高能量漂移场而失稳，如何用动态最优传输、局部二次估计和时间平滑构造稳定的 Chord Control Field"
 math: true
 ----------
 
@@ -25,16 +25,16 @@ ChordEdit 这篇论文关注的正是这个问题：
 
 ---
 
-## 1. 问题背景：一步编辑为什么容易失败？
+## 1. 问题背景：一步编辑的困难
 
 传统 training-free 图像编辑方法中，一个常见思路是直接比较两个 prompt 下的模型输出。
 
 设：
 
-* 源文本为 `c_src`
-* 目标文本为 `c_tar`
-* 当前图像状态为 `x`
-* 时间为 `t`
+* 源文本为 $c_{src}$
+* 目标文本为 $c_{tar}$
+* 当前图像状态为 $x$
+* 时间为 $t$
 
 模型在不同 prompt 下会给出不同的漂移方向：
 
@@ -52,7 +52,7 @@ $$
 \Delta v(x,t)=v(x,t,c_{tar})-v(x,t,c_{src})
 $$
 
-这个式子的人话解释是：
+这个式子的解释是：
 
 **目标 prompt 下模型想让图像往哪里走，减去源 prompt 下模型想让图像往哪里走，剩下的就是从源语义改到目标语义所需要的方向。**
 
@@ -66,7 +66,7 @@ $$
 x_{new}=x_{old}+h\Delta v
 $$
 
-当步长 `h` 很大，而 `Δv` 又不稳定时，结果就容易崩坏。
+当步长 $h$ 很大，而 $Δv$ 又不稳定时，结果就容易崩坏。
 
 常见失败包括：
 
