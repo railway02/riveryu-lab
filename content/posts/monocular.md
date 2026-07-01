@@ -5,24 +5,24 @@ draft: false
 tags: ["Computer Vision", "3D Reconstruction", "Methodology", "Research"]
 summary: "行胜于言"
 ---
-至繁归于至简
+### 至繁归于至简
 
-Simple can be harder than complex.
+>Simple can be harder than complex.
 简单可能比复杂更难。
 
-Focus and simplicity.
+>Focus and simplicity.
 专注与简洁。
 
-Focusing is about saying no.
+>Focusing is about saying no.
 专注的本质，是说“不”。
 
-Saying no to 1,000 things.
+>Saying no to 1,000 things.
 对一千件事说“不”。
 
-Design is how it works.
+>Design is how it works.
 设计是它如何运作。
 
-Simplicity is the ultimate sophistication.
+>Simplicity is the ultimate sophistication.
 简洁是终极的精致。
 
 
