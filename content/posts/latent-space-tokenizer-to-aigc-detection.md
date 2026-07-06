@@ -6,7 +6,7 @@ tags: ["AutoEncoder", "Tokenizer", "AIGC Detection", "Video Generation", "Deep L
 summary: "梳理 RAE、Causal 3D VAE 及 Cosmos Tokenizer "
 math: true
 ---
-## 1. 总体背景：为什么要研究 AutoEncoder / Tokenizer？
+## 1. 背景： AutoEncoder / Tokenizer
 
 现代生成模型很少直接在像素空间生成完整图像或视频。更常见的做法是先把图像或视频压缩到一个潜空间，然后让 diffusion、DiT 或 autoregressive transformer 在潜空间里建模，最后再通过 decoder 还原成图像或视频。
 
@@ -141,14 +141,11 @@ RAE：用 DINO / SigLIP / MAE 这种强视觉表征模型作为 encoder
 
 ## 4. RAE 的重要性
 
-RAE 的核心判断是：
-
-**生成模型的瓶颈不只在 diffusion backbone，也在 autoencoder 的 latent 质量。**
+RAE 的核心判断是：**生成模型的瓶颈不只在 diffusion backbone，也在 autoencoder 的 latent 质量。**
 
 过去很多工作都在改 diffusion backbone，例如从 U-Net 到 DiT，从普通 attention 到更大的 transformer，但底层 latent 仍然常常使用传统 VAE。
 
-RAE 认为，这个 latent 太弱了。
-如果生成模型在弱 latent 上学习，即使模型规模很大，也会受到信息瓶颈限制。
+RAE 认为，如果生成模型在弱 latent 上学习，即使模型规模很大，也会受到信息瓶颈限制。
 
 RAE 的改进方向是：
 
@@ -159,15 +156,11 @@ RAE 的改进方向是：
 4. 让 DiT 在 representation latent 上生成
 ```
 
-可以把 RAE 理解为：
-
-**把 latent diffusion 的潜空间从低维压缩空间升级成高维视觉表征空间。**
+可以把 RAE 理解为：**把 latent diffusion 的潜空间从低维压缩空间升级成高维视觉表征空间。**
 
 ---
 
 ## 5. RAE 的训练流程
-
-RAE 一般是两阶段训练。
 
 ### 5.1 第一阶段：训练 decoder
 
@@ -210,9 +203,7 @@ for x in dataloader:
 3. GAN loss
 ```
 
-这里的关键是：
-
-**encoder 不动，decoder 学会从强视觉表征中还原图像。**
+这里的关键是：**encoder 冻结，decoder 学会从强视觉表征中还原图像。**
 
 ---
 
