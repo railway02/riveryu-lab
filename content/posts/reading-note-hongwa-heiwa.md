@@ -1,5 +1,5 @@
 ---
-title: "看完《  》：一个好故事，和一个略显仓促的结尾"
+title: "看完《红瓦黑瓦》：一个好故事，和一个略显仓促的结尾"
 date: 2026-05-06T10:00:00+08:00
 draft: false
 tags: ["Reading Note", "Book Review", "Literature", "Youth"]
