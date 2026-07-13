@@ -80,7 +80,7 @@ params:
   ShowShareButtons: false
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
-  ShowCodeCopyButtons: true
+  ShowCodeCopyButtons: false       # Custom render hook provides Copy and Wrap controls
   ShowWordCount: true
 
   # Homepage hero
@@ -153,5 +153,5 @@ markup:
     codeFences: true
     guessSyntax: true
     style: monokai
-    noClasses: true
+    noClasses: false               # Let PaperMod's bundled Chroma styles handle tokens
     tabWidth: 4

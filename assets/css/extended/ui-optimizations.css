@@ -18,57 +18,8 @@ body {
   line-height: 1.7;
 }
 
-.post-title {
-  letter-spacing: 0.2px;
-}
-
-.post-content {
-  font-size: 1.05rem;
-  line-height: 1.85;
-}
-
-.post-content h2,
-.post-content h3 {
-  margin-top: 2.4rem;
-  margin-bottom: 1rem;
-}
-
-.post-content p {
-  margin: 1.1rem 0;
-}
-
-.post-content a {
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
-}
-
-.post-content code {
-  border-radius: 6px;
-  padding: 0.15rem 0.35rem;
-}
-
-.post-content pre {
-  border-radius: 12px;
-  padding: 1.1rem 1.2rem;
-}
-
-.post-content blockquote {
-  border-left-width: 4px;
-  border-radius: 10px;
-  padding: 0.8rem 1.2rem;
-}
-
-.post-content img {
-  border-radius: 14px;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
-}
-
 @media (max-width: 960px) {
   :root {
     --content-max-width: 92vw;
-  }
-
-  .post-content {
-    font-size: 1rem;
   }
 }

@@ -1,0 +1,9 @@
+{{- if and (eq .Kind "page") (ne .Layout "archives") (ne .Layout "search") -}}
+  {{- $codeTools := resources.Get "js/code-tools.js" | minify -}}
+  {{- if not site.Params.assets.disableFingerprinting -}}
+    {{- $codeTools = $codeTools | fingerprint -}}
+    <script defer crossorigin="anonymous" src="{{ $codeTools.RelPermalink }}" integrity="{{ $codeTools.Data.Integrity }}"></script>
+  {{- else -}}
+    <script defer crossorigin="anonymous" src="{{ $codeTools.RelPermalink }}"></script>
+  {{- end -}}
+{{- end -}}

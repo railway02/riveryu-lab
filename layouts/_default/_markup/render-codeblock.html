@@ -1,0 +1,23 @@
+{{- $language := .Type | default "text" | lower -}}
+{{- $options := dict -}}
+{{- if not (transform.CanHighlight .Type) -}}
+  {{- $options = dict "type" "text" -}}
+{{- end -}}
+{{- $result := transform.HighlightCodeBlock . $options -}}
+{{- $readingSection := or (eq .Page.Section "posts") (eq .Page.Section "notes") -}}
+{{- if $readingSection -}}
+<div class="code-block" data-code-block data-language="{{ $language }}">
+  <div class="code-block__toolbar">
+    <span class="code-block__language">{{ $language }}</span>
+    <div class="code-block__actions">
+      <button class="code-block__button" type="button" data-code-copy>Copy</button>
+      <button class="code-block__button" type="button" data-code-wrap aria-pressed="false">Wrap</button>
+    </div>
+  </div>
+  <div class="code-block__body">
+    {{- $result.Wrapped -}}
+  </div>
+</div>
+{{- else -}}
+  {{- $result.Wrapped -}}
+{{- end -}}
