@@ -107,29 +107,29 @@ params:
 # -----------------------------------------------------------------------------
 menu:
   main:
+    - identifier: research
+      name: "Research"
+      url: /research/
+      weight: 10
+
     - identifier: projects
       name: "Projects"
       url: /projects/
-      weight: 10
-
-    - identifier: notes
-      name: "Notes"
-      url: /notes/
       weight: 20
 
-    - identifier: river
-      name: "🌊 The River"
-      url: /archives/
+    - identifier: knowledge
+      name: "Knowledge"
+      url: /knowledge/
       weight: 30
-
-    - identifier: search
-      name: "Search"
-      url: /search/
-      weight: 40
 
     - identifier: about
       name: "About"
       url: /about/
+      weight: 40
+
+    - identifier: search
+      name: "Search"
+      url: /search/
       weight: 50
 
 # -----------------------------------------------------------------------------

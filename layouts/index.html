@@ -1,0 +1,16 @@
+{{- define "main" }}
+{{- $legacyPages := where site.RegularPages "Section" "in" site.Params.mainSections -}}
+{{- $legacyPaginator := .Paginate $legacyPages -}}
+{{- if eq $legacyPaginator.PageNumber 1 }}
+<div class="home-layout">
+  {{- partial "home-hero.html" . }}
+  {{- partial "home-research.html" . }}
+  {{- partial "home-projects.html" . }}
+  {{- partial "home-writing.html" . }}
+  {{- partial "home-recent.html" . }}
+  {{- partial "home-knowledge.html" . }}
+</div>
+{{- else }}
+  {{- partial "home-legacy-pagination.html" . }}
+{{- end }}
+{{- end }}
