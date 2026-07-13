@@ -9,3 +9,5 @@ Thumbs.db
 # 忽略环境配置文件 (存放 Key 的地方)
 .env
 .env.local
+# Hugo generated files
+hugo_stats.json

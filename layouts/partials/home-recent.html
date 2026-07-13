@@ -1,0 +1,29 @@
+{{- $updates := where site.RegularPages "Section" "in" (slice "posts" "notes" "projects") -}}
+{{- $updates = sort $updates "Date" "desc" -}}
+{{- $updates = first 5 $updates -}}
+
+<section class="home-section home-section--secondary" aria-labelledby="recent-updates-title">
+  <header class="home-section-header">
+    <div>
+      <p class="home-eyebrow">Recent Updates</p>
+      <h2 id="recent-updates-title">Latest published work</h2>
+    </div>
+  </header>
+
+  <ol class="home-recent-list">
+    {{- range $updates }}
+    <li>
+      <div>
+        <span class="home-update-type">
+          {{- if eq .Section "posts" -}}Article
+          {{- else if eq .Section "notes" -}}Note
+          {{- else if eq .Section "projects" -}}Project
+          {{- else -}}{{ .Section | title }}{{- end -}}
+        </span>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </div>
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+    </li>
+    {{- end }}
+  </ol>
+</section>
