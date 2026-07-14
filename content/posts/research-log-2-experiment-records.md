@@ -4,6 +4,14 @@ date: 2026-04-06T18:00:00+08:00
 draft: false
 tags: ["3DGS", "Computer Vision", "Research Log", "COLMAP"]
 summary: "从验证官方 Baseline 到发现数据链路中的系统性剥离问题。"
+uid: 3dgs-experiment-log-2
+topics:
+  - 3d-vision
+  - research-engineering
+relations:
+  - target: 3dgs-pipeline
+    type: builds-on
+    note: "在日志 #1 跑通预处理、COLMAP 与训练链路的基础上，本文复盘 11 次实验并定位 GS 目录转换造成的完整脸丢失。"
 ---
 
 本项目的核心目标非常明确：**从单目转头短视频，实现静态头部的高保真重建（基于 3DGS）**。

@@ -4,6 +4,14 @@ date: 2026-06-18T10:00:00+08:00
 draft: false
 tags: ["Math", "Research", "StyleGAN"]
 summary: "傅里叶特征"
+uid: stylegan3-fourier-features
+topics:
+  - generative-representations
+  - deep-learning-foundations
+relations:
+  - target: chordedit-optimal-transport
+    type: related
+    note: "两文分别在连续空间特征场与潜空间编辑控制场中，用连续性约束减少采样混叠与大步积分失稳。"
 ---
 
 ## 1. 问题背景：StyleGAN3 为什么需要傅里叶特征

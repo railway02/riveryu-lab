@@ -4,6 +4,14 @@ date: 2026-04-02T12:00:00+08:00
 draft: false
 tags: ["Paper Reading", "3DGS", "Avatar", "Computer Vision"]
 summary: "学习GPHM"
+uid: gphm-avatar-notes
+topics:
+  - 3d-vision
+  - generative-representations
+relations:
+  - target: 3dgs-monocular-head
+    type: applies-to
+    note: "GPHM 的头部几何先验、身份—表情解耦和个体 Gaussian 微调，直接面向后者所研究的单目头部重建问题。"
 ---
 
 ## 一、这篇方法想解决什么？

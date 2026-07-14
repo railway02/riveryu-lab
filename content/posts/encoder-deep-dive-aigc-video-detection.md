@@ -4,6 +4,14 @@ date: 2026-06-03T10:00:00+08:00
 draft: false
 tags: ["Deep Learning", "Computer Vision", "AIGC Detection", "Mathematics", "Research"]
 summary: "Encoder 如何从像素层抽象出证据空间，并结合 GRU 与 Normalization 构建鲁棒的视频检测框架。"
+uid: encoder-aigc-video-detection
+topics:
+  - aigc-authenticity
+  - deep-learning-foundations
+relations:
+  - target: aigc-video-rethinking
+    type: builds-on
+    note: "将目标文章提出的身份、运动、频域与时序线索落实为多编码器证据和状态残差检测框架。"
 ---
 ## 一、核心观点
 

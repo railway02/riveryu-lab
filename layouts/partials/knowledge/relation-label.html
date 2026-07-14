@@ -1,0 +1,12 @@
+{{- $labels := dict
+  "builds-on" (dict "outgoing" "Builds on" "incoming" "Built upon by")
+  "extends" (dict "outgoing" "Extends" "incoming" "Extended by")
+  "related" (dict "outgoing" "Related" "incoming" "Related")
+  "contrasts-with" (dict "outgoing" "Contrasts with" "incoming" "Contrasts with")
+  "applies-to" (dict "outgoing" "Applies to" "incoming" "Applied by")
+-}}
+{{- $label := .type -}}
+{{- with index $labels .type -}}
+  {{- $label = index . $.direction | default $label -}}
+{{- end -}}
+{{- return $label -}}

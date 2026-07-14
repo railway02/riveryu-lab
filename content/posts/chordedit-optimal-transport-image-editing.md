@@ -5,6 +5,17 @@ draft: false
 tags: ["Computer Vision", "Image Editing", "Diffusion", "Optimal Transport", "Paper Reading"]
 summary: "为什么一步图像编辑会因为高能量漂移场而失稳，如何用动态最优传输、局部二次估计和时间平滑构造稳定的 Chord Control Field"
 math: true
+uid: chordedit-optimal-transport
+topics:
+  - generative-representations
+  - deep-learning-foundations
+relations:
+  - target: latent-tokenizer-aigc
+    type: related
+    note: "两文分别从低能量编辑控制场与视频潜表示轨迹讨论生成过程的连续性和稳定性。"
+  - target: adversarial-reality
+    type: applies-to
+    note: "把低能量、时空平滑的控制场思路迁移为反取证扰动约束与检测轨迹线索。"
 ----------
 
 ## 导语

@@ -4,6 +4,16 @@ date: 2026-05-08T10:00:00+08:00
 draft: false
 tags: ["3DGS", "NeRF", "Virtual Human", "First Principles", "Computer Vision"]
 summary: "从第一性原理出发，系统性复盘 3D 虚拟人如何在硅基世界中“重塑肉身”并“注入灵魂”，《基于神经辐射场与高斯溅射的3D虚拟人重建与驱动方法综述》"
+uid: first-principles-3d-human
+topics:
+  - 3d-vision
+relations:
+  - target: gphm-avatar-notes
+    type: related
+    note: "本文从重建、驱动与物理约束梳理 3D 虚拟人全景，GPHM 笔记则具体展开几何先验、Gaussian 表示和身份—表情解耦。"
+  - target: 3dgs-pipeline
+    type: related
+    note: "本文提供 NeRF/3DGS 虚拟人重建的上位技术框架，后者记录通用 3DGS 在单目静态头部任务中的真实工程落地。"
 ---
 
 在当下这个 AI 概念井喷的时代，我们每天都在被各种新名词轰炸：NeRF、3D高斯溅射、多模态大模型、扩散网络……很多时候，我们在追赶这些技术名词时，就像是在盲人摸象，只见树木不见森林。

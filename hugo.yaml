@@ -33,6 +33,14 @@ outputs:
     - HTML
     - RSS
     - JSON
+    - Graph
+
+outputFormats:
+  Graph:
+    mediaType: application/json
+    baseName: graph
+    isPlainText: true
+    notAlternative: true
 
 # -----------------------------------------------------------------------------
 # Site-wide metadata

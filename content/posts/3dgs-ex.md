@@ -4,6 +4,14 @@ date: 2026-04-07T12:00:00+08:00
 draft: false
 tags: ["3DGS", "Computer Vision", "COLMAP", "Research Log", "NeRF"]
 summary: "这篇文章记录的不是一份完美成果，而是一段比较真实的工程化科研推进过程：从官方 baseline 验证，到自有视频数据处理，再到输入契约、相机模型、COLMAP 主模型选择，以及最终主线数据集的收敛。"
+uid: 3dgs-monocular-head
+topics:
+  - 3d-vision
+  - research-engineering
+relations:
+  - target: 3dgs-experiment-log-2
+    type: extends
+    note: "承接日志 #2 对数据链污染的诊断，本文进一步用原生 PINHOLE clean rebuild 和 run_05 收敛可信实验主线。"
 ---
 
 # 从官方 3DGS Baseline 到单目转头视频静态头部重建：我在 AutoDL 上踩过的坑与走出来的路

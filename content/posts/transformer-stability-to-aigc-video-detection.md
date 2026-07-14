@@ -4,6 +4,17 @@ date: 2026-05-28T10:00:00+08:00
 draft: false
 tags: ["Deep Learning", "Transformer", "AIGC Detection", "Mathematics", "Research"]
 summary: "跨界迁移到 AIGC 视频检测的课题中"
+uid: transformer-stability-aigc
+topics:
+  - aigc-authenticity
+  - deep-learning-foundations
+relations:
+  - target: encoder-aigc-video-detection
+    type: builds-on
+    note: "从编码器表征和隐状态出发，进一步讨论归一化、残差尺度与数值稳定性如何支撑时序检测。"
+  - target: adversarial-reality
+    type: extends
+    note: "把图像级 detector-guided residual editor 继续发展为带残差归一化、时序一致性和状态分布约束的视频攻击目标。"
 ---
 
 
