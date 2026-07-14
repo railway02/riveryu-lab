@@ -4,6 +4,14 @@ date: 2026-04-19T10:00:00+08:00
 draft: false
 tags: ["AI Security", "Paper Reading", "Computer Vision"]
 summary: "ICCV 2023 Workshop 论文精读"
+uid: adversarial-reality
+topics:
+  - aigc-authenticity
+  - research-engineering
+relations:
+  - target: aigc-video-rethinking
+    type: contrasts-with
+    note: "本文从残差生成与检测规避构造攻击端，目标文章则把压缩、补帧和后处理攻击限定为鲁棒检测的防御性压力测试。"
 ---
 
 在 AIGC（人工智能生成内容）狂飙突进的今天，造假与打假正在上演一场没有硝烟的军备竞赛。目前的 AI 防伪检测器（Detectors）在实验室里往往能跑出 99% 的高分，但它们真的绝对安全吗？

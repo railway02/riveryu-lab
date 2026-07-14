@@ -4,6 +4,14 @@ date: 2026-05-18T10:00:00+08:00
 draft: false
 tags: ["AIGC", "Think","CV"]
 summary: "关于方向的思考和整理"
+uid: aigc-video-rethinking
+topics:
+  - aigc-authenticity
+  - research-engineering
+relations:
+  - target: latent-tokenizer-aigc
+    type: related
+    note: "本文提出在真实传播条件下寻找稳定的时序表征与编解码信号，目标文章进一步在表征空间和视频编解码潜空间中分析这些数字指纹。"
 ---
 ## 摘要
 

@@ -1,0 +1,86 @@
+{{- $allowedSections := slice "posts" "notes" -}}
+{{- $allowedTypes := slice "builds-on" "extends" "related" "contrasts-with" "applies-to" -}}
+{{- $uid := string (.Params.uid | default "") -}}
+
+{{- if and $uid (in $allowedSections .Section) -}}
+  {{- $knowledge := partialCached "knowledge/uid-index.html" . .Site.Language.Lang -}}
+  {{- $pages := index $knowledge "pages" -}}
+  {{- $backlinks := index $knowledge "backlinks" -}}
+  {{- $outgoing := slice -}}
+  {{- $seenOutgoing := newScratch -}}
+  {{- $seenOutgoing.Set "targets" dict -}}
+
+  {{- with .Params.relations -}}
+    {{- range . -}}
+      {{- $relation := . -}}
+      {{- $target := string (.target | default "") -}}
+      {{- $type := string (.type | default "") -}}
+      {{- $seenTargets := $seenOutgoing.Get "targets" -}}
+      {{- $targetPage := index $pages $target -}}
+      {{- if and $target (ne $target $uid) (in $allowedTypes $type) (not (index $seenTargets $target)) $targetPage -}}
+        {{- $outgoing = $outgoing | append (dict "page" $targetPage "relation" $relation) -}}
+        {{- $seenOutgoing.SetInMap "targets" $target true -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- $incoming := slice -}}
+  {{- $seenIncoming := newScratch -}}
+  {{- $seenIncoming.Set "sources" dict -}}
+  {{- range (index $backlinks $uid | default (slice)) -}}
+    {{- $sourcePage := .page -}}
+    {{- $sourceUID := string ($sourcePage.Params.uid | default "") -}}
+    {{- $type := string (.relation.type | default "") -}}
+    {{- $seenSources := $seenIncoming.Get "sources" -}}
+    {{- if and $sourceUID (ne $sourceUID $uid) (in $allowedTypes $type) (not (index $seenSources $sourceUID)) -}}
+      {{- $incoming = $incoming | append . -}}
+      {{- $seenIncoming.SetInMap "sources" $sourceUID true -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- if or (gt (len $outgoing) 0) (gt (len $incoming) 0) -}}
+  <section class="knowledge-connections" aria-labelledby="connections-{{ $uid | anchorize }}">
+    <h2 id="connections-{{ $uid | anchorize }}">Connections</h2>
+
+    {{- range $allowedTypes -}}
+      {{- $type := . -}}
+      {{- $items := slice -}}
+      {{- range $outgoing -}}
+        {{- if eq (string .relation.type) $type -}}
+          {{- $items = $items | append . -}}
+        {{- end -}}
+      {{- end -}}
+      {{- if gt (len $items) 0 }}
+      <div class="connection-group">
+        <h3>{{ partial "knowledge/relation-label.html" (dict "type" $type "direction" "outgoing") }}</h3>
+        <ul>
+          {{- range $items }}
+          <li>
+            <a href="{{ .page.RelPermalink }}">{{ .page.Title }}</a>
+            <p>{{ .relation.note }}</p>
+          </li>
+          {{- end }}
+        </ul>
+      </div>
+      {{- end -}}
+    {{- end -}}
+
+    {{- if gt (len $incoming) 0 }}
+    <div class="connection-group connection-group--incoming">
+      <h3>Referenced by</h3>
+      <ul>
+        {{- range $incoming }}
+        <li>
+          <div class="connection-reference">
+            <a href="{{ .page.RelPermalink }}">{{ .page.Title }}</a>
+            <span>{{ partial "knowledge/relation-label.html" (dict "type" (string .relation.type) "direction" "incoming") }}</span>
+          </div>
+          <p>{{ .relation.note }}</p>
+        </li>
+        {{- end }}
+      </ul>
+    </div>
+    {{- end }}
+  </section>
+  {{- end -}}
+{{- end -}}

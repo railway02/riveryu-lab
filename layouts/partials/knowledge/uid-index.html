@@ -1,0 +1,26 @@
+{{- $index := newScratch -}}
+{{- $index.Set "pages" dict -}}
+{{- $index.Set "backlinks" dict -}}
+
+{{- range site.RegularPages -}}
+  {{- if and (not .Draft) (in (slice "posts" "notes") .Section) .Params.uid -}}
+    {{- $index.SetInMap "pages" (string .Params.uid) . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $pages := $index.Get "pages" -}}
+{{- range $sourceUID, $sourcePage := $pages -}}
+  {{- with $sourcePage.Params.relations -}}
+    {{- range . -}}
+      {{- $target := string (.target | default "") -}}
+      {{- if $target -}}
+        {{- $backlinks := $index.Get "backlinks" -}}
+        {{- $entries := index $backlinks $target | default (slice) -}}
+        {{- $entry := dict "page" $sourcePage "relation" . -}}
+        {{- $index.SetInMap "backlinks" $target ($entries | append $entry) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return (dict "pages" ($index.Get "pages") "backlinks" ($index.Get "backlinks")) -}}

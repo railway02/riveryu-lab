@@ -5,6 +5,17 @@ draft: false
 tags: ["AutoEncoder", "Tokenizer", "AIGC Detection", "Video Generation", "Deep Learning"]
 summary: "梳理 RAE、Causal 3D VAE 及 Cosmos Tokenizer "
 math: true
+uid: latent-tokenizer-aigc
+topics:
+  - aigc-authenticity
+  - generative-representations
+relations:
+  - target: encoder-aigc-video-detection
+    type: builds-on
+    note: "把编码器作为视频观测函数的思路推进到 RAE 与视频 tokenizer 潜空间，并据此定义可解释的时序数字指纹。"
+  - target: transformer-stability-aigc
+    type: extends
+    note: "将状态分布稳定性具体化为潜表示的速度、加速度、频谱与 token 转移统计。"
 ---
 ## 1. 背景： AutoEncoder / Tokenizer
 

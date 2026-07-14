@@ -33,6 +33,14 @@ outputs:
     - HTML
     - RSS
     - JSON
+    - Graph
+
+outputFormats:
+  Graph:
+    mediaType: application/json
+    baseName: graph
+    isPlainText: true
+    notAlternative: true
 
 # -----------------------------------------------------------------------------
 # Site-wide metadata
@@ -80,7 +88,7 @@ params:
   ShowShareButtons: false
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
-  ShowCodeCopyButtons: true
+  ShowCodeCopyButtons: false       # Custom render hook provides Copy and Wrap controls
   ShowWordCount: true
 
   # Homepage hero
@@ -107,29 +115,29 @@ params:
 # -----------------------------------------------------------------------------
 menu:
   main:
-    - identifier: research
-      name: "Research"
-      url: /research/
-      weight: 10
-
     - identifier: projects
       name: "Projects"
       url: /projects/
+      weight: 10
+
+    - identifier: notes
+      name: "Notes"
+      url: /notes/
       weight: 20
 
-    - identifier: knowledge
-      name: "Knowledge"
-      url: /knowledge/
+    - identifier: river
+      name: "🌊 The River"
+      url: /archives/
       weight: 30
-
-    - identifier: about
-      name: "About"
-      url: /about/
-      weight: 40
 
     - identifier: search
       name: "Search"
       url: /search/
+      weight: 40
+
+    - identifier: about
+      name: "About"
+      url: /about/
       weight: 50
 
 # -----------------------------------------------------------------------------
@@ -153,5 +161,5 @@ markup:
     codeFences: true
     guessSyntax: true
     style: monokai
-    noClasses: true
+    noClasses: false               # Let PaperMod's bundled Chroma styles handle tokens
     tabWidth: 4

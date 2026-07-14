@@ -6,12 +6,10 @@ tags: ["Computer Vision", "3DGS", "Research", "Pipeline"]
 summary: "一些感悟"
 ---
 
-如果说之前的研究是在黑暗中摸索规律，那么今天，我决定正式为接下来的研究确立清晰的航向。
-
-我的核心研究问题（Research Question）可以精炼为一句话：
+我的核心研究问题：
 > **普通设备拍一段转头短视频，能不能得到一个可信的静态全头（Full-head）结果？**
 
-这不只是一个工程问题，更是一个极具挑战性的病态逆问题（Ill-posed Inverse Problem）。为此，我梳理了本项目的整体框架与技术路线。
+这是一个病态逆问题（Ill-posed Inverse Problem）。为此，我梳理了本项目的整体框架与技术路线。
 
 ---
 
@@ -19,10 +17,10 @@ summary: "一些感悟"
 
 本项目的定位非常明确：**不是驱动（Animation），不是编辑（Editing），而是高质量的静态资产重建（Static Asset Reconstruction）。**
 
-* **🎬 输入 (Input)：** 单目转头短视频（Monocular turn-head short video）。
-* **📦 输出 (Output)：** 一个规范化 / 中性姿态（Canonical / Neutral）的静态 Full-head 表达。
-* **🧬 表示 (Representation)：** 以 3D Gaussian Splatting (3DGS) 为主。
-* **🧠 先验 (Prior)：** FLAME / 参数化头模 / 粗几何先验。
+* **输入 (Input)：** 单目转头短视频（Monocular turn-head short video）。
+* **输出 (Output)：** 一个规范化 / 中性姿态（Canonical / Neutral）的静态 Full-head 表达。
+* **表示 (Representation)：** 以 3D Gaussian Splatting (3DGS) 为主。
+* **先验 (Prior)：** FLAME / 参数化头模 / 粗几何先验。
 
 ### 二、 核心目标：走向高保真 3D 资产
 

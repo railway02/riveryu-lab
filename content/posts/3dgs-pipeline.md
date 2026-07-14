@@ -4,6 +4,14 @@ date: 2026-04-04T10:00:00+08:00
 draft: false
 tags: ["3DGS", "Computer Vision", "Research Log", "Pipeline"]
 summary: "从泛泛的想法到真实的实验"
+uid: 3dgs-pipeline
+topics:
+  - 3d-vision
+  - research-engineering
+relations:
+  - target: gphm-avatar-notes
+    type: contrasts-with
+    note: "本文从通用 COLMAP 与官方 3DGS 基线起步，GPHM 则引入头部几何先验和身份—表情解耦，形成方法起点上的对照。"
 ---
 
 从3月开始，我一直在研究一个课题：**单目转头短视频的静态头部重建（基于 3DGS）**。

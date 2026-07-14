@@ -1,0 +1,46 @@
+{{- $pageRecords := slice -}}
+{{- range site.RegularPages -}}
+  {{- if and (not .Draft) (in (slice "posts" "notes") .Section) .Params.uid -}}
+    {{- $uid := string .Params.uid -}}
+    {{- $sortKey := printf "%s\x00%s" $uid .RelPermalink -}}
+    {{- $pageRecords = $pageRecords | append (dict "sortKey" $sortKey "page" .) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $nodes := slice -}}
+{{- $edgeRecords := slice -}}
+{{- range (sort $pageRecords "sortKey") -}}
+  {{- $page := .page -}}
+  {{- $uid := string $page.Params.uid -}}
+  {{- $summary := $page.Params.summary | default ($page.Summary | plainify) -}}
+  {{- $nodes = $nodes | append (dict
+    "uid" $uid
+    "title" $page.Title
+    "url" $page.RelPermalink
+    "summary" ($summary | plainify | strings.TrimSpace)
+    "topics" ($page.Params.topics | default (slice))
+    "date" ($page.Date.Format "2006-01-02")
+  ) -}}
+
+  {{- with $page.Params.relations -}}
+    {{- range $ordinal, $relation := . -}}
+      {{- $target := string ($relation.target | default "") -}}
+      {{- $type := string ($relation.type | default "") -}}
+      {{- $edge := dict
+        "source" $uid
+        "target" $target
+        "type" $type
+        "note" (string ($relation.note | default ""))
+      -}}
+      {{- $sortKey := printf "%s\x00%s\x00%s\x00%06d" $uid $target $type $ordinal -}}
+      {{- $edgeRecords = $edgeRecords | append (dict "sortKey" $sortKey "edge" $edge) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $edges := slice -}}
+{{- range (sort $edgeRecords "sortKey") -}}
+  {{- $edges = $edges | append .edge -}}
+{{- end -}}
+
+{{- dict "version" 1 "nodes" $nodes "edges" $edges | jsonify (dict "indent" "  ") -}}
