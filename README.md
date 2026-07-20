@@ -1,4 +1,4 @@
-# RiverYu's Lab 🧪
+# RiverYu's Lab 
 
 This is the source code for my personal academic website & portfolio.
 It documents my journey in **CS, AI, and 3D Editing**.
