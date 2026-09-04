@@ -521,3 +521,134 @@ textarea {
         transition: none;
     }
 }
+
+
+/* =================================
+   首页重构：名字与迎面而来的深水
+   ================================= */
+
+body:has(.home-landing) {
+    --theme: #02070a;
+    --body-bg: #02070a;
+    --primary: #f4f8fa;
+    --secondary: #9cabb3;
+    --content: #d7e0e4;
+    --border: rgba(188, 221, 229, 0.16);
+    --river-accent: #74d7e5;
+    --river-accent-strong: #a6edf4;
+    min-height: 100svh;
+    overflow: hidden;
+    background: #02070a;
+}
+
+body:has(.home-landing) .header {
+    position: relative;
+    z-index: 10;
+    background: #02070a;
+}
+
+body:has(.home-landing) #theme-toggle,
+body:has(.home-landing) .footer {
+    display: none;
+}
+
+body:has(.home-landing) .main {
+    display: block;
+    width: 100%;
+    max-width: none;
+    flex: 1;
+    padding: 0;
+}
+
+.home-landing {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    width: 100%;
+    min-height: calc(100svh - var(--header-height));
+    margin: 0;
+    overflow: hidden;
+    place-items: center;
+    background: #02070a;
+}
+
+.home-landing::after {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 54% 34% at 50% 51%, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.42) 78%, rgba(0, 0, 0, 0.68)),
+        linear-gradient(180deg, rgba(2, 7, 10, 0.42), transparent 32%, transparent 72%, rgba(2, 7, 10, 0.42));
+    content: "";
+    pointer-events: none;
+}
+
+.home-landing__ocean,
+.home-landing.is-ocean-ready .home-landing__ocean {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    pointer-events: none;
+    transition: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+}
+
+.home-landing__title {
+    position: relative;
+    z-index: 2;
+    display: block;
+    margin: 0;
+    padding: 0 0.08em 0.08em 0;
+    background: none;
+    color: #f4f8fa;
+    font-family: Georgia, "Times New Roman", "Noto Serif", serif;
+    font-size: clamp(5.4rem, 17vw, 15rem);
+    font-weight: 600;
+    letter-spacing: -0.075em;
+    line-height: 0.9;
+    text-shadow: 0 3px 34px rgba(0, 17, 24, 0.72);
+    animation: river-name-arrival 1.35s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    -webkit-text-fill-color: currentColor;
+}
+
+@keyframes river-name-arrival {
+    from {
+        opacity: 0;
+        filter: blur(12px);
+        transform: translate3d(0, 22px, 0) scale(0.94);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+@media (max-width: 640px) {
+    body:has(.home-landing) .main {
+        padding: 0;
+    }
+
+    .home-landing {
+        min-height: calc(100svh - var(--header-height));
+    }
+
+    .home-landing__title {
+        max-width: 100%;
+        padding-right: 0.06em;
+        font-size: clamp(4.2rem, 24vw, 7.2rem);
+        letter-spacing: -0.07em;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-landing__title {
+        animation: none;
+    }
+}

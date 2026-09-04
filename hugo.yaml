@@ -120,9 +120,9 @@ menu:
       url: /projects/
       weight: 10
 
-    - identifier: notes
-      name: "Notes"
-      url: /notes/
+    - identifier: blog
+      name: "Blog"
+      url: /blog/
       weight: 20
 
     - identifier: river
