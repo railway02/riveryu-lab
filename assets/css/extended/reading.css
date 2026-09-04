@@ -438,6 +438,10 @@
     scrollbar-width: none;
   }
 
+  [data-theme="dark"] :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))):has(> .toc) > .toc {
+    background: transparent;
+  }
+
   :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))):has(> .toc) > .toc::-webkit-scrollbar {
     display: none;
   }
