@@ -386,7 +386,7 @@
 }
 
 @media (min-width: 1120px) {
-  body:has(:where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc) .main {
+  body:has(.post-single > .toc) .main {
     max-width: 1160px;
   }
 
