@@ -1,6 +1,47 @@
 {{- define "main" -}}
-<section class="home-landing" aria-labelledby="home-title">
-  <canvas class="home-landing__ocean" data-ocean-current aria-hidden="true"></canvas>
-  <h1 id="home-title" class="home-landing__title">RiverYu</h1>
+<section class="river-home" aria-labelledby="river-home-title">
+  <canvas
+    class="river-home__particles"
+    data-river-particles
+    data-title="{{ site.Params.homeParticleTitle }}"
+    aria-hidden="true"
+  ></canvas>
+
+  <div class="river-home__hero">
+    <p class="river-home__eyebrow">Computer Vision · Generative Systems</p>
+    <h1 id="river-home-title" class="river-home__sr-only">{{ site.Params.homeParticleTitle }}</h1>
+    <p class="river-home__statement">
+      Exploring how machines see,<br>
+      represent, and reconstruct the world.
+    </p>
+  </div>
+
+  <a class="river-home__scroll" href="#explore">
+    <span>Explore</span>
+    <svg viewBox="0 0 18 18" aria-hidden="true">
+      <path d="M9 2v13M4 10l5 5 5-5" />
+    </svg>
+  </a>
+</section>
+
+<section class="river-index" id="explore" aria-labelledby="explore-title">
+  <header class="river-index__header">
+    <p class="river-index__kicker">RiverYu's Lab</p>
+    <h2 id="explore-title">Follow the current.</h2>
+    <p>Research, experiments, and notes—connected as they grow.</p>
+  </header>
+
+  <nav class="river-index__nav" aria-label="Explore RiverYu's Lab">
+    {{- range $index, $item := site.Menus.main }}
+    <a class="river-index__link" href="{{ $item.URL | absLangURL }}">
+      <span class="river-index__number">{{ printf "%02d" (add $index 1) }}</span>
+      <span class="river-index__name">{{ $item.Name }}</span>
+      <span class="river-index__type">{{ $item.Identifier }}</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M5 12h14M13 6l6 6-6 6" />
+      </svg>
+    </a>
+    {{- end }}
+  </nav>
 </section>
 {{- end -}}

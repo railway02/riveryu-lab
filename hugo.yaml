@@ -56,6 +56,7 @@ params:
   env: production
   description: "Undergraduate CS Student | AI & 3D Editing, Deep Learning"
   author: "Yaohui Ru (RiverYu)"
+  homeParticleTitle: "RiverYu"
 
   # SEO & feeds
   images: ["images/cover.png"]
@@ -126,7 +127,7 @@ menu:
       weight: 20
 
     - identifier: river
-      name: "🌊 The River"
+      name: "The River"
       url: /archives/
       weight: 30
 
