@@ -54,13 +54,9 @@ Decoder 解码
 
 基本过程是：
 
-$$
-z = E_{\text{VAE}}(x)
-$$
+$$ z = E_{\text{VAE}}(x) $$
 
-$$
-\hat{x} = D_{\text{VAE}}(z)
-$$
+$$ \hat{x} = D_{\text{VAE}}(z) $$
 
 其中：
 
@@ -122,13 +118,9 @@ RAE 的结构是：
 
 公式是：
 
-$$
-z = E_{\text{rep}}(x)
-$$
+$$ z = E_{\text{rep}}(x) $$
 
-$$
-\hat{x} = D_\theta(z)
-$$
+$$ \hat{x} = D_\theta(z) $$
 
 其中：
 
@@ -486,9 +478,7 @@ RAEv2 主要解决原始 RAE 的几个问题：
 
 RAEv2 提出使用最后 K 层特征的聚合：
 
-$$
-z = \sum_{k=1}^{K} \alpha_k h_{L-k+1}
-$$
+$$ z = \sum_{k=1}^{K} \alpha_k h_{L-k+1} $$
 
 其中：
 
@@ -500,9 +490,7 @@ K：参与聚合的层数
 
 最简单的情况可以直接求和或平均：
 
-$$
-z = \frac{1}{K} \sum_{k=1}^{K} h_{L-k+1}
-$$
+$$ z = \frac{1}{K} \sum_{k=1}^{K} h_{L-k+1} $$
 
 这样可以同时保留：
 
@@ -650,21 +638,15 @@ Causal 3D VAE 的目标就是：
 
 输入视频：
 
-$$
-X = {x_1, x_2, ..., x_T}
-$$
+$$ X = {x_1, x_2, ..., x_T} $$
 
 编码为视频 latent：
 
-$$
-Z = E_{\text{3D}}(X)
-$$
+$$ Z = E_{\text{3D}}(X) $$
 
 再解码：
 
-$$
-\hat{X} = D_{\text{3D}}(Z)
-$$
+$$ \hat{X} = D_{\text{3D}}(Z) $$
 
 其中：
 
@@ -888,23 +870,15 @@ Cosmos Decoder
 
 连续 tokenizer：
 
-$$
-Z = E(X)
-$$
+$$ Z = E(X) $$
 
-$$
-\hat{X} = D(Z)
-$$
+$$ \hat{X} = D(Z) $$
 
 离散 tokenizer：
 
-$$
-q = Q(E(X))
-$$
+$$ q = Q(E(X)) $$
 
-$$
-\hat{X} = D(q)
-$$
+$$ \hat{X} = D(q) $$
 
 其中：
 
@@ -1094,15 +1068,11 @@ fake / real
 
 用 RAEv2 编码每一帧：
 
-$$
-z_t^R = E_R(x_t)
-$$
+$$ z_t^R = E_R(x_t) $$
 
 得到 latent 序列：
 
-$$
-Z^R = {z_1^R, z_2^R, ..., z_T^R}
-$$
+$$ Z^R = {z_1^R, z_2^R, ..., z_T^R} $$
 
 可以分析：
 
@@ -1118,15 +1088,11 @@ $$
 
 latent velocity：
 
-$$
-\Delta z_t = z_{t+1} - z_t
-$$
+$$ \Delta z_t = z_{t+1} - z_t $$
 
 latent acceleration：
 
-$$
-\Delta^2 z_t = z_{t+1} - 2z_t + z_{t-1}
-$$
+$$ \Delta^2 z_t = z_{t+1} - 2z_t + z_{t-1} $$
 
 真实视频的 representation 轨迹通常更符合物理连续性。生成视频可能出现局部跳变、过度平滑、身份漂移或背景 representation 抖动。
 
@@ -1136,9 +1102,7 @@ $$
 
 用视频 tokenizer 编码整段视频：
 
-$$
-Z^V = E_V(X)
-$$
+$$ Z^V = E_V(X) $$
 
 可以分析：
 
@@ -1235,41 +1199,27 @@ token transition
 
 输入视频：
 
-$$
-X = {x_1, x_2, ..., x_T}
-$$
+$$ X = {x_1, x_2, ..., x_T} $$
 
 第一步：RAEv2 编码每一帧：
 
-$$
-z_t^R = E_R(x_t)
-$$
+$$ z_t^R = E_R(x_t) $$
 
 第二步：视频 tokenizer 编码整段视频：
 
-$$
-Z^V = E_V(X)
-$$
+$$ Z^V = E_V(X) $$
 
 第三步：提取特征：
 
-$$
-F_R = f_R(Z^R)
-$$
+$$ F_R = f_R(Z^R) $$
 
-$$
-F_V = f_V(Z^V)
-$$
+$$ F_V = f_V(Z^V) $$
 
-$$
-F = [F_R, F_V]
-$$
+$$ F = [F_R, F_V] $$
 
 第四步：分类：
 
-$$
-s = C(F)
-$$
+$$ s = C(F) $$
 
 其中：
 

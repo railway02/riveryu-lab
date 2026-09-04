@@ -26,7 +26,7 @@ relations:
 
 这说明生成器内部的信息流受到了离散像素网格的影响。StyleGAN3 的目标是让生成器满足更强的空间一致性：
 
-$$G(Tz) \approx T G(z)$$
+$$ G(Tz) \approx T G(z) $$
 
 也就是：
 > 先在内部表示中做平移/旋转，再生成图像 **应该接近** 先生成图像，再对图像做平移/旋转。
@@ -39,11 +39,11 @@ $$G(Tz) \approx T G(z)$$
 
 传统卷积网络通常把 feature map 看成离散数组：
 
-$$X \in \mathbb{R}^{C \times H \times W}$$
+$$ X \in \mathbb{R}^{C \times H \times W} $$
 
 也就是一堆像素网格上的数值。StyleGAN3 则从信号处理角度重新解释 feature map：
 
-$$X[u]$$
+$$ X[u] $$
 
 
 
@@ -85,7 +85,7 @@ StyleGAN2 的 synthesis network 一开始使用一个 learned constant input：
 
 StyleGAN3 的输入模块可以理解为生成一组二维平面波。对于第 $c$ 个通道：
 
-$$x_c(u) = \sin\left(2\pi(f_c^T u + \phi_c)\right)$$
+$$ x_c(u) = \sin\left(2\pi(f_c^T u + \phi_c)\right) $$
 
 其中：
 * $u=(x,y)$：二维连续坐标；
@@ -95,7 +95,7 @@ $$x_c(u) = \sin\left(2\pi(f_c^T u + \phi_c)\right)$$
 
 每个通道都是一个方向、频率、相位不同的正弦平面波。整体输入就是：
 
-$$x(u) = [x_1(u), x_2(u), \dots, x_C(u)]$$
+$$ x(u) = [x_1(u), x_2(u), \dots, x_C(u)] $$
 
 这相当于在二维空间中铺了一组随机方向的周期波，然后把这些周期波在当前采样网格上取值，得到初始 feature map。对应代码结构大致是：
 
@@ -122,7 +122,7 @@ StyleGAN3 并没有对图像做 FFT，也没有密集枚举所有频率。它只
 
 标准傅里叶变换的目标是分析一个已有信号：
 
-$$f(x) = \sum_k a_k \cos(2\pi kx) + b_k \sin(2\pi kx)$$
+$$ f(x) = \sum_k a_k \cos(2\pi kx) + b_k \sin(2\pi kx) $$
 
 它关心的是：一个信号里面有哪些频率成分？每个频率的系数是多少？
 
@@ -172,11 +172,11 @@ StyleGAN3 中的两个重要参数是 `bandwidth` 和 `sampling_rate`。它们�
 
 `sampling_rate` 表示当前 feature map 的采样率。根据 Nyquist-Shannon 采样定理，如果一个连续信号的最高频率是 $f_{\max}$，采样率 $s$ 至少要满足：
 
-$$s > 2 f_{\max}$$
+$$ s > 2 f_{\max} $$
 
 否则会出现 aliasing。因此 StyleGAN3 要控制：
 
-$$\text{bandwidth} < \frac{\text{sampling\_rate}}{2}$$
+$$ \text{bandwidth} < \frac{\text{sampling\_rate}}{2} $$
 
 这里的核心思想是：连续信号可以被离散 feature map 表示，前提是它是有限带宽的，并且采样率足够高。这正是 StyleGAN3 alias-free 设计的基础。
 
@@ -188,15 +188,15 @@ StyleGAN3 的 SynthesisInput 不是生成一个固定不动的 Fourier field。�
 
 对于一个二维正弦平面波：
 
-$$x(u) = \sin(2\pi(f^T u + \phi))$$
+$$ x(u) = \sin(2\pi(f^T u + \phi)) $$
 
 如果对坐标做仿射变换 $u' = A u + t$，那么：
 
-$$x(u') = \sin(2\pi(f^T(Au+t)+\phi))$$
+$$ x(u') = \sin(2\pi(f^T(Au+t)+\phi)) $$
 
 展开：
 
-$$x(u') = \sin(2\pi((A^T f)^T u + f^Tt + \phi))$$
+$$ x(u') = \sin(2\pi((A^T f)^T u + f^Tt + \phi)) $$
 
 这说明：
 
@@ -205,9 +205,9 @@ $$x(u') = \sin(2\pi((A^T f)^T u + f^Tt + \phi))$$
 
 具体对应关系是：
 
-$$f' = A^T f$$
+$$ f' = A^T f $$
 
-$$\phi' = \phi + f^Tt$$
+$$ \phi' = \phi + f^Tt $$
 
 所以，StyleGAN3 不需要真的在离散 feature map 上做旋转或平移。它可以直接改 frequency 和 phase，然后重新采样 Fourier field。这就是它的漂亮之处：**离散图像上的几何变换，被转化成连续傅里叶特征参数上的解析变换。**
 
@@ -217,23 +217,23 @@ $$\phi' = \phi + f^Tt$$
 
 先看一维情况：
 
-$$x(u)=\sin(2\pi(fu+\phi))$$
+$$ x(u)=\sin(2\pi(fu+\phi)) $$
 
 如果把坐标平移 $t$：
 
-$$x(u+t)=\sin(2\pi(f(u+t)+\phi))$$
+$$ x(u+t)=\sin(2\pi(f(u+t)+\phi)) $$
 
 展开：
 
-$$x(u+t)=\sin(2\pi(fu+ft+\phi))$$
+$$ x(u+t)=\sin(2\pi(fu+ft+\phi)) $$
 
 因此平移 $t$ 等价于把相位改成：
 
-$$\phi'=\phi+ft$$
+$$ \phi'=\phi+ft $$
 
 二维情况下：
 
-$$\phi'=\phi+f^Tt$$
+$$ \phi'=\phi+f^Tt $$
 
 这就是代码中根据 translation 更新 phases 的原因。这也解释了为什么 Fourier features 特别适合做连续位移：对普通离散 feature map 来说，亚像素平移需要插值；对正弦波来说，平移可以直接通过相位变化精确实现。
 
@@ -243,15 +243,15 @@ $$\phi'=\phi+f^Tt$$
 
 二维平面波：
 
-$$x(u)=\sin(2\pi(f^T u+\phi))$$
+$$ x(u)=\sin(2\pi(f^T u+\phi)) $$
 
 如果坐标旋转 $u'=Ru$，那么：
 
-$$f^T Ru = (R^T f)^T u$$
+$$ f^T Ru = (R^T f)^T u $$
 
 所以旋转坐标等价于旋转频率向量：
 
-$$f' = R^T f$$
+$$ f' = R^T f $$
 
 因此，StyleGAN3 可以通过改变 frequency vector 的方向来实现 Fourier input field 的旋转。这和直接旋转像素图完全不同：
 
@@ -264,7 +264,7 @@ $$f' = R^T f$$
 
 普通 Fourier feature 常写成：
 
-$$\gamma(x) = [\sin(2\pi Bx), \cos(2\pi Bx)]$$
+$$ \gamma(x) = [\sin(2\pi Bx), \cos(2\pi Bx)] $$
 
 这样做的一个好处是，两个编码的内积可以通过三角恒等式写成 $\cos(2\pi b^T(x_1-x_2))$，从而得到平移不变的核结构。
 
@@ -282,15 +282,15 @@ StyleGAN3 的 Fourier input 生成后，并不是原样送进后续网络。它�
 
 如果只看 $\sin(a)\sin(b)$，根据恒等式：
 
-$$\sin(a)\sin(b) = \frac{1}{2}[\cos(a-b)-\cos(a+b)]$$
+$$ \sin(a)\sin(b) = \frac{1}{2}[\cos(a-b)-\cos(a+b)] $$
 
 其中 $\cos(a+b)$ 依赖绝对位置，不具备平移不变性。但如果加入随机相位 $\phi$：
 
-$$\sin(a+\phi)\sin(b+\phi)$$
+$$ \sin(a+\phi)\sin(b+\phi) $$
 
 对均匀随机相位取期望：
 
-$$\mathbb{E}_{\phi}[\sin(a+\phi)\sin(b+\phi)] = \frac{1}{2}\cos(a-b)$$
+$$ \mathbb{E}_{\phi}[\sin(a+\phi)\sin(b+\phi)] = \frac{1}{2}\cos(a-b) $$
 
 含有 $(a+b+2\phi)$ 的项在相位平均中被抵消。所以，更准确的说法是：sin-only 本身不严格等价于 sin+cos；sin-only 加随机 phase 后，在大量通道的统计意义上可以获得类似平移不变的结构。StyleGAN3 刚好使用了随机 phases，因此只用 sin 是合理的。
 
@@ -300,7 +300,7 @@ $$\mathbb{E}_{\phi}[\sin(a+\phi)\sin(b+\phi)] = \frac{1}{2}\cos(a-b)$$
 
 如果把坐标整体平移 $x \rightarrow x+10$，Fourier feature 变成：
 
-$$\sin(2\pi b(x+10)) = \sin(2\pi bx + 20\pi b)$$
+$$ \sin(2\pi b(x+10)) = \sin(2\pi bx + 20\pi b) $$
 
 这等价于给每个频率通道加了一个固定相位偏移。如果重新训练一个 MLP，loss 几乎不变，这说明：整体平移坐标后，Fourier features 的表达能力没有下降。
 

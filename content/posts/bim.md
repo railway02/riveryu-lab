@@ -27,21 +27,15 @@
 
 如果一个像素点从：
 
-$$
-(x, y)
-$$
+$$ (x, y) $$
 
 移动到：
 
-$$
-(x+u, y+v)
-$$
+$$ (x+u, y+v) $$
 
 那么它的光流就是：
 
-$$
-(u, v)
-$$
+$$ (u, v) $$
 
 整张图像上每个像素都有一个运动向量，这些向量共同构成一张光流图。
 
@@ -73,9 +67,7 @@ A A B B C C
 
 帧融合可以写成：
 
-$$
-I_{0.5} = 0.5 I_0 + 0.5 I_1
-$$
+$$ I_{0.5} = 0.5 I_0 + 0.5 I_1 $$
 
 这种方法计算量很小，适合低端设备或特殊场景兜底，但效果有限。重复帧仍然会卡顿，帧融合容易产生半透明重影和拖影。
 
@@ -279,39 +271,13 @@ BiM 的全称是 Bidirectional Motion Field，双向运动场。
 
 核心公式如下：
 
-$$
-M_{t\to 0,1}(x,y)
-=
-
-\begin{bmatrix}
-R(x,y) \
-\Phi(x,y)
-\end{bmatrix}
-=
-
-\begin{bmatrix}
-\dfrac{r_0}{r_0+r_1} \
-\phi
-\end{bmatrix}
-$$
+$$ M_{t\to 0,1}(x,y) = \begin{bmatrix} R(x,y) \ \Phi(x,y) \end{bmatrix} = \begin{bmatrix} \dfrac{r_0}{r_0+r_1} \ \phi \end{bmatrix} $$
 
 其中：
 
-$$
-r_0 =
-\left\lVert V_{t\to 0}(x,y) \right\rVert,
-\quad
-r_1 =
-\left\lVert V_{t\to 1}(x,y) \right\rVert
-$$
+$$ r_0 = \left\lVert V_{t\to 0}(x,y) \right\rVert, \quad r_1 = \left\lVert V_{t\to 1}(x,y) \right\rVert $$
 
-$$
-\phi
-=
-\angle V_{t\to 1}(x,y)
--
-\angle V_{t\to 0}(x,y)
-$$
+$$ \phi = \angle V_{t\to 1}(x,y) - \angle V_{t\to 0}(x,y) $$
 
 这里：
 

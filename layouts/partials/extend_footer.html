@@ -7,3 +7,12 @@
     <script defer crossorigin="anonymous" src="{{ $codeTools.RelPermalink }}"></script>
   {{- end -}}
 {{- end -}}
+{{- if and (eq .Kind "page") (ne .Layout "archives") (ne .Layout "search") -}}
+  {{- $articleToc := resources.Get "js/article-toc.js" | minify -}}
+  {{- if not site.Params.assets.disableFingerprinting -}}
+    {{- $articleToc = $articleToc | fingerprint -}}
+    <script defer crossorigin="anonymous" src="{{ $articleToc.RelPermalink }}" integrity="{{ $articleToc.Data.Integrity }}"></script>
+  {{- else -}}
+    <script defer crossorigin="anonymous" src="{{ $articleToc.RelPermalink }}"></script>
+  {{- end -}}
+{{- end -}}

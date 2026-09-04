@@ -22,43 +22,31 @@ relations:
 
 Transformer 的每一层都在做类似这样的操作：
 
-$$
-x_{l+1}=x_l+F_l(x_l)
-$$
+$$ x_{l+1}=x_l+F_l(x_l) $$
 
 其中 $x_l$ 是第 $l$ 层的 hidden state，$F_l$ 可能是 Attention，也可能是 MLP。
 
 问题在于，深度网络不是只做一层矩阵乘法，而是反复做：
 
-$$
-x \rightarrow Wx \rightarrow \text{Activation} \rightarrow W'x \rightarrow \cdots
-$$
+$$ x \rightarrow Wx \rightarrow \text{Activation} \rightarrow W'x \rightarrow \cdots $$
 
 如果每一层都让方差稍微变大一点，几十层之后就会指数式放大。
 
 假设每层让激活方差放大 $\alpha$ 倍：
 
-$$
-Var(x_{l+1})=\alpha Var(x_l)
-$$
+$$ Var(x_{l+1})=\alpha Var(x_l) $$
 
 那么经过 $L$ 层：
 
-$$
-Var(x_L)=\alpha^L Var(x_0)
-$$
+$$ Var(x_L)=\alpha^L Var(x_0) $$
 
 如果：
 
-$$
-\alpha=1.1,\quad L=100
-$$
+$$ \alpha=1.1,\quad L=100 $$
 
 那么：
 
-$$
-1.1^{100}\approx 13780
-$$
+$$ 1.1^{100}\approx 13780 $$
 
 这意味着方差已经被放大了一万多倍。
 
@@ -76,29 +64,21 @@ $$
 
 如果 hidden state 变得很大：
 
-$$
-|x_l|\gg 1
-$$
+$$ |x_l|\gg 1 $$
 
 那么后续矩阵乘法、指数函数、Softmax 都会面临溢出。
 
 在 FP16 中，最大有限值约为：
 
-$$
-65504
-$$
+$$ 65504 $$
 
 如果中间值超过这个范围，就可能出现：
 
-$$
-\text{Inf}
-$$
+$$ \text{Inf} $$
 
 再参与后续运算，就可能变成：
 
-$$
-\text{NaN}
-$$
+$$ \text{NaN} $$
 
 FP16 数值范围有限，BF16 范围更大但尾数短，容易出现截断误差和“大数吃小数”的问题。
 
@@ -108,49 +88,35 @@ FP16 数值范围有限，BF16 范围更大但尾数短，容易出现截断误�
 
 Attention 里有：
 
-$$
-P=\text{Softmax}(S)
-$$
+$$ P=\text{Softmax}(S) $$
 
 如果 logits $S$ 的差距太大，比如：
 
-$$
-S=[20,0,-20]
-$$
+$$ S=[20,0,-20] $$
 
 那么：
 
-$$
-\text{Softmax}(S)\approx [1,0,0]
-$$
+$$ \text{Softmax}(S)\approx [1,0,0] $$
 
 这时 Softmax 从“软选择”退化成“硬选择”。
 
 Softmax 的导数大致和：
 
-$$
-p(1-p)
-$$
+$$ p(1-p) $$
 
 相关。
 
 当：
 
-$$
-p\approx 1
-$$
+$$ p\approx 1 $$
 
 或者：
 
-$$
-p\approx 0
-$$
+$$ p\approx 0 $$
 
 都有：
 
-$$
-p(1-p)\approx 0
-$$
+$$ p(1-p)\approx 0 $$
 
 于是梯度消失。未缩放的高维点积会让 Softmax 接近 Hardmax，从而导致梯度消失。
 
@@ -160,35 +126,23 @@ $$
 
 Transformer 有残差：
 
-$$
-x_{l+1}=x_l+F_l(x_l)
-$$
+$$ x_{l+1}=x_l+F_l(x_l) $$
 
 如果 $F_l(x_l)$ 的尺度没有被控制，那么每一层都往主干里加东西：
 
-$$
-x_L=x_0+\sum_{l=1}^{L}F_l(x_l)
-$$
+$$ x_L=x_0+\sum_{l=1}^{L}F_l(x_l) $$
 
 当层数很深时，主干 $x_L$ 的尺度可能越来越大。
 
 这就是为什么现代大模型不仅要有 Norm，还要配合：
 
-$$
-\text{Pre-Norm}
-$$
+$$ \text{Pre-Norm} $$
 
-$$
-\text{残差分支初始化缩放}
-$$
+$$ \text{残差分支初始化缩放} $$
 
-$$
-\text{RMSNorm}
-$$
+$$ \text{RMSNorm} $$
 
-$$
-\text{无 bias linear}
-$$
+$$ \text{无 bias linear} $$
 
 这些设计是一套互相配合的数值稳定系统。
 
@@ -198,15 +152,11 @@ $$
 
 神经网络里说“数值稳定”，本质是在说：
 
-$$
-E[x]
-$$
+$$ E[x] $$
 
 和：
 
-$$
-Var(x)
-$$
+$$ Var(x) $$
 
 是否可控。
 
@@ -214,43 +164,29 @@ $$
 
 给一组 hidden state：
 
-$$
-x=[x_1,x_2,\dots,x_d]
-$$
+$$ x=[x_1,x_2,\dots,x_d] $$
 
 均值：
 
-$$
-\mu=\frac{1}{d}\sum_{i=1}^{d}x_i
-$$
+$$ \mu=\frac{1}{d}\sum_{i=1}^{d}x_i $$
 
 方差：
 
-$$
-\sigma^2=\frac{1}{d}\sum_{i=1}^{d}(x_i-\mu)^2
-$$
+$$ \sigma^2=\frac{1}{d}\sum_{i=1}^{d}(x_i-\mu)^2 $$
 
 标准差：
 
-$$
-\sigma=\sqrt{\frac{1}{d}\sum_{i=1}^{d}(x_i-\mu)^2}
-$$
+$$ \sigma=\sqrt{\frac{1}{d}\sum_{i=1}^{d}(x_i-\mu)^2} $$
 
 归一化的核心就是：
 
-$$
-\hat{x}_i=\frac{x_i-\mu}{\sigma}
-$$
+$$ \hat{x}_i=\frac{x_i-\mu}{\sigma} $$
 
 这样得到：
 
-$$
-E[\hat{x}]=0
-$$
+$$ E[\hat{x}]=0 $$
 
-$$
-Var(\hat{x})=1
-$$
+$$ Var(\hat{x})=1 $$
 
 这个操作本质上是在说：
 
@@ -264,28 +200,15 @@ $$
 
 在语言模型里，一个 token 的 hidden state 是一个 $d$ 维向量：
 
-$$
-x_t\in \mathbb{R}^d
-$$
+$$ x_t\in \mathbb{R}^d $$
 
 LayerNorm 对同一个 token 的 hidden size 维度做归一化：
 
-$$
-\mu_t=\frac{1}{d}\sum_{i=1}^{d}x_{t,i}
-$$
+$$ \mu_t=\frac{1}{d}\sum_{i=1}^{d}x_{t,i} $$
 
-$$
-\sigma_t^2=\frac{1}{d}\sum_{i=1}^{d}(x_{t,i}-\mu_t)^2
-$$
+$$ \sigma_t^2=\frac{1}{d}\sum_{i=1}^{d}(x_{t,i}-\mu_t)^2 $$
 
-$$
-\text{LayerNorm}(x_{t,i})=
-
-
-\gamma_i\frac{x_{t,i}-\mu_t}{\sqrt{\sigma_t^2+\epsilon}}
-+
-\beta_i
-$$
+$$ \text{LayerNorm}(x_{t,i})= \gamma_i\frac{x_{t,i}-\mu_t}{\sqrt{\sigma_t^2+\epsilon}} + \beta_i $$
 
 它的含义是：
 
@@ -297,9 +220,7 @@ $$
 
 所以 Transformer 使用 LayerNorm / RMSNorm，本质上是为了保证：
 
-$$
-\text{每个 token 的归一化结果不依赖其他请求}
-$$
+$$ \text{每个 token 的归一化结果不依赖其他请求} $$
 
 也就是训练和推理更一致。
 
@@ -309,15 +230,11 @@ $$
 
 LayerNorm 做两件事：
 
-$$
-x_i-\mu
-$$
+$$ x_i-\mu $$
 
 和：
 
-$$
-\frac{1}{\sigma}
-$$
+$$ \frac{1}{\sigma} $$
 
 也就是：
 
@@ -328,31 +245,19 @@ RMSNorm 认为，最关键的是缩放，不一定需要减均值。
 
 它定义：
 
-$$
-\text{RMS}(x)=\sqrt{\frac{1}{d}\sum_{i=1}^{d}x_i^2}
-$$
+$$ \text{RMS}(x)=\sqrt{\frac{1}{d}\sum_{i=1}^{d}x_i^2} $$
 
 然后：
 
-$$
-\text{RMSNorm}(x_i)
-=
-
-\gamma_i
-\frac{x_i}{\sqrt{\frac{1}{d}\sum_{j=1}^{d}x_j^2+\epsilon}}
-$$
+$$ \text{RMSNorm}(x_i) = \gamma_i \frac{x_i}{\sqrt{\frac{1}{d}\sum_{j=1}^{d}x_j^2+\epsilon}} $$
 
 它不再计算：
 
-$$
-\mu
-$$
+$$ \mu $$
 
 也不做：
 
-$$
-x_i-\mu
-$$
+$$ x_i-\mu $$
 
 只控制向量的整体能量尺度。
 
@@ -364,44 +269,29 @@ $$
 
 LayerNorm 控制的是：
 
-$$
-\frac{x-\mu}{\sigma}
-$$
+$$ \frac{x-\mu}{\sigma} $$
 
 RMSNorm 控制的是：
 
-$$
-\frac{x}{\text{RMS}(x)}
-$$
+$$ \frac{x}{\text{RMS}(x)} $$
 
 LayerNorm 去掉了均值方向：
 
-$$
-x \rightarrow x-\mu
-$$
+$$ x \rightarrow x-\mu $$
 
 RMSNorm 保留了均值方向，只控制整体长度。
 
 从几何角度看，RMSNorm 更像是在控制向量模长：
 
-$$
-|x|_2
-$$
+$$ |x|_2 $$
 
 因为：
 
-$$
-\text{RMS}(x)=\frac{|x|_2}{\sqrt{d}}
-$$
+$$ \text{RMS}(x)=\frac{|x|_2}{\sqrt{d}} $$
 
 所以：
 
-$$
-\frac{x}{\text{RMS}(x)}
-=
-
-\frac{\sqrt{d}x}{|x|_2}
-$$
+$$ \frac{x}{\text{RMS}(x)} = \frac{\sqrt{d}x}{|x|_2} $$
 
 这说明 RMSNorm 本质上是在把向量投影到一个固定半径的超球面附近。
 
@@ -419,15 +309,11 @@ Transformer 有两种常见结构。
 
 Post-Norm：
 
-$$
-x_{l+1}=\text{Norm}(x_l+F_l(x_l))
-$$
+$$ x_{l+1}=\text{Norm}(x_l+F_l(x_l)) $$
 
 Pre-Norm：
 
-$$
-x_{l+1}=x_l+F_l(\text{Norm}(x_l))
-$$
+$$ x_{l+1}=x_l+F_l(\text{Norm}(x_l)) $$
 
 Post-Norm 的问题是，反向传播时梯度每一层都要穿过 Norm。
 
@@ -435,19 +321,11 @@ Post-Norm 的问题是，反向传播时梯度每一层都要穿过 Norm。
 
 Pre-Norm 的优势是主干路径干净：
 
-$$
-x_{l+1}=x_l+\text{something}
-$$
+$$ x_{l+1}=x_l+\text{something} $$
 
 反向传播时：
 
-$$
-\frac{\partial x_{l+1}}{\partial x_l}
-=
-
-I+
-\frac{\partial F_l(\text{Norm}(x_l))}{\partial x_l}
-$$
+$$ \frac{\partial x_{l+1}}{\partial x_l} = I+ \frac{\partial F_l(\text{Norm}(x_l))}{\partial x_l} $$
 
 这里的 $I$ 是关键。
 
@@ -467,15 +345,11 @@ Pre-Norm 也有问题。
 
 它不断累加：
 
-$$
-x_L=x_0+\sum_{l=1}^{L}F_l(\text{Norm}(x_l))
-$$
+$$ x_L=x_0+\sum_{l=1}^{L}F_l(\text{Norm}(x_l)) $$
 
 因为每个残差分支输入都被 Norm 控制住，所以：
 
-$$
-F_l(\text{Norm}(x_l))
-$$
+$$ F_l(\text{Norm}(x_l)) $$
 
 的尺度相对稳定。
 
@@ -485,10 +359,7 @@ $$
 
 这可以理解为：
 
-$$
-\frac{|F_l(\text{Norm}(x_l))|}{|x_l|}
-\rightarrow 0
-$$
+$$ \frac{|F_l(\text{Norm}(x_l))|}{|x_l|} \rightarrow 0 $$
 
 这就是为什么有人说 Pre-Norm 深层可能出现 representation collapse。
 
@@ -504,93 +375,59 @@ $$
 
 Attention 的核心公式：
 
-$$
-\text{Attention}(Q,K,V)
-=
-
-\text{Softmax}
-\left(
-\frac{QK^T}{\sqrt{d_k}}
-\right)V
-$$
+$$ \text{Attention}(Q,K,V) = \text{Softmax} \left( \frac{QK^T}{\sqrt{d_k}} \right)V $$
 
 关键问题是：为什么要除以 $\sqrt{d_k}$？
 
 对一个 query 和 key：
 
-$$
-q\cdot k=\sum_{i=1}^{d_k}q_i k_i
-$$
+$$ q\cdot k=\sum_{i=1}^{d_k}q_i k_i $$
 
 假设：
 
-$$
-E[q_i]=0,\quad Var(q_i)=1
-$$
+$$ E[q_i]=0,\quad Var(q_i)=1 $$
 
-$$
-E[k_i]=0,\quad Var(k_i)=1
-$$
+$$ E[k_i]=0,\quad Var(k_i)=1 $$
 
 且各维独立。
 
 那么：
 
-$$
-E[q_i k_i]=E[q_i]E[k_i]=0
-$$
+$$ E[q_i k_i]=E[q_i]E[k_i]=0 $$
 
 并且：
 
-$$
-Var(q_i k_i)=E[q_i^2k_i^2]-E[q_ik_i]^2
-$$
+$$ Var(q_i k_i)=E[q_i^2k_i^2]-E[q_ik_i]^2 $$
 
 由于独立：
 
-$$
-E[q_i^2k_i^2]=E[q_i^2]E[k_i^2]
-$$
+$$ E[q_i^2k_i^2]=E[q_i^2]E[k_i^2] $$
 
 又因为方差为 1、均值为 0：
 
-$$
-E[q_i^2]=1,\quad E[k_i^2]=1
-$$
+$$ E[q_i^2]=1,\quad E[k_i^2]=1 $$
 
 所以：
 
-$$
-Var(q_i k_i)=1
-$$
+$$ Var(q_i k_i)=1 $$
 
 现在 $d_k$ 个项相加：
 
-$$
-q\cdot k=\sum_{i=1}^{d_k}q_i k_i
-$$
+$$ q\cdot k=\sum_{i=1}^{d_k}q_i k_i $$
 
 独立变量和的方差等于方差之和：
 
-$$
-Var(q\cdot k)=\sum_{i=1}^{d_k}Var(q_i k_i)=d_k
-$$
+$$ Var(q\cdot k)=\sum_{i=1}^{d_k}Var(q_i k_i)=d_k $$
 
 所以点积的标准差是：
 
-$$
-\sqrt{d_k}
-$$
+$$ \sqrt{d_k} $$
 
 ### 原理说明
 如果不做缩放，$d_k$ 越大，logits 数值波动越剧烈，Softmax 函数也越容易进入饱和状态。
 
 对点积结果除以 $\sqrt{d_k}$ 做缩放处理后，方差推导如下：
-$$
-\text{Var}\left( \frac{q \cdot k}{\sqrt{d_k}} \right)
-= \frac{\text{Var}(q \cdot k)}{d_k}
-= 1
-$$
+$$ \text{Var}\left( \frac{q \cdot k}{\sqrt{d_k}} \right) = \frac{\text{Var}(q \cdot k)}{d_k} = 1 $$
 
 这是该设计精妙的数学核心：**高维向量的点积会天然放大方差，通过 $\sqrt{d_k}$ 缩放，可将方差重新约束为单位方差**。
 
@@ -604,9 +441,7 @@ $$
 
 Softmax：
 
-$$
-p_i=\frac{e^{z_i}}{\sum_j e^{z_j}}
-$$
+$$ p_i=\frac{e^{z_i}}{\sum_j e^{z_j}} $$
 
 它做了三件事：
 
@@ -616,50 +451,33 @@ $$
 
 但 Softmax 有一个巨大风险：
 
-$$
-e^{z_i}
-$$
+$$ e^{z_i} $$
 
 如果 $z_i$ 很大，指数会爆炸。
 
 所以工程上永远不会直接算原始 Softmax，而是 Safe Softmax：
 
-$$
-p_i=
-\frac{e^{z_i-M}}{\sum_j e^{z_j-M}}
-$$
+$$ p_i= \frac{e^{z_i-M}}{\sum_j e^{z_j-M}} $$
 
 其中：
 
-$$
-M=\max_j z_j
-$$
+$$ M=\max_j z_j $$
 
 为什么数学上等价？
 
 因为：
 
-$$
-\begin{aligned}
-\frac{e^{z_i-M}}{\sum_j e^{z_j-M}}
-&= \frac{e^{z_i}e^{-M}}{e^{-M}\sum_j e^{z_j}} \\
-&= \frac{e^{z_i}}{\sum_j e^{z_j}}
-\end{aligned}
-$$
+$$ \begin{aligned} \frac{e^{z_i-M}}{\sum_j e^{z_j-M}} &= \frac{e^{z_i}e^{-M}}{e^{-M}\sum_j e^{z_j}} \\ &= \frac{e^{z_i}}{\sum_j e^{z_j}} \end{aligned} $$
 
 所以减最大值不会改变结果。
 
 但是工程上，它把最大指数项变成：
 
-$$
-e^0=1
-$$
+$$ e^0=1 $$
 
 其他项都变成：
 
-$$
-e^{z_i-M}\leq 1
-$$
+$$ e^{z_i-M}\leq 1 $$
 
 因此避免了上溢。
 
@@ -677,37 +495,23 @@ Normalization、Softmax、Gumbel-Max 等底层优化的共同点，是用数学�
 
 所以 attention score：
 
-$$
-S_{ij}
-$$
+$$ S_{ij} $$
 
 如果：
 
-$$
-j>i
-$$
+$$ j>i $$
 
 就设为：
 
-$$
--\infty
-$$
+$$ -\infty $$
 
 也就是：
 
-$$
-S_{ij}=
-\begin{cases}
-\frac{q_i k_j^T}{\sqrt{d_k}}, & j\le i \
--\infty, & j>i
-\end{cases}
-$$
+$$ S_{ij}= \begin{cases} \frac{q_i k_j^T}{\sqrt{d_k}}, & j\le i \ -\infty, & j>i \end{cases} $$
 
 经过 Softmax：
 
-$$
-e^{-\infty}=0
-$$
+$$ e^{-\infty}=0 $$
 
 所以未来位置的注意力权重为 0。
 
@@ -723,25 +527,17 @@ AIGC 视频检测也可以把很多“真实世界约束”转化为数值约束
 
 真实视频中：
 
-$$
-\text{identity}*{t}\approx \text{identity}*{t-1}
-$$
+$$ \text{identity}_{t}\approx \text{identity}_{t-1} $$
 
-$$
-\text{lighting}*{t}\approx \text{lighting}*{t-1}
-$$
+$$ \text{lighting}_{t}\approx \text{lighting}_{t-1} $$
 
-$$
-\text{motion}*{t}\approx A(\text{motion}*{t-1})
-$$
+$$ \text{motion}_{t}\approx A(\text{motion}_{t-1}) $$
 
 如果违反，就让异常分数升高。
 
 也就是说，你不是主观说“它看起来假”，而是把“假”变成：
 
-$$
-\text{constraint violation}
-$$
+$$ \text{constraint violation} $$
 
 ---
 
@@ -749,23 +545,15 @@ $$
 
 朴素 Attention 会计算：
 
-$$
-S=QK^T
-$$
+$$ S=QK^T $$
 
-$$
-P=\text{Softmax}(S)
-$$
+$$ P=\text{Softmax}(S) $$
 
-$$
-O=PV
-$$
+$$ O=PV $$
 
 问题是，如果序列长度是 $N$，那么 $S$ 和 $P$ 都是：
 
-$$
-N\times N
-$$
+$$ N\times N $$
 
 长文本下，这两个矩阵会产生巨大的显存读写。
 
@@ -777,57 +565,33 @@ FlashAttention 的核心不是近似 Attention，而是：
 
 对一个 softmax 向量，维护：
 
-$$
-m=\max(z)
-$$
+$$ m=\max(z) $$
 
-$$
-l=\sum_j e^{z_j-m}
-$$
+$$ l=\sum_j e^{z_j-m} $$
 
 当新 block 来时：
 
-$$
-m_{new}=\max(m_{old},m_{block})
-$$
+$$ m_{new}=\max(m_{old},m_{block}) $$
 
 旧分母要校正：
 
-$$
-l_{new}
-=
-
-l_{old}e^{m_{old}-m_{new}}
-+
-\sum_{j\in block}e^{z_j-m_{new}}
-$$
+$$ l_{new} = l_{old}e^{m_{old}-m_{new}} + \sum_{j\in block}e^{z_j-m_{new}} $$
 
 为什么要乘：
 
-$$
-e^{m_{old}-m_{new}}
-$$
+$$ e^{m_{old}-m_{new}} $$
 
 因为以前的累加是基于旧最大值 $m_{old}$：
 
-$$
-e^{z_j-m_{old}}
-$$
+$$ e^{z_j-m_{old}} $$
 
 现在最大值变了，要改成基于 $m_{new}$：
 
-$$
-e^{z_j-m_{new}}
-$$
+$$ e^{z_j-m_{new}} $$
 
 两者关系是：
 
-$$
-e^{z_j-m_{new}}
-=
-
-e^{z_j-m_{old}}e^{m_{old}-m_{new}}
-$$
+$$ e^{z_j-m_{new}} = e^{z_j-m_{old}}e^{m_{old}-m_{new}} $$
 
 这就是 Online Softmax 的数学核心。
 
@@ -835,23 +599,15 @@ $$
 
 FlashAttention 把这个思想扩展到：
 
-$$
-O=\text{Softmax}(QK^T)V
-$$
+$$ O=\text{Softmax}(QK^T)V $$
 
 在每个 tile 内同时完成：
 
-$$
-QK^T
-$$
+$$ QK^T $$
 
-$$
-\text{Online Softmax}
-$$
+$$ \text{Online Softmax} $$
 
-$$
-PV
-$$
+$$ PV $$
 
 最终避免写出巨大的 $S$ 和 $P$。
 
@@ -869,15 +625,11 @@ $$
 
 Transformer 的核心问题：
 
-$$
-\text{深层特征如何稳定传播？}
-$$
+$$ \text{深层特征如何稳定传播？} $$
 
 AIGC 视频检测核心问题：
 
-$$
-\text{视频状态如何稳定演化？}
-$$
+$$ \text{视频状态如何稳定演化？} $$
 
 这两个问题在数学形式上非常像。
 
@@ -887,25 +639,19 @@ $$
 
 Transformer 中每层 hidden state：
 
-$$
-x_l
-$$
+$$ x_l $$
 
 希望它不要爆炸、不要塌缩、不要漂移。
 
 视频中每一帧的状态：
 
-$$
-s_t
-$$
+$$ s_t $$
 
 也希望它符合真实世界的演化规律。
 
 真实视频可以抽象为：
 
-$$
-s_t=A(s_{t-1},m_t)+\epsilon_t
-$$
+$$ s_t=A(s_{t-1},m_t)+\epsilon_t $$
 
 其中：
 
@@ -916,37 +662,27 @@ $$
 
 如果是真实视频：
 
-$$
-|s_t-A(s_{t-1},m_t)|
-$$
+$$ |s_t-A(s_{t-1},m_t)| $$
 
 应该比较小，并且稳定。
 
 如果是生成视频：
 
-$$
-|s_t-A(s_{t-1},m_t)|
-$$
+$$ |s_t-A(s_{t-1},m_t)| $$
 
 可能突然变大，或者呈现不自然的高频波动。
 
 所以你可以把 AIGC 视频检测写成：
 
-$$
-r_t=|s_t-\hat{s}_t|
-$$
+$$ r_t=|s_t-\hat{s}_t| $$
 
 其中：
 
-$$
-\hat{s}*t=A*\theta(s_{t-1},m_t)
-$$
+$$ \hat{s}_t=A_\theta(s_{t-1},m_t) $$
 
 最后分类：
 
-$$
-p_{fake}=C(\text{Pool}({r_t,s_t}_{t=1}^{T}))
-$$
+$$ p_{fake}=C(\text{Pool}({r_t,s_t}_{t=1}^{T})) $$
 
 这比“检测伪影”高级得多。
 
@@ -966,29 +702,21 @@ Transformer 归一化告诉我们：
 
 不同视频的亮度、分辨率、压缩率、风格都不一样。如果你直接比较像素绝对值：
 
-$$
-x_t
-$$
+$$ x_t $$
 
 很容易被无关因素干扰。
 
 更合理的是比较归一化后的特征变化：
 
-$$
-\tilde{f}_t=\text{Norm}(f(x_t))
-$$
+$$ \tilde{f}_t=\text{Norm}(f(x_t)) $$
 
 然后看：
 
-$$
-\Delta_t=|\tilde{f}*t-\tilde{f}*{t-1}|
-$$
+$$ \Delta_t=\lVert\tilde{f}_t-\tilde{f}_{t-1}\rVert $$
 
 或者：
 
-$$
-r_t=|\tilde{s}_t-\hat{\tilde{s}}_t|
-$$
+$$ r_t=|\tilde{s}_t-\hat{\tilde{s}}_t| $$
 
 这可以减少亮度、风格、压缩等无关尺度的影响。
 
@@ -1008,9 +736,7 @@ $$
 
 Softmax 把 logits 变成概率：
 
-$$
-p_i=\frac{e^{z_i}}{\sum_j e^{z_j}}
-$$
+$$ p_i=\frac{e^{z_i}}{\sum_j e^{z_j}} $$
 
 它的本质是：
 
@@ -1020,53 +746,37 @@ $$
 
 假设你有多种异常证据：
 
-$$
-e_t^{id}
-$$
+$$ e_t^{id} $$
 
 身份异常；
 
-$$
-e_t^{motion}
-$$
+$$ e_t^{motion} $$
 
 运动异常；
 
-$$
-e_t^{freq}
-$$
+$$ e_t^{freq} $$
 
 频域异常；
 
-$$
-e_t^{texture}
-$$
+$$ e_t^{texture} $$
 
 纹理异常；
 
-$$
-e_t^{semantic}
-$$
+$$ e_t^{semantic} $$
 
 语义异常。
 
 可以构造证据向量：
 
-$$
-e_t=[e_t^{id},e_t^{motion},e_t^{freq},e_t^{texture},e_t^{semantic}]
-$$
+$$ e_t=[e_t^{id},e_t^{motion},e_t^{freq},e_t^{texture},e_t^{semantic}] $$
 
 然后用 Softmax 做证据权重：
 
-$$
-\alpha_t=\text{Softmax}(W e_t)
-$$
+$$ \alpha_t=\text{Softmax}(W e_t) $$
 
 最终异常分数：
 
-$$
-R_t=\sum_k \alpha_{t,k}e_{t,k}
-$$
+$$ R_t=\sum_k \alpha_{t,k}e_{t,k} $$
 
 这样你的检测器不是简单平均所有异常，而是学会：
 
@@ -1087,30 +797,15 @@ $$
 
 你之前做的图像残差编辑可以写成：
 
-$$
-x'=\text{clip}(x+\epsilon\tanh(r),0,1)
-$$
+$$ x'=\text{clip}(x+\epsilon\tanh(r),0,1) $$
 
 其中：
 
-$$
-r=G_\theta(x)
-$$
+$$ r=G_\theta(x) $$
 
 损失函数：
 
-$$
-\mathcal{L}
-=
-
-\lambda_{rec}|x'-x|*1
-+
-\lambda*{det}D(x')
-+
-\lambda_{tv}\mathcal{L}*{TV}(r)
-+
-\lambda*{res}|r|_2^2
-$$
+$$ \mathcal{L} = \lambda_{rec}\lVert x'-x\rVert_1 + \lambda_{det}D(x') + \lambda_{tv}\mathcal{L}_{TV}(r) + \lambda_{res}\lVert r\rVert_2^2 $$
 
 这个方向很对，但它有一个危险：
 
@@ -1120,23 +815,17 @@ $$
 
 所以可以引入 residual normalization：
 
-$$
-\bar{r}=\frac{r}{\text{RMS}(r)+\epsilon}
-$$
+$$ \bar{r}=\frac{r}{\text{RMS}(r)+\epsilon} $$
 
 然后：
 
-$$
-x'=\text{clip}(x+\eta\bar{r},0,1)
-$$
+$$ x'=\text{clip}(x+\eta\bar{r},0,1) $$
 
 这样残差方向由网络学习，但残差强度被显式控制。
 
 也可以做通道级归一化：
 
-$$
-\bar{r}*{c}=\frac{r_c}{\sqrt{\frac{1}{HW}\sum*{h,w}r_{c,h,w}^2+\epsilon}}
-$$
+$$ \bar{r}_{c}=\frac{r_c}{\sqrt{\frac{1}{HW}\sum_{h,w}r_{c,h,w}^2+\epsilon}} $$
 
 这样避免某个颜色通道过度偏移。
 
@@ -1146,59 +835,31 @@ $$
 
 如果扩展到视频：
 
-$$
-x'_t=x_t+\delta_t
-$$
+$$ x'_t=x_t+\delta_t $$
 
 不能只控制单帧：
 
-$$
-|\delta_t|
-$$
+$$ |\delta_t| $$
 
 还要控制时间变化：
 
-$$
-|\delta_t-\delta_{t-1}|
-$$
+$$ |\delta_t-\delta_{t-1}| $$
 
 否则就会出现帧间闪烁。
 
 可以设计：
 
-$$
-\mathcal{L}_{temp}
-=
-
-\sum_{t=2}^{T}
-|\delta_t-\delta_{t-1}|_1
-$$
+$$ \mathcal{L}_{temp} = \sum_{t=2}^{T} |\delta_t-\delta_{t-1}|_1 $$
 
 更进一步，考虑光流：
 
-$$
-\mathcal{L}_{flow}
-=
-
-\sum_{t=2}^{T}
-|\delta_t-\text{Warp}(\delta_{t-1},Flow_{t-1\rightarrow t})|_1
-$$
+$$ \mathcal{L}_{flow} = \sum_{t=2}^{T} |\delta_t-\text{Warp}(\delta_{t-1},Flow_{t-1\rightarrow t})|_1 $$
 
 这比普通 temporal loss 更强，因为它考虑了物体运动。
 
 最终视频对抗编辑目标可以写成：
 
-$$
-\min_{\delta}
-\quad
-\lambda_{det}D(V+\delta)
-+
-\lambda_{rec}\sum_t|x'*t-x_t|*1
-+
-\lambda*{temp}\sum_t|\delta_t-\text{Warp}(\delta*{t-1})|*1
-+
-\lambda*{tv}\mathcal{L}_{TV}(\delta)
-$$
+$$ \min_{\delta} \quad \lambda_{det}D(V+\delta) + \lambda_{rec}\sum_t\lVert x'_t-x_t\rVert_1 + \lambda_{temp}\sum_t\lVert\delta_t-\text{Warp}(\delta_{t-1})\rVert_1 + \lambda_{tv}\mathcal{L}_{TV}(\delta) $$
 
 这个公式很适合放进你的课题 PPT。
 
@@ -1208,9 +869,7 @@ $$
 
 Pre-Norm 的核心是：
 
-$$
-x_{l+1}=x_l+F(\text{Norm}(x_l))
-$$
+$$ x_{l+1}=x_l+F(\text{Norm}(x_l)) $$
 
 它不是直接处理原始 $x_l$，而是先把 $x_l$ 拉回稳定尺度。
 
@@ -1218,27 +877,19 @@ $$
 
 假设每帧特征：
 
-$$
-f_t=\Phi(x_t)
-$$
+$$ f_t=\Phi(x_t) $$
 
 先归一化：
 
-$$
-\tilde{f}_t=\text{Norm}(f_t)
-$$
+$$ \tilde{f}_t=\text{Norm}(f_t) $$
 
 再计算时序残差：
 
-$$
-r_t=\tilde{f}*t-A*\theta(\tilde{f}_{t-1})
-$$
+$$ r_t=\tilde{f}_t-A_\theta(\tilde{f}_{t-1}) $$
 
 这样比直接用：
 
-$$
-f_t-A_\theta(f_{t-1})
-$$
+$$ f_t-A_\theta(f_{t-1}) $$
 
 更稳定。
 
@@ -1279,9 +930,7 @@ $$
 
 ## 14.1 像素层失稳
 
-$$
-r_t^{pix}=|x_t-\text{Warp}(x_{t-1})|
-$$
+$$ r_t^{pix}=|x_t-\text{Warp}(x_{t-1})| $$
 
 检测的是局部像素变化是否符合运动。
 
@@ -1296,9 +945,7 @@ $$
 
 ## 14.2 特征层失稳
 
-$$
-r_t^{feat}=|\Phi(x_t)-\Phi(\text{Warp}(x_{t-1}))|
-$$
+$$ r_t^{feat}=|\Phi(x_t)-\Phi(\text{Warp}(x_{t-1}))| $$
 
 其中 $\Phi$ 可以是 CLIP、DINO、CNN backbone、人脸识别网络等。
 
@@ -1314,9 +961,7 @@ $$
 
 对人物视频：
 
-$$
-r_t^{id}=1-\cos(E_{id}(x_t),E_{id}(x_{t-1}))
-$$
+$$ r_t^{id}=1-\cos(E_{id}(x_t),E_{id}(x_{t-1})) $$
 
 对应问题：
 
@@ -1332,21 +977,15 @@ $$
 
 设：
 
-$$
-s_t=F_\theta(x_1,\dots,x_t)
-$$
+$$ s_t=F_\theta(x_1,\dots,x_t) $$
 
 预测下一状态：
 
-$$
-\hat{s}*{t+1}=A*\theta(s_t,m_t)
-$$
+$$ \hat{s}_{t+1}=A_\theta(s_t,m_t) $$
 
 残差：
 
-$$
-r_{t+1}^{state}=|s_{t+1}-\hat{s}_{t+1}|
-$$
+$$ r_{t+1}^{state}=|s_{t+1}-\hat{s}_{t+1}| $$
 
 这对应更高级的异常：
 
@@ -1370,64 +1009,39 @@ $$
 
 给定视频：
 
-$$
-V={x_1,x_2,\dots,x_T}
-$$
+$$ V={x_1,x_2,\dots,x_T} $$
 
 提取多层观测：
 
-$$
-o_t=
-[
-\Phi_{sem}(x_t),
-\Phi_{id}(x_t),
-\Phi_{freq}(x_t),
-\Phi_{motion}(x_t)
-]
-$$
+$$ o_t= [ \Phi_{sem}(x_t), \Phi_{id}(x_t), \Phi_{freq}(x_t), \Phi_{motion}(x_t) ] $$
 
 归一化：
 
-$$
-\tilde{o}_t=\text{Norm}(o_t)
-$$
+$$ \tilde{o}_t=\text{Norm}(o_t) $$
 
 状态估计：
 
-$$
-s_t=F_\theta(\tilde{o}_1,\dots,\tilde{o}_t)
-$$
+$$ s_t=F_\theta(\tilde{o}_1,\dots,\tilde{o}_t) $$
 
 状态预测：
 
-$$
-\hat{s}*t=A*\theta(s_{t-1},m_t)
-$$
+$$ \hat{s}_t=A_\theta(s_{t-1},m_t) $$
 
 残差：
 
-$$
-r_t=|s_t-\hat{s}_t|
-$$
+$$ r_t=|s_t-\hat{s}_t| $$
 
 池化：
 
-$$
-s_V=\text{Pool}({s_t,r_t}_{t=1}^{T})
-$$
+$$ s_V=\text{Pool}({s_t,r_t}_{t=1}^{T}) $$
 
 分类：
 
-$$
-p_{fake}=C(s_V)
-$$
+$$ p_{fake}=C(s_V) $$
 
 证据输出：
 
-$$
-E_V=
-{r_t^{sem},r_t^{id},r_t^{freq},r_t^{motion}}
-$$
+$$ E_V= {r_t^{sem},r_t^{id},r_t^{freq},r_t^{motion}} $$
 
 这样你的方法不只是输出 real/fake，还能输出解释：
 
@@ -1446,43 +1060,25 @@ $$
 
 给定原视频或生成视频：
 
-$$
-V={x_t}_{t=1}^{T}
-$$
+$$ V={x_t}_{t=1}^{T} $$
 
 学习一个扰动生成器：
 
-$$
-\delta_t=G_\theta(x_t,h_t)
-$$
+$$ \delta_t=G_\theta(x_t,h_t) $$
 
 生成对抗视频：
 
-$$
-x'_t=\text{clip}(x_t+\delta_t,0,1)
-$$
+$$ x'_t=\text{clip}(x_t+\delta_t,0,1) $$
 
 目标：
 
-$$
-\min_{\theta}
-\quad
-D(V')
-+
-\lambda_{vis}\mathcal{L}*{visual}(V,V')
-+
-\lambda*{temp}\mathcal{L}*{temporal}(V,V')
-+
-\lambda*{freq}\mathcal{L}_{frequency}(V,V')
-$$
+$$ \min_{\theta} \quad D(V') + \lambda_{vis}\mathcal{L}_{visual}(V,V') + \lambda_{temp}\mathcal{L}_{temporal}(V,V') + \lambda_{freq}\mathcal{L}_{frequency}(V,V') $$
 
 其中 $D(V')$ 是检测器认为它是 fake 的分数。
 
 这和你之前 residual editor 的思路是一致的，但视频版本必须强调：
 
-$$
-\text{temporal consistency}
-$$
+$$ \text{temporal consistency} $$
 
 否则攻击虽然降低检测分数，但肉眼会看到闪烁。
 
@@ -1492,33 +1088,17 @@ $$
 
 如果防守端检测：
 
-$$
-r_t=|s_t-\hat{s}_t|
-$$
+$$ r_t=|s_t-\hat{s}_t| $$
 
 攻击端就不能只优化像素相似度，而要优化：
 
-$$
-\min_\delta
-\sum_t |s'_t-\hat{s}'_t|
-$$
+$$ \min_\delta \sum_t |s'_t-\hat{s}'_t| $$
 
 也就是说，让修改后的视频在检测器的状态空间里也显得稳定。
 
 攻击目标可以写成：
 
-$$
-\mathcal{L}_{attack}
-=
-
-\lambda_{det}D(V')
-+
-\lambda_{state}\sum_t|s'*t-\hat{s}'*t|
-+
-\lambda*{rec}\sum_t|x'*t-x_t|
-+
-\lambda*{temp}\sum_t|\delta_t-\text{Warp}(\delta*{t-1})|
-$$
+$$ \mathcal{L}_{attack} = \lambda_{det}D(V') + \lambda_{state}\sum_t\lVert s'_t-\hat{s}'_t\rVert + \lambda_{rec}\sum_t\lVert x'_t-x_t\rVert + \lambda_{temp}\sum_t\lVert\delta_t-\text{Warp}(\delta_{t-1})\rVert $$
 
 这比普通 adversarial noise 更像科研：
 
@@ -1535,39 +1115,27 @@ $$
 
 LayerNorm 控制：
 
-$$
-E[x], Var(x)
-$$
+$$ E[x], Var(x) $$
 
 RMSNorm 控制：
 
-$$
-|x|_2
-$$
+$$ |x|_2 $$
 
 Softmax 控制：
 
-$$
-\sum_i p_i=1
-$$
+$$ \sum_i p_i=1 $$
 
 $\sqrt{d_k}$ 控制：
 
-$$
-Var(q\cdot k)
-$$
+$$ Var(q\cdot k) $$
 
 Causal Mask 控制：
 
-$$
-p(j>i)=0
-$$
+$$ p(j>i)=0 $$
 
 FlashAttention 控制：
 
-$$
-\text{HBM IO}
-$$
+$$ \text{HBM IO} $$
 
 所以在看任何模型模块时，都应该问：
 
@@ -1585,9 +1153,7 @@ $$
 
 例如：
 
-$$
-\text{Softmax}(z)=\text{Softmax}(z-\max z)
-$$
+$$ \text{Softmax}(z)=\text{Softmax}(z-\max z) $$
 
 第二层：算法上解决什么问题。
 
@@ -1621,33 +1187,15 @@ AIGC 视频检测也可以总结：
 
 两者的共同数学思想是：
 
-$$
-\text{Normalize}
-\rightarrow
-\text{Compare}
-\rightarrow
-\text{Detect Residual}
-\rightarrow
-\text{Stabilize / Classify}
-$$
+$$ \text{Normalize} \rightarrow \text{Compare} \rightarrow \text{Detect Residual} \rightarrow \text{Stabilize / Classify} $$
 
 在 Transformer 里：
 
-$$
-x \rightarrow \text{Norm}(x)
-\rightarrow QK^T/\sqrt{d_k}
-\rightarrow \text{Softmax}
-\rightarrow \text{stable representation}
-$$
+$$ x \rightarrow \text{Norm}(x) \rightarrow QK^T/\sqrt{d_k} \rightarrow \text{Softmax} \rightarrow \text{stable representation} $$
 
 在 AIGC 视频检测里：
 
-$$
-x_t \rightarrow \Phi(x_t)
-\rightarrow \text{Norm}(\Phi(x_t))
-\rightarrow r_t=|s_t-\hat{s}*t|
-\rightarrow p*{fake}
-$$
+$$ x_t \rightarrow \Phi(x_t) \rightarrow \text{Norm}(\Phi(x_t)) \rightarrow r_t=\lVert s_t-\hat{s}_t\rVert \rightarrow p_{\mathrm{fake}} $$
 
 真正吸收的核心：
 

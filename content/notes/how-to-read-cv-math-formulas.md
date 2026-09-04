@@ -40,7 +40,7 @@ summary: "学习数学公式"
 | $\nabla$      | 梯度                 | 往哪里改参数能让 loss 下降 |
 
 比如你在深度学习论文里最常见的句式：
-$$\theta^* = \arg\min_{\theta} \mathcal{L}(\theta)$$
+$$ \theta^* = \arg\min_{\theta} \mathcal{L}(\theta) $$
 这句话的意思非常质朴：**找出一组最好的参数 $\theta^*$，让损失函数 $\mathcal{L}$ 降到最低。**
 
 #### 2. 向量与矩阵：数据的“骨架”
@@ -58,7 +58,7 @@ $$\theta^* = \arg\min_{\theta} \mathcal{L}(\theta)$$
 
 #### 4. 损失函数与优化：驱动模型进化的马车
 很多时候，总损失函数就是一个多目标的加权和：
-$$\mathcal{L}_{total} = \lambda_{rec}\mathcal{L}_{rec} + \lambda_{det}\mathcal{L}_{det} + \lambda_{tv}\mathcal{L}_{tv} + \lambda_{res}\mathcal{L}_{res}$$
+$$ \mathcal{L}_{total} = \lambda_{rec}\mathcal{L}_{rec} + \lambda_{det}\mathcal{L}_{det} + \lambda_{tv}\mathcal{L}_{tv} + \lambda_{res}\mathcal{L}_{res} $$
 
 这就像是在拉锯战中平衡各方势力：
 * $\mathcal{L}_{rec}$（相似性）：稳住基本盘，别改得太离谱。
@@ -67,7 +67,7 @@ $$\mathcal{L}_{total} = \lambda_{rec}\mathcal{L}_{rec} + \lambda_{det}\mathcal{L
 * $\mathcal{L}_{res}$（残差幅度）：限制整体的修改力度。
 
 其中的 $\lambda$ 就是不同目标的权重（话语权）。而让这一切运转起来的基础，是梯度下降：
-$$\theta \leftarrow \theta - \eta \nabla_{\theta}\mathcal{L}$$
+$$ \theta \leftarrow \theta - \eta \nabla_{\theta}\mathcal{L} $$
 模型参数 $\theta$ 沿着让损失 $\mathcal{L}$ 下降的方向，以学习率 $\eta$ 为步伐，不断迈进。**你写的 `loss.backward()` 和 `optimizer.step()`，正是这段优美公式的代码化身。**
 
 ---
@@ -76,24 +76,24 @@ $$\theta \leftarrow \theta - \eta \nabla_{\theta}\mathcal{L}$$
 
 #### 1. 高斯函数与协方差矩阵：3DGS 的灵魂
 3DGS 放弃了传统的 Mesh（网格），转而用无数个“可渲染的 3D 高斯椭球”来表达世界。它的核心公式如下：
-$$G(x) = \exp\left(-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)\right)$$
+$$ G(x) = \exp\left(-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)\right) $$
 
 * $\mu$ 是椭球的中心点。
 * $\exp$ 保证了离中心越远，影响力呈指数级衰减。
 * $\Sigma$ 是协方差矩阵，它决定了这个高斯是圆的、扁的、长的，还是歪的。
 
 为了让这个形状可导且符合物理意义，通常会被拆解为旋转矩阵 $R$ 和缩放矩阵 $S$：
-$$\Sigma = R S S^T R^T$$
+$$ \Sigma = R S S^T R^T $$
 代码中的 `scaling`, `rotation`, `covariance`, `opacity`, `color`，其实全都是可以被梯度更新的参数。
 
 #### 2. Alpha Compositing (色彩融合) 与球谐函数 (SH)
 3D 空间里的高斯球，是怎么变成我们屏幕上的 2D 像素的？靠的是按深度的累加渲染：
-$$C = \sum_{i=1}^{N} T_i \alpha_i c_i$$
+$$ C = \sum_{i=1}^{N} T_i \alpha_i c_i $$
 
 排在前面的、不透明度高（$\alpha_i$）的高斯，对最终颜色 $C$ 的贡献越大。后面的高斯光线会被前面的遮挡（透过率 $T_i$ 变小）。
 
 而至于颜色 $c_i$，为了表现物体表面的反光和视角变化，通常采用**球谐函数 (Spherical Harmonics, SH)**：
-$$c = \sum_{l,m} k_{lm}Y_{lm}(d)$$
+$$ c = \sum_{l,m} k_{lm}Y_{lm}(d) $$
 别被公式吓住，只需记住它的物理意义：**颜色 $c$ 并不固定，而是根据你观察的方向 $d$ 动态变化的。** $Y_{lm}$ 是一组基底，而 $k_{lm}$ 是网络需要学习的系数。
 
 ---
@@ -101,12 +101,12 @@ $$c = \sum_{l,m} k_{lm}Y_{lm}(d)$$
 ### 三、AIGC / GAN 相关公式解读
 
 如果你在做 AIGC 图像对抗或残差编辑，大概率会碰到这种公式：
-$$x' = \operatorname{clip}(x + \epsilon \tanh(G(x)), 0, 1)$$
+$$ x' = \operatorname{clip}(x + \epsilon \tanh(G(x)), 0, 1) $$
 
 这其实就是在说：不去从头生成图，而是在原图 $x$ 的基础上，叠加上一个被严格限制幅度（$\epsilon$）的微小扰动 $\tanh(G(x))$，最后截断保证像素合法。
 
 为了防止生成的扰动像雪花屏一样杂乱，通常会引入 Total Variation (TV) Loss：
-$$\mathcal{L}_{tv} = \sum_{i,j} |r_{i+1,j}-r_{i,j}| + |r_{i,j+1}-r_{i,j}|$$
+$$ \mathcal{L}_{tv} = \sum_{i,j} |r_{i+1,j}-r_{i,j}| + |r_{i,j+1}-r_{i,j}| $$
 简单来说，它要求相邻像素（横向和纵向）之间的变化尽量平滑，别有太剧烈的跳跃，从而有效压制摩尔纹和高频伪影。
 
 ---
