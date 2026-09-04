@@ -1,22 +1,6 @@
 {{- define "main" -}}
 <section class="home-landing" aria-labelledby="home-title">
   <canvas class="home-landing__ocean" data-ocean-current aria-hidden="true"></canvas>
-  <div class="home-landing__outline" aria-hidden="true">RIVER</div>
-  <div class="home-landing__current" aria-hidden="true"></div>
-
-  <div class="home-landing__content">
-    <p class="home-landing__eyebrow">Computer Vision · Representation Learning</p>
-    <h1 id="home-title" class="home-landing__title">RiverYu</h1>
-    <p class="home-landing__tagline">Persistent representations for visual worlds in motion.</p>
-    <p class="home-landing__intro">关注 2D / 3D 视觉、生成模型，以及在变化世界中保持一致的表示。</p>
-
-    <nav class="home-landing__links" aria-label="Explore RiverYu's Lab">
-      <a href="{{ "/projects/" | relURL }}">Research &amp; Projects <span aria-hidden="true">↗</span></a>
-      <a href="{{ "/notes/" | relURL }}">Knowledge Notes <span aria-hidden="true">→</span></a>
-      <a href="{{ "/about/" | relURL }}">About <span aria-hidden="true">→</span></a>
-    </nav>
-
-    {{- partial "social_icons.html" (dict "align" "center") -}}
-  </div>
+  <h1 id="home-title" class="home-landing__title">RiverYu</h1>
 </section>
 {{- end -}}
