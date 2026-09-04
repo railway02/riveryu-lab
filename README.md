@@ -14,3 +14,4 @@ It documents my journey in **CS, AI, and 3D Editing**.
 
 - **The Code** (templates, styles, config) is licensed under the **[MIT License](LICENSE)**.
 - **The Content** (posts, images, project descriptions) is licensed under **[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)**.
+- **Noto Sans SC Variable** is distributed by Fontsource under the **SIL Open Font License 1.1**; its license is included with the font files.

@@ -1,4 +1,8 @@
-# 视频插帧技术：从光流、MEMC 到 BiM-VFI
+---
+title: "视频插帧技术：从光流、MEMC 到 BiM-VFI"
+date: 2026-06-15
+draft: false
+---
 
 ## 1. 问题背景：慢放视频会导致卡顿
 

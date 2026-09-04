@@ -1,4 +1,4 @@
 +++
 title = 'Search'
-layout = 'search'
+layout = 'river-search'
 +++

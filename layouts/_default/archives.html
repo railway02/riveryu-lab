@@ -1,0 +1,17 @@
+{{- define "main" -}}
+<section class="collection-page archive-page" aria-labelledby="collection-title">
+  <header class="collection-header">
+    <p class="section-kicker">Archive</p>
+    <h1 id="collection-title">{{ .Title }}</h1>
+    {{- with .Description }}<p>{{ . }}</p>{{- end }}
+  </header>
+
+  {{- $pages := where site.RegularPages "Section" "in" (slice "posts" "notes") -}}
+  {{- range $pages.ByDate.Reverse.GroupByDate "2006" -}}
+  <section class="archive-group" aria-labelledby="year-{{ .Key }}">
+    <h2 id="year-{{ .Key }}">{{ .Key }} <span>{{ len .Pages }}</span></h2>
+    {{- partial "blog/feed.html" (dict "Pages" .Pages) -}}
+  </section>
+  {{- end -}}
+</section>
+{{- end -}}

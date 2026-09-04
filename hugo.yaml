@@ -56,7 +56,6 @@ params:
   env: production
   description: "Undergraduate CS Student | AI & 3D Editing, Deep Learning"
   author: "Yaohui Ru (RiverYu)"
-  homeParticleTitle: "RiverYu"
 
   # SEO & feeds
   images: ["images/cover.png"]
@@ -73,6 +72,8 @@ params:
     favicon16x16: /river-logo.svg
     favicon32x32: /river-logo.svg
     apple_touch_icon: /river-logo.svg
+    theme_color: "#F5FAFC"
+    msapplication_TileColor: "#F5FAFC"
 
   # Content behavior
   math: true
@@ -84,32 +85,13 @@ params:
   TocOpen: true
 
   # UI toggles
-  defaultTheme: auto
+  defaultTheme: light
   ShowReadingTime: true
   ShowShareButtons: false
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: false       # Custom render hook provides Copy and Wrap controls
   ShowWordCount: true
-
-  # Homepage hero
-  homeInfoParams:
-    Title: "Hi, I'm RiverYu 👋"
-    Content: |
-      Welcome to my lab.
-
-      I'm an undergraduate CS student (Network Engineering) at Henan Normal University.
-
-      Currently focusing on **Computer Vision**.
-
-      > *"Still waters run deep."*
-
-  # Social links
-  socialIcons:
-    - name: github
-      url: "https://github.com/railway02"
-    - name: email
-      url: "mailto:railway0206@gmail.com"
 
 # -----------------------------------------------------------------------------
 # Menu architecture

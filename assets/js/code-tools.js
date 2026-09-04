@@ -1,10 +1,7 @@
 (() => {
   "use strict";
 
-  const readingPage = document.querySelector(
-    '.post-single .breadcrumbs a[href$="/posts/"], .post-single .breadcrumbs a[href$="/notes/"]'
-  );
-  if (!readingPage) return;
+  if (!document.querySelector(".post-single .code-block")) return;
 
   const copiedTimers = new WeakMap();
 
@@ -80,7 +77,7 @@
     if (wrapButton) toggleWrap(wrapButton);
   });
 
-  const mobileToc = window.matchMedia("(max-width: 899px)");
+  const mobileToc = window.matchMedia("(max-width: 1119px)");
   syncToc(mobileToc);
   if (mobileToc.addEventListener) {
     mobileToc.addEventListener("change", () => syncToc(mobileToc));
