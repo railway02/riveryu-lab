@@ -284,13 +284,9 @@ def forward(
 
      1. 用 `code` 通过 0–3 层生成特征 `intermediate`；
      2. 计算差分：
-        $$
-        \text{difference} = initial\_F - initial\_intermediate
-        $$
+        $$ \text{difference} = initial\_F - initial\_intermediate $$
      3. 叠加到新特征上：
-        $$
-        new_intermediate = intermediate + difference
-        $$
+        $$ new_intermediate = intermediate + difference $$
      4. 以 `new_intermediate` 为中间输入、`initial_S` 为后续风格，从第 4 层继续生成图像。
 
    * 作用：在 FS（特征空间）里用“差分”的方式，把已经计算好的“发型变化”迁移到新潜码对应的特征上，同时后半段仍然使用源潜码来保证脸和背景不变。
@@ -457,15 +453,11 @@ HairCLIPv2 在后半段生成时仍然用源图像的原始潜码 `initial_S`：
 
 由于 e4e 编码器本身不能做到完美重建，源特征 $F_{\text{src}}$ 和混合后特征 $F_{\text{blend}}$ 之间存在差异。HairCLIPv2 使用以下差分：
 
-$$
-difference = initial\_F - initial\_intermediate
-$$
+$$ difference = initial\_F - initial\_intermediate $$
 
 来纠正新潜码生成的中间特征：
 
-$$
-new\_intermediate = intermediate + difference
-$$
+$$ new\_intermediate = intermediate + difference $$
 
 这个差分可以理解为“在第 3 层特征空间中，从**源原始特征**到**混合目标特征**所需要的变化量”。把这个变化量加到新潜码对应的特征上，相当于在 FS 空间中“迁移编辑效果”，同时考虑到原始重建误差，从而保证最终结果更贴近原图。
 

@@ -49,19 +49,13 @@ ChordEdit 这篇论文关注的正是这个问题：
 
 模型在不同 prompt 下会给出不同的漂移方向：
 
-$$
-v(x,t,c_{src})
-$$
+$$ v(x,t,c_{src}) $$
 
-$$
-v(x,t,c_{tar})
-$$
+$$ v(x,t,c_{tar}) $$
 
 于是最直接的编辑方向可以写成：
 
-$$
-\Delta v(x,t)=v(x,t,c_{tar})-v(x,t,c_{src})
-$$
+$$ \Delta v(x,t)=v(x,t,c_{tar})-v(x,t,c_{src}) $$
 
 这个式子的解释是：
 
@@ -73,9 +67,7 @@ $$
 
 但是一步编辑中，只有一次大步更新：
 
-$$
-x_{new}=x_{old}+h\Delta v
-$$
+$$ x_{new}=x_{old}+h\Delta v $$
 
 当步长 $h$ 很大，而 $Δv$ 又不稳定时，结果就容易崩坏。
 
@@ -99,29 +91,21 @@ ChordEdit 首先把文本到图像模型看成一个条件概率流。
 
 图像状态记为：
 
-$$
-x_t
-$$
+$$ x_t $$
 
 这里的 $x_t$ 通常不是 RGB 图像，而是 VAE latent 空间中的高维向量。
 
 文本条件记为：
 
-$$
-c
-$$
+$$ c $$
 
 模型给出的速度场或漂移场记为：
 
-$$
-v(x_t,t,c)
-$$
+$$ v(x_t,t,c) $$
 
 于是生成或编辑过程可以写成一个常微分方程：
 
-$$
-\frac{dx_t}{dt}=v(x_t,t,c)
-$$
+$$ \frac{dx_t}{dt}=v(x_t,t,c) $$
 
 这个公式可以这样理解：
 
@@ -140,19 +124,13 @@ $$
 
 普通编辑使用：
 
-$$
-\Delta v=v_{tar}-v_{src}
-$$
+$$ \Delta v=v_{tar}-v_{src} $$
 
 其中：
 
-$$
-v_{tar}=v(x,t,c_{tar})
-$$
+$$ v_{tar}=v(x,t,c_{tar}) $$
 
-$$
-v_{src}=v(x,t,c_{src})
-$$
+$$ v_{src}=v(x,t,c_{src}) $$
 
 问题在于，两个大向量相减，不一定得到一个平滑的小向量。
 
@@ -162,9 +140,7 @@ $$
 
 如果：
 
-$$
-|\Delta v|
-$$
+$$ |\Delta v| $$
 
 很大，说明编辑方向本身太猛烈。
 
@@ -174,9 +150,7 @@ $$
 
 如果：
 
-$$
-|\partial_t \Delta v|
-$$
+$$ |\partial_t \Delta v| $$
 
 很大，说明不同时间点上的编辑方向变化很快。
 
@@ -186,9 +160,7 @@ $$
 
 如果：
 
-$$
-|\nabla_x \Delta v|
-$$
+$$ |\nabla_x \Delta v| $$
 
 很大，说明图像状态稍微变化，编辑方向就大幅变化。
 
@@ -207,15 +179,11 @@ $$
 
 对一个动力系统：
 
-$$
-\frac{dx}{dt}=u(x,t)
-$$
+$$ \frac{dx}{dt}=u(x,t) $$
 
 最简单的数值解法是 Euler 方法：
 
-$$
-x_{k+1}=x_k+h u(x_k,t_k)
-$$
+$$ x_{k+1}=x_k+h u(x_k,t_k) $$
 
 其中 $h$ 是步长。
 
@@ -224,29 +192,21 @@ $$
 
 Euler 方法的误差与向量场的变化程度有关。论文中用下面的量描述稳定性风险：
 
-$$
-C(u)=|\partial_tu|*\infty+|\nabla_xu|*\infty|u|_\infty
-$$
+$$ \mathcal{C}(u)=\lVert\partial_t u\rVert_\infty+\lVert\nabla_x u\rVert_\infty+\lVert u\rVert_\infty $$
 
 这个式子包含三部分含义：
 
 第一，$u$ 本身不能太大。
 
-$$
-|u|_\infty
-$$
+$$ |u|_\infty $$
 
 第二，$u$ 随时间不能变化太快。
 
-$$
-|\partial_tu|_\infty
-$$
+$$ |\partial_tu|_\infty $$
 
 第三，$u$ 对图像状态不能太敏感。
 
-$$
-|\nabla_xu|_\infty
-$$
+$$ |\nabla_xu|_\infty $$
 
 如果这三个量都很大，那么一次 Euler 大步更新就很危险。
 
@@ -262,15 +222,11 @@ ChordEdit 没有只停留在单张图像的层面，而是把编辑理解为分�
 
 设源 prompt 对应的图像分布是：
 
-$$
-\rho_1=p_1(\cdot|c_{src})
-$$
+$$ \rho_1=p_1(\cdot|c_{src}) $$
 
 目标 prompt 对应的图像分布是：
 
-$$
-\rho_0=p_0(\cdot|c_{tar})
-$$
+$$ \rho_0=p_0(\cdot|c_{tar}) $$
 
 图像编辑可以理解为：
 
@@ -278,23 +234,15 @@ $$
 
 这个搬运过程由一个速度场驱动：
 
-$$
-u_t(x)
-$$
+$$ u_t(x) $$
 
 动态最优传输的目标是：
 
-$$
-\min_{\rho,u}
-\int_0^1\int
-\frac{1}{2}|u_t(x)|^2\rho_t(x),dx,dt
-$$
+$$ \min_{\rho,u} \int_0^1\int \frac{1}{2}|u_t(x)|^2\rho_t(x),dx,dt $$
 
 它的约束是连续性方程：
 
-$$
-\partial_t\rho_t(x)+\nabla\cdot(\rho_t(x)u_t(x))=0
-$$
+$$ \partial_t\rho_t(x)+\nabla\cdot(\rho_t(x)u_t(x))=0 $$
 
 这个优化问题的解释是：
 
@@ -302,9 +250,7 @@ $$
 
 其中：
 
-$$
-\frac{1}{2}|u_t(x)|^2
-$$
+$$ \frac{1}{2}|u_t(x)|^2 $$
 
 表示局部动能。
 
@@ -324,9 +270,7 @@ $$
 
 连续性方程是：
 
-$$
-\partial_t\rho_t(x)+\nabla\cdot(\rho_t(x)u_t(x))=0
-$$
+$$ \partial_t\rho_t(x)+\nabla\cdot(\rho_t(x)u_t(x))=0 $$
 
 这个式子可以用水流来理解。
 
@@ -353,80 +297,49 @@ $$
 
 最优传输中的理想控制场是：
 
-$$
-u_t(x)
-$$
+$$ u_t(x) $$
 
 但真实情况下，我们无法直接得到它。
 
 模型不会直接输出最优传输意义下的编辑方向。因此论文构造一个可观测代理场：
 
-$$
-R(x_\tau,t)
-$$
+$$ R(x_\tau,t) $$
 
 它的定义是：
 
-$$
-R(x_\tau,t)
-=
-
-\mathbb{E}*{z\sim K_t(\cdot|x*\tau)}
-\left[
-B_t
-\left(
-Q(z,t,c_{tar})-Q(z,t,c_{src})
-\right)
-\right]
-$$
+$$ R(x_\tau,t) = \mathbb{E}_{z\sim K_t(\cdot|x_\tau)} \left[ B_t \left( Q(z,t,c_{tar})-Q(z,t,c_{src}) \right) \right] $$
 
 这个公式可以拆成六步。
 
 第一，固定源图像作为锚点：
 
-$$
-x_\tau
-$$
+$$ x_\tau $$
 
 第二，根据时间 $t$ 对源图像加噪，得到 noisy state：
 
-$$
-z\sim K_t(\cdot|x_\tau)
-$$
+$$ z\sim K_t(\cdot|x_\tau) $$
 
 第三，分别用目标 prompt 和源 prompt 查询模型：
 
-$$
-Q(z,t,c_{tar})
-$$
+$$ Q(z,t,c_{tar}) $$
 
-$$
-Q(z,t,c_{src})
-$$
+$$ Q(z,t,c_{src}) $$
 
 第四，做差得到 prompt 差异信号：
 
-$$
-Q(z,t,c_{tar})-Q(z,t,c_{src})
-$$
+$$ Q(z,t,c_{tar})-Q(z,t,c_{src}) $$
 
 第五，用线性映射 $B_t$ 把不同模型输出统一到 velocity 或 drift 空间：
 
-$$
-B_t(\cdot)
-$$
+$$ B_t(\cdot) $$
 
 第六，对加噪随机性取平均：
 
-$$
-\mathbb{E}[\cdot]
-$$
+$$ \mathbb{E}[\cdot] $$
 
 最终得到：
 
-$$
-R(x_\tau,t)
-$$
+$$ R(x_\tau,t) $$
 
 它可以理解为：
 
@@ -438,15 +351,11 @@ $$
 
 论文进一步假设：
 
-$$
-R(x_\tau,t)=u_t(x_\tau)+\epsilon_t
-$$
+$$ R(x_\tau,t)=u_t(x_\tau)+\epsilon_t $$
 
 其中：
 
-$$
-\mathbb{E}[\epsilon_t]=0
-$$
+$$ \mathbb{E}[\epsilon_t]=0 $$
 
 这表示：
 
@@ -472,44 +381,27 @@ $$
 
 论文在短时间窗口：
 
-$$
-[t-\delta,t]
-$$
+$$ [t-\delta,t] $$
 
 内估计一个局部常量方向：
 
-$$
-u\in \mathbb{R}^d
-$$
+$$ u\in \mathbb{R}^d $$
 
 构造目标函数：
 
-$$
-\Phi_t(u;x_\tau)
-=
-
-t|u-\hat{u}*{t-\delta}(x*\tau)|^2
-+
-\int_{t-\delta}^{t}
-|u-R(x_\tau,\xi)|^2d\xi
-$$
+$$ \Phi_t(u;x_\tau) = t|u-\hat{u}_{t-\delta}(x_\tau)|^2 + \int_{t-\delta}^{t} |u-R(x_\tau,\xi)|^2d\xi $$
 
 这个目标函数有两项。
 
 第一项：
 
-$$
-t|u-\hat{u}*{t-\delta}(x*\tau)|^2
-$$
+$$ t|u-\hat{u}_{t-\delta}(x_\tau)|^2 $$
 
 表示新的方向不要离上一个稳定估计太远,提供稳定性。
 
 第二项：
 
-$$
-\int_{t-\delta}^{t}
-|u-R(x_\tau,\xi)|^2d\xi
-$$
+$$ \int_{t-\delta}^{t} |u-R(x_\tau,\xi)|^2d\xi $$
 
 表示新的方向要贴近当前窗口内观测到的编辑信号,提供语义编辑能力。
 
@@ -527,41 +419,17 @@ $$
 
 最终得到：
 
-$$
-u_t^\star(x_\tau)
-=
-
-\frac{t}{t+\delta}\hat{u}*{t-\delta}(x*\tau)
-+
-\frac{1}{t+\delta}
-\int_{t-\delta}^{t}
-R(x_\tau,\xi)d\xi
-$$
+$$ u_t^\star(x_\tau) = \frac{t}{t+\delta}\hat{u}_{t-\delta}(x_\tau) + \frac{1}{t+\delta} \int_{t-\delta}^{t} R(x_\tau,\xi)d\xi $$
 
 接着使用一阶近似：
 
-$$
-\hat{u}*{t-\delta}(x*\tau)\approx R(x_\tau,t-\delta)
-$$
+$$ \hat{u}_{t-\delta}(x_\tau)\approx R(x_\tau,t-\delta) $$
 
-$$
-\int_{t-\delta}^{t}R(x_\tau,\xi)d\xi
-\approx
-\delta R(x_\tau,t)
-$$
+$$ \int_{t-\delta}^{t}R(x_\tau,\xi)d\xi \approx \delta R(x_\tau,t) $$
 
 代入后得到 Chord Control Field：
 
-$$
-\hat{u}*t(x*\tau)
-=
-
-\frac{
-tR(x_\tau,t-\delta)+\delta R(x_\tau,t)
-}{
-t+\delta
-}
-$$
+$$ \hat{u}_t(x_\tau) = \frac{ tR(x_\tau,t-\delta)+\delta R(x_\tau,t) }{ t+\delta } $$
 
 这个公式是整篇论文的核心。
 
@@ -577,16 +445,7 @@ $$
 
 核心公式：
 
-$$
-\hat{u}*t(x*\tau)
-=
-
-\frac{
-tR(x_\tau,t-\delta)+\delta R(x_\tau,t)
-}{
-t+\delta
-}
-$$
+$$ \hat{u}_t(x_\tau) = \frac{ tR(x_\tau,t-\delta)+\delta R(x_\tau,t) }{ t+\delta } $$
 
 可以理解为：
 
@@ -594,26 +453,15 @@ $$
 
 如果：
 
-$$
-t=0.90,\quad \delta=0.15
-$$
+$$ t=0.90,\quad \delta=0.15 $$
 
 那么：
 
-$$
-\hat{u}_t
-=
-
-\frac{0.90R(t-0.15)+0.15R(t)}{1.05}
-$$
+$$ \hat{u}_t = \frac{0.90R(t-0.15)+0.15R(t)}{1.05} $$
 
 也就是：
 
-$$
-\hat{u}_t
-\approx
-0.857R(t-0.15)+0.143R(t)
-$$
+$$ \hat{u}_t \approx 0.857R(t-0.15)+0.143R(t) $$
 
 这表示它更相信较早的稳定方向，同时保留当前方向中的目标语义。
 
@@ -627,39 +475,23 @@ $$
 
 论文把 Chord Control Field 看成一种时间卷积平滑：
 
-$$
-\hat{u}=K_\delta * R
-$$
+$$ \hat{u}=K_\delta * R $$
 
 其中平滑核满足：
 
-$$
-K_\delta\ge0
-$$
+$$ K_\delta\ge0 $$
 
-$$
-\int K_\delta=1
-$$
+$$ \int K_\delta=1 $$
 
 也就是说，$\hat{u}$ 是 $R$ 的加权平均。
 
 根据 Jensen 不等式：
 
-$$
-\left|
-\int K_\delta(s)R(t-s)ds
-\right|^2
-\le
-\int K_\delta(s)|R(t-s)|^2ds
-$$
+$$ \left| \int K_\delta(s)R(t-s)ds \right|^2 \le \int K_\delta(s)|R(t-s)|^2ds $$
 
 因此可以得到：
 
-$$
-\int|\hat{u}|^2
-\le
-\int|R|^2
-$$
+$$ \int|\hat{u}|^2 \le \int|R|^2 $$
 
 这意味着：
 
@@ -677,17 +509,11 @@ $$
 
 论文中给出类似下面的关系：
 
-$$
-|\hat{u}|*\infty \le |R|*\infty
-$$
+$$ \lVert\hat{u}\rVert_\infty \le \lVert R\rVert_\infty $$
 
-$$
-|\partial_t\hat{u}|*\infty \le |\partial_tR|*\infty
-$$
+$$ \lVert\partial_t\hat{u}\rVert_\infty \le \lVert\partial_tR\rVert_\infty $$
 
-$$
-|\nabla_x\hat{u}|*\infty \le |\nabla_xR|*\infty
-$$
+$$ \lVert\nabla_x\hat{u}\rVert_\infty \le \lVert\nabla_xR\rVert_\infty $$
 
 这三行分别表示：
 
@@ -697,15 +523,11 @@ $$
 
 于是 Euler 稳定性指标：
 
-$$
-C(u)=|\partial_tu|*\infty+|\nabla_xu|*\infty|u|_\infty
-$$
+$$ \mathcal{C}(u)=\lVert\partial_t u\rVert_\infty+\lVert\nabla_x u\rVert_\infty+\lVert u\rVert_\infty $$
 
 也会降低：
 
-$$
-C(\hat{u})\le C(R)
-$$
+$$ C(\hat{u})\le C(R) $$
 
 这就是 ChordEdit 能够支持一步大步长更新的数学原因。
 
@@ -727,28 +549,15 @@ ChordEdit 的核心算法非常简洁。
 
 第一步，计算 Chord Control Field：
 
-$$
-\hat{u}
-=
-
-\frac{
-tR(x_{in},t-\delta)+\delta R(x_{in},t)
-}{
-t+\delta
-}
-$$
+$$ \hat{u} = \frac{ tR(x_{in},t-\delta)+\delta R(x_{in},t) }{ t+\delta } $$
 
 第二步，一步更新：
 
-$$
-x^{pred}=x_{in}+\lambda \hat{u}
-$$
+$$ x^{pred}=x_{in}+\lambda \hat{u} $$
 
 第三步，可选 proximal refinement：
 
-$$
-x_{tar}=\text{prox}(x^{pred},t_c,c_{tar})
-$$
+$$ x_{tar}=\text{prox}(x^{pred},t_c,c_{tar}) $$
 
 其中：
 
@@ -761,17 +570,13 @@ $$
 
 经过 Chord transport 后，得到：
 
-$$
-x^{pred}
-$$
+$$ x^{pred} $$
 
 这个结果通常结构保持较好，但目标语义可能还不够强。
 
 因此论文加入一个可选的 proximal refinement：
 
-$$
-\text{prox}(x^{pred},t_c,c_{tar})
-$$
+$$ \text{prox}(x^{pred},t_c,c_{tar}) $$
 
 它的作用是用目标 prompt 再增强一次语义。
 
@@ -803,17 +608,13 @@ $$
 
 当：
 
-$$
-\delta=0
-$$
+$$ \delta=0 $$
 
 方法退化为 naive baseline。
 
 当：
 
-$$
-\delta>0
-$$
+$$ \delta>0 $$
 
 方法引入时间平滑，降低能量和方差。
 
@@ -826,9 +627,7 @@ $$
 
 一步更新是：
 
-$$
-x^{pred}=x_{in}+\lambda \hat{u}
-$$
+$$ x^{pred}=x_{in}+\lambda \hat{u} $$
 
 `λ` 越大，编辑越强。
 但 `λ` 太大，仍然可能破坏图像结构。
@@ -847,15 +646,11 @@ $$
 
 Naive 方法直接使用：
 
-$$
-R(x_\tau,t)
-$$
+$$ R(x_\tau,t) $$
 
 或者：
 
-$$
-v(x,t,c_{tar})-v(x,t,c_{src})
-$$
+$$ v(x,t,c_{tar})-v(x,t,c_{src}) $$
 
 它的问题是：
 
@@ -869,16 +664,7 @@ $$
 
 ChordEdit 使用：
 
-$$
-\hat{u}*t(x*\tau)
-=
-
-\frac{
-tR(x_\tau,t-\delta)+\delta R(x_\tau,t)
-}{
-t+\delta
-}
-$$
+$$ \hat{u}_t(x_\tau) = \frac{ tR(x_\tau,t-\delta)+\delta R(x_\tau,t) }{ t+\delta } $$
 
 它的优点是：
 
@@ -925,15 +711,11 @@ ChordEdit 的贡献不在于训练了一个新网络，也不在于堆了复杂�
 
 普通思路是：
 
-$$
-\text{editing}=\text{prompt drift difference}
-$$
+$$ \text{editing}=\text{prompt drift difference} $$
 
 ChordEdit 的思路是：
 
-$$
-\text{editing}=\text{low-energy transport field estimation}
-$$
+$$ \text{editing}=\text{low-energy transport field estimation} $$
 
 当直接差分在一步极限下失效时，作者没有继续暴力调参数，而是问了一个更本质的问题：
 
@@ -957,9 +739,7 @@ ChordEdit 对 AIGC 检测和对抗研究有很强启发。
 
 可以考虑构造低能量攻击：
 
-$$
-x_{adv}=x+\Delta x
-$$
+$$ x_{adv}=x+\Delta x $$
 
 其中 `Δx` 不只要让检测器误判，还要满足：
 
@@ -991,9 +771,7 @@ $$
 
 可以考虑构造时空控制场：
 
-$$
-u(x,t,\tau)
-$$
+$$ u(x,t,\tau) $$
 
 其中 `τ` 表示视频帧时间。
 
@@ -1015,28 +793,15 @@ $$
 
 第一，模型观测到的编辑方向是带噪的：
 
-$$
-R=u+\epsilon
-$$
+$$ R=u+\epsilon $$
 
 第二，用 Chord Control Field 做平滑估计：
 
-$$
-\hat{u}_t
-=
-
-\frac{
-tR(t-\delta)+\delta R(t)
-}{
-t+\delta
-}
-$$
+$$ \hat{u}_t = \frac{ tR(t-\delta)+\delta R(t) }{ t+\delta } $$
 
 第三，用平滑后的方向做一步编辑：
 
-$$
-x^{pred}=x+\lambda\hat{u}
-$$
+$$ x^{pred}=x+\lambda\hat{u} $$
 
 这三行就是：
 
@@ -1052,16 +817,7 @@ ChordEdit 解决的是一步图像编辑中的稳定性问题。
 
 为了解决这个问题，论文把图像编辑重新建模为源分布到目标分布之间的低能量传输问题，并构造了 Chord Control Field：
 
-$$
-\hat{u}*t(x*\tau)
-=
-
-\frac{
-tR(x_\tau,t-\delta)+\delta R(x_\tau,t)
-}{
-t+\delta
-}
-$$
+$$ \hat{u}_t(x_\tau) = \frac{ tR(x_\tau,t-\delta)+\delta R(x_\tau,t) }{ t+\delta } $$
 
 这个公式的本质是短时间窗口内的加权平均。它能降低编辑场能量、压制高频震荡、减少方差，并改善一步 Euler 更新的稳定性。
 

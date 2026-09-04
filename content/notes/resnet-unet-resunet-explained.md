@@ -41,9 +41,7 @@ ResNet 的核心思想，可以浓缩成一句话：
 
 于是输出就写成：
 
-$$
-y = F(x) + x
-$$
+$$ y = F(x) + x $$
 
 这一步看起来只是多了一条 shortcut，但它真正改变的是：
 
@@ -246,9 +244,7 @@ U-Net 最大的灵魂不是“U 形”，而是左边和右边之间的跳连接
 
 典型形式：
 
-$$
-y = F(x) + x
-$$
+$$ y = F(x) + x $$
 
 ### 2. U-Net 的 skip 是“长跳连接”
 
@@ -264,9 +260,7 @@ $$
 
 典型形式：
 
-$$
-\text{decoder feature} = \text{Concat}(\text{upsampled feature}, \text{encoder feature})
-$$
+$$ \text{decoder feature} = \text{Concat}(\text{upsampled feature}, \text{encoder feature}) $$
 
 ### 3. 一句话区分
 

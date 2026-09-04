@@ -58,9 +58,7 @@ relations:
 
 论文里用一个向量 `zid` 来表示身份：
 
-$$
-z_{id}
-$$
+$$ z_{id} $$
 
 它控制的是：
 
@@ -84,15 +82,11 @@ $$
 
 论文中它通常记作：
 
-$$
-z_{exp}
-$$
+$$ z_{exp} $$
 
 它通过一个表情编码器从输入脸图中提取出来：
 
-$$
-z_{exp} = E_{exp}(I_{face})
-$$
+$$ z_{exp} = E_{exp}(I_{face}) $$
 
 所以可以简单理解为：
 
@@ -197,15 +191,11 @@ $$
 
 刚开始看公式会觉得很复杂，但其实它们大多数都在表达同一件事：
 
-$$
-\text{最终结果} = \text{基础模板} + \text{身份偏移} + \text{表情偏移} + \text{非脸区域偏移}
-$$
+$$ \text{最终结果} = \text{基础模板} + \text{身份偏移} + \text{表情偏移} + \text{非脸区域偏移} $$
 
 比如 canonical 空间下的 mesh 顶点：
 
-$$
-V_{can} = V_0 + \delta V_{id} + \lambda_{exp}(V_0)\delta V_{exp} + \lambda_{nf}(V_0)\delta V_{nf}
-$$
+$$ V_{can} = V_0 + \delta V_{id} + \lambda_{exp}(V_0)\delta V_{exp} + \lambda_{nf}(V_0)\delta V_{nf} $$
 
 这条公式翻成人话就是：
 
@@ -217,9 +207,7 @@ $$
 
 Gaussian 版本本质上只是把 mesh 顶点 `V` 换成了 Gaussian 点位置 `X`：
 
-$$
-X_{can} = X_0 + \delta X_{id} + \lambda_{exp}(X_0)\delta X_{exp} + \lambda_{nf}(X_0)\delta X_{nf}
-$$
+$$ X_{can} = X_0 + \delta X_{id} + \lambda_{exp}(X_0)\delta X_{exp} + \lambda_{nf}(X_0)\delta X_{nf} $$
 
 ---
 
@@ -231,49 +219,37 @@ loss 的作用，就是把“生成得对不对”变成一个可优化的数值
 
 #### （1）最终图像重建损失
 
-$$
-L_{fine} = \|I_{fine} - I_{gt}\|_1
-$$
+$$ L_{fine} = \|I_{fine} - I_{gt}\|_1 $$
 
 作用：让最终渲染图接近真实图。
 
 #### （2）silhouette / mask 损失
 
-$$
-L_{sil}
-$$
+$$ L_{sil} $$
 
 作用：让预测 mask 和真实 mask 对齐，保证头部整体轮廓正确。
 
 #### （3）coarse RGB 对齐
 
-$$
-L_{coarse} = \|I_{coarse} - I_{gt}\|_1
-$$
+$$ L_{coarse} = \|I_{coarse} - I_{gt}\|_1 $$
 
 作用：要求粗渲染阶段也要尽量像真实图，不能全靠后面的 refine network 修图。
 
 #### （4）landmark loss
 
-$$
-L_{lmk} = \|P - P_{gt}\|_2
-$$
+$$ L_{lmk} = \|P - P_{gt}\|_2 $$
 
 作用：给表情相关几何提供额外监督，保证鼻尖、嘴角、下巴等关键结构不要跑偏。
 
 #### （5）regularization loss
 
-$$
-L_{reg} = \|\delta V_{exp}\|_2 + \|\delta V_{nf}\|_2
-$$
+$$ L_{reg} = \|\delta V_{exp}\|_2 + \|\delta V_{nf}\|_2 $$
 
 作用：限制表情/非脸形变别乱飞，减少身份与运动之间的耦合和冗余。
 
 #### （6）Laplacian smooth
 
-$$
-L_{lap}
-$$
+$$ L_{lap} $$
 
 作用：让 mesh 表面更平滑，防止表面长毛刺、断裂、噪声。
 
@@ -292,9 +268,7 @@ $$
 
 - **VGG perceptual loss**
 
-$$
-L_{vgg}
-$$
+$$ L_{vgg} $$
 
 作用：提升视觉感知一致性和高频细节，让结果更真实。
 

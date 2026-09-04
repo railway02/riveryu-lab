@@ -12,9 +12,7 @@ summary: "SGD、Momentum、RMSProp 到 AdamW"
 
 神经网络训练的目标是最小化损失函数：
 
-$$
-\min_{\omega} L(\omega)
-$$
+$$ \min_{\omega} L(\omega) $$
 
 其中：
 
@@ -24,15 +22,11 @@ $$
 
 最基础的更新公式是：
 
-$$
-\omega_{t+1}=\omega_t-\eta g_t
-$$
+$$ \omega_{t+1}=\omega_t-\eta g_t $$
 
 其中：
 
-$$
-g_t=\nabla_\omega L(\omega_t)
-$$
+$$ g_t=\nabla_\omega L(\omega_t) $$
 
 含义是：
 
@@ -50,29 +44,21 @@ $$
 
 需要特别注意：
 
-$$
-\omega_t
-$$
+$$ \omega_t $$
 
 表示第 $t$ 步时的参数整体，不表示第 $t$ 个参数。
 
 如果模型有 $n$ 个参数：
 
-$$
-\omega_t=[\omega_{t,1},\omega_{t,2},\cdots,\omega_{t,n}]
-$$
+$$ \omega_t=[\omega_{t,1},\omega_{t,2},\cdots,\omega_{t,n}] $$
 
 那么梯度也是一个向量：
 
-$$
-g_t=[g_{t,1},g_{t,2},\cdots,g_{t,n}]
-$$
+$$ g_t=[g_{t,1},g_{t,2},\cdots,g_{t,n}] $$
 
 其中：
 
-$$
-g_{t,i}=\frac{\partial L}{\partial \omega_{t,i}}
-$$
+$$ g_{t,i}=\frac{\partial L}{\partial \omega_{t,i}} $$
 
 ---
 
@@ -80,9 +66,7 @@ $$
 
 普通梯度下降公式：
 
-$$
-\omega_{t+1}=\omega_t-\eta g_t
-$$
+$$ \omega_{t+1}=\omega_t-\eta g_t $$
 
 它的逻辑是：
 
@@ -96,28 +80,17 @@ $$
 
 如果只有一个参数 $\omega$：
 
-$$
-\omega_{t+1}
-=
-\omega_t
--
-\eta
-\frac{\partial L}{\partial \omega_t}
-$$
+$$ \omega_{t+1} = \omega_t - \eta \frac{\partial L}{\partial \omega_t} $$
 
 如果：
 
-$$
-\frac{\partial L}{\partial \omega_t}>0
-$$
+$$ \frac{\partial L}{\partial \omega_t}>0 $$
 
 说明增大 $\omega$ 会让 loss 增大，所以应该减小 $\omega$。
 
 如果：
 
-$$
-\frac{\partial L}{\partial \omega_t}<0
-$$
+$$ \frac{\partial L}{\partial \omega_t}<0 $$
 
 说明增大 $\omega$ 会让 loss 减小，所以应该增大 $\omega$。
 
@@ -125,39 +98,17 @@ $$
 
 如果参数为：
 
-$$
-\omega=[\omega_1,\omega_2]
-$$
+$$ \omega=[\omega_1,\omega_2] $$
 
 则梯度为：
 
-$$
-g_t=
-\left[
-\frac{\partial L}{\partial \omega_{t,1}},
-\frac{\partial L}{\partial \omega_{t,2}}
-\right]
-$$
+$$ g_t= \left[ \frac{\partial L}{\partial \omega_{t,1}}, \frac{\partial L}{\partial \omega_{t,2}} \right] $$
 
 对应更新为：
 
-$$
-\omega_{t+1,1}
-=
-\omega_{t,1}
--
-\eta
-\frac{\partial L}{\partial \omega_{t,1}}
-$$
+$$ \omega_{t+1,1} = \omega_{t,1} - \eta \frac{\partial L}{\partial \omega_{t,1}} $$
 
-$$
-\omega_{t+1,2}
-=
-\omega_{t,2}
--
-\eta
-\frac{\partial L}{\partial \omega_{t,2}}
-$$
+$$ \omega_{t+1,2} = \omega_{t,2} - \eta \frac{\partial L}{\partial \omega_{t,2}} $$
 
 也就是每个参数都沿着自己的负梯度方向走一步。
 
@@ -169,13 +120,7 @@ $$
 
 普通梯度下降中：
 
-$$
-\omega_{t+1,i}
-=
-\omega_{t,i}
--
-\eta g_{t,i}
-$$
+$$ \omega_{t+1,i} = \omega_{t,i} - \eta g_{t,i} $$
 
 所有参数都使用同一个学习率 $\eta$。
 
@@ -229,33 +174,15 @@ Momentum 的核心思想是：
 
 普通梯度下降：
 
-$$
-\omega_{t+1}
-=
-\omega_t
--
-\eta g_t
-$$
+$$ \omega_{t+1} = \omega_t - \eta g_t $$
 
 Momentum 引入速度变量 $v_t$：
 
-$$
-v_t
-=
-\beta v_{t-1}
-+
-g_t
-$$
+$$ v_t = \beta v_{t-1} + g_t $$
 
 然后更新参数：
 
-$$
-\omega_{t+1}
-=
-\omega_t
--
-\eta v_t
-$$
+$$ \omega_{t+1} = \omega_t - \eta v_t $$
 
 其中：
 
@@ -268,13 +195,7 @@ $$
 
 有些资料会写成：
 
-$$
-v_t
-=
-\beta v_{t-1}
-+
-(1-\beta)g_t
-$$
+$$ v_t = \beta v_{t-1} + (1-\beta)g_t $$
 
 这是指数滑动平均写法。两种写法思想一致，区别在于是否把 $(1-\beta)$ 放进动量定义里。
 
@@ -282,28 +203,11 @@ $$
 
 从：
 
-$$
-v_t
-=
-\beta v_{t-1}
-+
-g_t
-$$
+$$ v_t = \beta v_{t-1} + g_t $$
 
 不断展开：
 
-$$
-v_t
-=
-g_t
-+
-\beta g_{t-1}
-+
-\beta^2 g_{t-2}
-+
-\beta^3 g_{t-3}
-+\cdots
-$$
+$$ v_t = g_t + \beta g_{t-1} + \beta^2 g_{t-2} + \beta^3 g_{t-3} +\cdots $$
 
 说明 $v_t$ 是历史梯度的加权和。越新的梯度权重大，越旧的梯度权重小。
 
@@ -311,37 +215,23 @@ $$
 
 假设某个方向的梯度长期一致：
 
-$$
-g_t=a
-$$
+$$ g_t=a $$
 
 那么：
 
-$$
-v_t
-=
-a+\beta a+\beta^2 a+\cdots
-$$
+$$ v_t = a+\beta a+\beta^2 a+\cdots $$
 
 当 $t$ 足够大时：
 
-$$
-v_t
-\approx
-\frac{a}{1-\beta}
-$$
+$$ v_t \approx \frac{a}{1-\beta} $$
 
 如果：
 
-$$
-\beta=0.9
-$$
+$$ \beta=0.9 $$
 
 则：
 
-$$
-\frac{1}{1-0.9}=10
-$$
+$$ \frac{1}{1-0.9}=10 $$
 
 这说明长期一致的方向会被放大，大约加速到 10 倍。
 
@@ -349,15 +239,11 @@ $$
 
 如果某个方向的梯度反复变化：
 
-$$
-g_1=b,\quad g_2=-b,\quad g_3=b,\quad g_4=-b
-$$
+$$ g_1=b,\quad g_2=-b,\quad g_3=b,\quad g_4=-b $$
 
 则动量累积中会出现：
 
-$$
-b-\beta b+\beta^2 b-\beta^3 b+\cdots
-$$
+$$ b-\beta b+\beta^2 b-\beta^3 b+\cdots $$
 
 正负方向会互相抵消。
 
@@ -378,24 +264,11 @@ AdaGrad 解决的问题是：
 
 AdaGrad 维护历史梯度平方和：
 
-$$
-G_t
-=
-G_{t-1}
-+
-g_t\odot g_t
-$$
+$$ G_t = G_{t-1} + g_t\odot g_t $$
 
 然后更新：
 
-$$
-\omega_{t+1}
-=
-\omega_t
--
-\frac{\eta}{\sqrt{G_t}+\epsilon}
-\odot g_t
-$$
+$$ \omega_{t+1} = \omega_t - \frac{\eta}{\sqrt{G_t}+\epsilon} \odot g_t $$
 
 其中：
 
@@ -409,40 +282,17 @@ $$
 
 对第 $i$ 个参数：
 
-$$
-G_{t,i}
-=
-G_{t-1,i}
-+
-g_{t,i}^2
-$$
+$$ G_{t,i} = G_{t-1,i} + g_{t,i}^2 $$
 
-$$
-\omega_{t+1,i}
-=
-\omega_{t,i}
--
-\frac{\eta}{\sqrt{G_{t,i}}+\epsilon}
-g_{t,i}
-$$
+$$ \omega_{t+1,i} = \omega_{t,i} - \frac{\eta}{\sqrt{G_{t,i}}+\epsilon} g_{t,i} $$
 
 定义有效学习率：
 
-$$
-\eta_{t,i}
-=
-\frac{\eta}{\sqrt{G_{t,i}}+\epsilon}
-$$
+$$ \eta_{t,i} = \frac{\eta}{\sqrt{G_{t,i}}+\epsilon} $$
 
 于是：
 
-$$
-\omega_{t+1,i}
-=
-\omega_{t,i}
--
-\eta_{t,i}g_{t,i}
-$$
+$$ \omega_{t+1,i} = \omega_{t,i} - \eta_{t,i}g_{t,i} $$
 
 所以 AdaGrad 本质上是在给每个参数分配自己的动态学习率。
 
@@ -450,29 +300,21 @@ $$
 
 如果某个参数历史梯度很大：
 
-$$
-G_{t,i}\text{ 大}
-$$
+$$ G_{t,i}\text{ 大} $$
 
 则：
 
-$$
-\eta_{t,i}\text{ 小}
-$$
+$$ \eta_{t,i}\text{ 小} $$
 
 这个参数后续更新会变谨慎。
 
 如果某个参数历史梯度很小：
 
-$$
-G_{t,i}\text{ 小}
-$$
+$$ G_{t,i}\text{ 小} $$
 
 则：
 
-$$
-\eta_{t,i}\text{ 相对较大}
-$$
+$$ \eta_{t,i}\text{ 相对较大} $$
 
 这个参数仍然可以继续学习。
 
@@ -480,23 +322,17 @@ $$
 
 梯度有正有负。如果直接累加：
 
-$$
-g_1+g_2+\cdots
-$$
+$$ g_1+g_2+\cdots $$
 
 可能正负抵消。例如：
 
-$$
-10+(-10)=0
-$$
+$$ 10+(-10)=0 $$
 
 这并不说明该方向不重要，只说明梯度方向发生过变化。
 
 使用平方：
 
-$$
-g_t^2
-$$
+$$ g_t^2 $$
 
 可以记录梯度大小，不受正负号影响。
 
@@ -504,19 +340,11 @@ $$
 
 AdaGrad 的累计项：
 
-$$
-G_t
-=
-G_{t-1}
-+
-g_t^2
-$$
+$$ G_t = G_{t-1} + g_t^2 $$
 
 只会越来越大。因此有效学习率：
 
-$$
-\frac{\eta}{\sqrt{G_t}+\epsilon}
-$$
+$$ \frac{\eta}{\sqrt{G_t}+\epsilon} $$
 
 会越来越小。
 
@@ -538,34 +366,15 @@ RMSProp 可以看作 AdaGrad 的改进。
 
 AdaGrad 使用完整历史累计：
 
-$$
-G_t
-=
-G_{t-1}
-+
-g_t^2
-$$
+$$ G_t = G_{t-1} + g_t^2 $$
 
 RMSProp 改成指数滑动平均：
 
-$$
-s_t
-=
-\rho s_{t-1}
-+
-(1-\rho)g_t\odot g_t
-$$
+$$ s_t = \rho s_{t-1} + (1-\rho)g_t\odot g_t $$
 
 然后更新：
 
-$$
-\omega_{t+1}
-=
-\omega_t
--
-\frac{\eta}{\sqrt{s_t}+\epsilon}
-\odot g_t
-$$
+$$ \omega_{t+1} = \omega_t - \frac{\eta}{\sqrt{s_t}+\epsilon} \odot g_t $$
 
 其中：
 
@@ -579,26 +388,11 @@ $$
 
 从：
 
-$$
-s_t
-=
-\rho s_{t-1}
-+
-(1-\rho)g_t^2
-$$
+$$ s_t = \rho s_{t-1} + (1-\rho)g_t^2 $$
 
 展开得到：
 
-$$
-s_t
-=
-(1-\rho)g_t^2
-+
-\rho(1-\rho)g_{t-1}^2
-+
-\rho^2(1-\rho)g_{t-2}^2
-+\cdots
-$$
+$$ s_t = (1-\rho)g_t^2 + \rho(1-\rho)g_{t-1}^2 + \rho^2(1-\rho)g_{t-2}^2 +\cdots $$
 
 所以 RMSProp 更重视近期梯度平方，久远梯度的影响会指数衰减。
 
@@ -606,22 +400,11 @@ $$
 
 AdaGrad：
 
-$$
-G_t
-=
-g_1^2+g_2^2+\cdots+g_t^2
-$$
+$$ G_t = g_1^2+g_2^2+\cdots+g_t^2 $$
 
 RMSProp：
 
-$$
-s_t
-=
-(1-\rho)
-\sum_{\tau=1}^{t}
-\rho^{t-\tau}
-g_\tau^2
-$$
+$$ s_t = (1-\rho) \sum_{\tau=1}^{t} \rho^{t-\tau} g_\tau^2 $$
 
 区别可以概括为：
 
@@ -638,11 +421,7 @@ RMSProp 避免了 AdaGrad 分母无限增长的问题。如果最近梯度变小
 
 RMSProp 的有效学习率是：
 
-$$
-\eta_t
-=
-\frac{\eta}{\sqrt{s_t}+\epsilon}
-$$
+$$ \eta_t = \frac{\eta}{\sqrt{s_t}+\epsilon} $$
 
 如果 $s_t$ 下降，分母变小，有效学习率会上升。这在一些情况下是合理的，但也可能造成训练不稳定。
 
@@ -652,9 +431,7 @@ $$
 
 Adam 全称为：
 
-$$
-\text{Adaptive Moment Estimation}
-$$
+$$ \text{Adaptive Moment Estimation} $$
 
 它结合了两个核心思想：
 
@@ -667,48 +444,21 @@ Adam 维护两个变量。
 
 一阶动量：
 
-$$
-m_t
-=
-\beta_1m_{t-1}
-+
-(1-\beta_1)g_t
-$$
+$$ m_t = \beta_1m_{t-1} + (1-\beta_1)g_t $$
 
 二阶动量：
 
-$$
-v_t
-=
-\beta_2v_{t-1}
-+
-(1-\beta_2)g_t\odot g_t
-$$
+$$ v_t = \beta_2v_{t-1} + (1-\beta_2)g_t\odot g_t $$
 
 偏差修正：
 
-$$
-\hat{m}_t
-=
-\frac{m_t}{1-\beta_1^t}
-$$
+$$ \hat{m}_t = \frac{m_t}{1-\beta_1^t} $$
 
-$$
-\hat{v}_t
-=
-\frac{v_t}{1-\beta_2^t}
-$$
+$$ \hat{v}_t = \frac{v_t}{1-\beta_2^t} $$
 
 参数更新：
 
-$$
-\omega_{t+1}
-=
-\omega_t
--
-\eta
-\frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon}
-$$
+$$ \omega_{t+1} = \omega_t - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon} $$
 
 ---
 
@@ -716,93 +466,51 @@ $$
 
 ### 7.1 当前梯度 $g_t$
 
-$$
-g_t
-=
-\nabla_\omega L(\omega_t)
-$$
+$$ g_t = \nabla_\omega L(\omega_t) $$
 
 表示当前 batch 下 loss 对参数的瞬时梯度。
 
 ### 7.2 一阶动量 $m_t$
 
-$$
-m_t
-=
-\beta_1m_{t-1}
-+
-(1-\beta_1)g_t
-$$
+$$ m_t = \beta_1m_{t-1} + (1-\beta_1)g_t $$
 
 它是梯度的指数滑动平均。作用是平滑当前梯度、减少方向抖动、让长期一致的方向更稳定。
 
 如果：
 
-$$
-\beta_1=0.9
-$$
+$$ \beta_1=0.9 $$
 
 则：
 
-$$
-m_t
-=
-0.9m_{t-1}
-+
-0.1g_t
-$$
+$$ m_t = 0.9m_{t-1} + 0.1g_t $$
 
 ### 7.3 二阶动量 $v_t$
 
-$$
-v_t
-=
-\beta_2v_{t-1}
-+
-(1-\beta_2)g_t^2
-$$
+$$ v_t = \beta_2v_{t-1} + (1-\beta_2)g_t^2 $$
 
 它是梯度平方的指数滑动平均。作用是估计每个参数最近的梯度尺度，梯度大的方向缩小步长，梯度小的方向保留更新。
 
 如果：
 
-$$
-\beta_2=0.999
-$$
+$$ \beta_2=0.999 $$
 
 则：
 
-$$
-v_t
-=
-0.999v_{t-1}
-+
-0.001g_t^2
-$$
+$$ v_t = 0.999v_{t-1} + 0.001g_t^2 $$
 
 ### 7.4 偏差修正 $\hat{m}_t$、$\hat{v}_t$
 
 Adam 初始化时通常令：
 
-$$
-m_0=0,\quad v_0=0
-$$
+$$ m_0=0,\quad v_0=0 $$
 
 这会导致训练初期 $m_t$ 和 $v_t$ 被 0 明显拉低。
 
 所以需要偏差修正：
 
-$$
-\hat{m}_t
-=
-\frac{m_t}{1-\beta_1^t}
-$$
+$$ \hat{m}_t = \frac{m_t}{1-\beta_1^t} $$
 
-$$
-\hat{v}_t
-=
-\frac{v_t}{1-\beta_2^t}
-$$
+$$ \hat{v}_t = \frac{v_t}{1-\beta_2^t} $$
 
 偏差修正的本质：
 
@@ -818,157 +526,75 @@ $$
 
 以一阶动量为例：
 
-$$
-m_t
-=
-\beta_1m_{t-1}
-+
-(1-\beta_1)g_t
-$$
+$$ m_t = \beta_1m_{t-1} + (1-\beta_1)g_t $$
 
 并且：
 
-$$
-m_0=0
-$$
+$$ m_0=0 $$
 
 递推展开：
 
-$$
-m_t
-=
-(1-\beta_1)
-\sum_{\tau=1}^{t}
-\beta_1^{t-\tau}g_\tau
-$$
+$$ m_t = (1-\beta_1) \sum_{\tau=1}^{t} \beta_1^{t-\tau}g_\tau $$
 
 假设每一步梯度的期望恒定为：
 
-$$
-E[g_\tau]=\mu
-$$
+$$ E[g_\tau]=\mu $$
 
 两边取期望：
 
-$$
-E[m_t]
-=
-E\left[
-(1-\beta_1)
-\sum_{\tau=1}^{t}
-\beta_1^{t-\tau}g_\tau
-\right]
-$$
+$$ E[m_t] = E\left[ (1-\beta_1) \sum_{\tau=1}^{t} \beta_1^{t-\tau}g_\tau \right] $$
 
 利用期望的线性性质：
 
-$$
-E[m_t]
-=
-(1-\beta_1)
-\sum_{\tau=1}^{t}
-\beta_1^{t-\tau}E[g_\tau]
-$$
+$$ E[m_t] = (1-\beta_1) \sum_{\tau=1}^{t} \beta_1^{t-\tau}E[g_\tau] $$
 
 代入：
 
-$$
-E[g_\tau]=\mu
-$$
+$$ E[g_\tau]=\mu $$
 
 得到：
 
-$$
-E[m_t]
-=
-(1-\beta_1)
-\sum_{\tau=1}^{t}
-\beta_1^{t-\tau}\mu
-$$
+$$ E[m_t] = (1-\beta_1) \sum_{\tau=1}^{t} \beta_1^{t-\tau}\mu $$
 
 把 $\mu$ 提出来：
 
-$$
-E[m_t]
-=
-(1-\beta_1)\mu
-\sum_{\tau=1}^{t}
-\beta_1^{t-\tau}
-$$
+$$ E[m_t] = (1-\beta_1)\mu \sum_{\tau=1}^{t} \beta_1^{t-\tau} $$
 
 观察求和项：
 
-$$
-\sum_{\tau=1}^{t}
-\beta_1^{t-\tau}
-=
-1+\beta_1+\beta_1^2+\cdots+\beta_1^{t-1}
-$$
+$$ \sum_{\tau=1}^{t} \beta_1^{t-\tau} = 1+\beta_1+\beta_1^2+\cdots+\beta_1^{t-1} $$
 
 这是等比数列：
 
-$$
-1+\beta_1+\beta_1^2+\cdots+\beta_1^{t-1}
-=
-\frac{1-\beta_1^t}{1-\beta_1}
-$$
+$$ 1+\beta_1+\beta_1^2+\cdots+\beta_1^{t-1} = \frac{1-\beta_1^t}{1-\beta_1} $$
 
 代回：
 
-$$
-E[m_t]
-=
-(1-\beta_1)\mu
-\frac{1-\beta_1^t}{1-\beta_1}
-$$
+$$ E[m_t] = (1-\beta_1)\mu \frac{1-\beta_1^t}{1-\beta_1} $$
 
 约掉 $(1-\beta_1)$：
 
-$$
-E[m_t]
-=
-(1-\beta_1^t)\mu
-$$
+$$ E[m_t] = (1-\beta_1^t)\mu $$
 
 这说明 $m_t$ 的期望比真实均值 $\mu$ 少了一个系数：
 
-$$
-1-\beta_1^t
-$$
+$$ 1-\beta_1^t $$
 
 所以修正为：
 
-$$
-\hat{m}_t
-=
-\frac{m_t}{1-\beta_1^t}
-$$
+$$ \hat{m}_t = \frac{m_t}{1-\beta_1^t} $$
 
 于是：
 
-$$
-E[\hat{m}_t]
-=
-\mu
-$$
+$$ E[\hat{m}_t] = \mu $$
 
 二阶动量同理：
 
-$$
-v_t
-=
-\beta_2v_{t-1}
-+
-(1-\beta_2)g_t^2
-$$
+$$ v_t = \beta_2v_{t-1} + (1-\beta_2)g_t^2 $$
 
 所以：
 
-$$
-\hat{v}_t
-=
-\frac{v_t}{1-\beta_2^t}
-$$
+$$ \hat{v}_t = \frac{v_t}{1-\beta_2^t} $$
 
 ---
 
@@ -976,69 +602,33 @@ $$
 
 设：
 
-$$
-\beta_1=0.9
-$$
+$$ \beta_1=0.9 $$
 
 且每一步梯度都等于：
 
-$$
-g_t=10
-$$
+$$ g_t=10 $$
 
 真实平均梯度为：
 
-$$
-\mu=10
-$$
+$$ \mu=10 $$
 
 第 1 步：
 
-$$
-m_1
-=
-0.1\times 10
-=
-1
-$$
+$$ m_1 = 0.1\times 10 = 1 $$
 
 明显比 10 小。
 
 偏差修正：
 
-$$
-\hat{m}_1
-=
-\frac{m_1}{1-0.9^1}
-=
-\frac{1}{0.1}
-=
-10
-$$
+$$ \hat{m}_1 = \frac{m_1}{1-0.9^1} = \frac{1}{0.1} = 10 $$
 
 第 2 步：
 
-$$
-m_2
-=
-0.9\times1
-+
-0.1\times10
-=
-1.9
-$$
+$$ m_2 = 0.9\times1 + 0.1\times10 = 1.9 $$
 
 偏差修正：
 
-$$
-\hat{m}_2
-=
-\frac{1.9}{1-0.9^2}
-=
-\frac{1.9}{0.19}
-=
-10
-$$
+$$ \hat{m}_2 = \frac{1.9}{1-0.9^2} = \frac{1.9}{0.19} = 10 $$
 
 这说明偏差修正能够把前期被 0 压小的估计恢复到合理尺度。
 
@@ -1048,27 +638,17 @@ $$
 
 Adam 常用：
 
-$$
-\beta_2=0.999
-$$
+$$ \beta_2=0.999 $$
 
 第 1 步：
 
-$$
-1-\beta_2^1
-=
-0.001
-$$
+$$ 1-\beta_2^1 = 0.001 $$
 
 说明未修正的 $v_1$ 只有真实二阶矩的千分之一。
 
 第 100 步：
 
-$$
-1-0.999^{100}
-\approx
-0.095
-$$
+$$ 1-0.999^{100} \approx 0.095 $$
 
 也只有真实二阶矩的约 $9.5\%$。
 
@@ -1082,14 +662,7 @@ Adam 同时修正 $m_t$ 和 $v_t$，是为了让前期的方向估计和尺度�
 
 Adam 更新公式：
 
-$$
-\omega_{t+1}
-=
-\omega_t
--
-\eta
-\frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon}
-$$
+$$ \omega_{t+1} = \omega_t - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon} $$
 
 可以理解为：
 
@@ -1122,16 +695,7 @@ AdamW 的核心改进是：
 
 AdamW 可以简化理解为：
 
-$$
-\omega_{t+1}
-=
-\omega_t
--
-\eta
-\frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon}
--
-\eta\lambda\omega_t
-$$
+$$ \omega_{t+1} = \omega_t - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t}+\epsilon} - \eta\lambda\omega_t $$
 
 其中：
 
@@ -1165,46 +729,29 @@ AdamW + warmup + cosine decay
 
 Adam 和 RMSProp 都有一个潜在问题：
 
-$$
-v_t
-$$
+$$ v_t $$
 
 是指数滑动平均，可能变小。
 
 如果 $v_t$ 变小，那么：
 
-$$
-\sqrt{v_t}
-$$
+$$ \sqrt{v_t} $$
 
 变小，于是有效学习率：
 
-$$
-\frac{\eta}{\sqrt{v_t}+\epsilon}
-$$
+$$ \frac{\eta}{\sqrt{v_t}+\epsilon} $$
 
 会变大。
 
 AMSGrad 的解决方法是维护历史最大二阶动量：
 
-$$
-\tilde{v}_t
-=
-\max(\tilde{v}_{t-1},v_t)
-$$
+$$ \tilde{v}_t = \max(\tilde{v}_{t-1},v_t) $$
 
 其中 max 是逐元素最大。
 
 然后更新：
 
-$$
-\omega_{t+1}
-=
-\omega_t
--
-\eta
-\frac{\hat{m}_t}{\sqrt{\tilde{v}_t}+\epsilon}
-$$
+$$ \omega_{t+1} = \omega_t - \eta \frac{\hat{m}_t}{\sqrt{\tilde{v}_t}+\epsilon} $$
 
 这样 $\tilde{v}_t$ 不会下降，分母不会突然变小，有效学习率不会突然变大。
 
@@ -1254,13 +801,7 @@ SGD
 
 所有优化器都可以抽象为：
 
-$$
-\omega_{t+1}
-=
-\omega_t
--
-\eta P_t g_t
-$$
+$$ \omega_{t+1} = \omega_t - \eta P_t g_t $$
 
 其中 $P_t$ 可以理解为“梯度预处理器”。
 
@@ -1268,9 +809,7 @@ $$
 
 ### 16.1 SGD
 
-$$
-P_t=I
-$$
+$$ P_t=I $$
 
 直接使用当前梯度。
 
@@ -1282,11 +821,7 @@ Momentum 用历史梯度方向共同决定当前更新方向，主要改变方�
 
 它们使用类似：
 
-$$
-P_t
-=
-\frac{1}{\sqrt{\text{历史梯度平方}}+\epsilon}
-$$
+$$ P_t = \frac{1}{\sqrt{\text{历史梯度平方}}+\epsilon} $$
 
 的形式，主要改变每个参数的有效学习率。
 

@@ -36,14 +36,14 @@ summary: "把现实问题拆解为目标函数与约束条件。复盘如何一�
 ### 二、不能只做普通加权模型
 
 最基础的做法是加权求和：
-$$\max Z = \alpha G(x) + (1-\alpha)E(x)$$
+$$ \max Z = \alpha G(x) + (1-\alpha)E(x) $$
 其中 $G(x)$ 表示 GDP 贡献，$E(x)$ 表示就业贡献，$\alpha$ 表示 GDP 权重。
 
 但这个做法有两个致命问题：一是 GDP 和就业的尺度不同，不能直接相加；二是单纯加权和缺少对现实投资规律的刻画。
 
 所以我们做了两个关键处理：
 1. **单目标极值归一化**：先分别求出 GDP 和就业的单目标最优值 $G^*$ 和 $E^*$，然后对目标函数进行归一化：
-   $$\hat G(x) = \frac{G(x)}{G^*}, \quad \hat E(x) = \frac{E(x)}{E^*}$$
+   $$ \hat G(x) = \frac{G(x)}{G^*}, \quad \hat E(x) = \frac{E(x)}{E^*} $$
 2. **引入非线性现实约束**：不直接把投资金额看成线性贡献，而是加入投资容量和边际收益递减。
 
 ---
@@ -67,7 +67,7 @@ $$\max Z = \alpha G(x) + (1-\alpha)E(x)$$
 随后设置边际收益折减系数：$r_1=1.00, r_2=0.80, r_3=0.60$。
 
 有效投资定义为：
-$$F_i(x_i) = r_1 s_{i1} + r_2 s_{i2} + r_3 s_{i3}$$
+$$ F_i(x_i) = r_1 s_{i1} + r_2 s_{i2} + r_3 s_{i3} $$
 
 这个处理让模型极具现实意义：资金投得越多，边际贡献逐渐下降。
 
@@ -81,7 +81,7 @@ $$F_i(x_i) = r_1 s_{i1} + r_2 s_{i2} + r_3 s_{i3}$$
 *(注：$g_i$ 和 $e_i$ 分别为弹性系数，这只是相对比较指数，不代表真实宏观增量。)*
 
 最终的 0-1 混合整数规划模型可以概括为：
-$$\max Z(\alpha) = \alpha\hat G(x) + (1-\alpha)\hat E(x)$$
+$$ \max Z(\alpha) = \alpha\hat G(x) + (1-\alpha)\hat E(x) $$
 
 **约束条件：**
 * $\sum_{i=1}^{10} x_i \leq 10000$ (总预算)
@@ -110,11 +110,11 @@ $$\max Z(\alpha) = \alpha\hat G(x) + (1-\alpha)\hat E(x)$$
 ### 七、用 Pareto 前沿与理想点法确定最终方案
 
 单纯取 $\alpha=0.5$ 作为均衡方案带有主观性。所以我们做了 **Pareto 前沿分析**（采用 $\varepsilon$-约束法）：
-$$\max \hat G(x) \quad \text{s.t.} \quad \hat E(x) \geq \varepsilon$$
+$$ \max \hat G(x) \quad \text{s.t.} \quad \hat E(x) \geq \varepsilon $$
 随着 $\varepsilon$ 提高，GDP 最大可达水平下降，形成了 Pareto 前沿。
 
 然后我们用**理想点距离法**选择最终方案。理想点为 $(1,1)$，距离公式为：
-$$D = \sqrt{(1-\hat G(x))^2 + (1-\hat E(x))^2}$$
+$$ D = \sqrt{(1-\hat G(x))^2 + (1-\hat E(x))^2} $$
 最终我们在 Pareto 有效方案中选择了距离最近的一组，这比拍脑袋选 $\alpha=0.5$ 有说服力得多。
 
 ---

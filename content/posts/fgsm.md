@@ -174,9 +174,7 @@ Fast Gradient Sign Method
 
 它的核心公式是：
 
-$$
-x_{adv}=clip(x+\epsilon \cdot sign(\nabla_x J(\theta,x,y)),0,1)
-$$
+$$ x_{adv}=clip(x+\epsilon \cdot sign(\nabla_x J(\theta,x,y)),0,1) $$
 
 逐个解释：
 
@@ -227,9 +225,7 @@ image + epsilon * sign(gradient)
 
 模型的 loss 是：
 
-$$
-J(\theta,x,y)
-$$
+$$ J(\theta,x,y) $$
 
 其中：
 
@@ -245,15 +241,11 @@ $$
 
 也就是：
 
-$$
-\max_{\delta} J(\theta, x+\delta, y)
-$$
+$$ \max_{\delta} J(\theta, x+\delta, y) $$
 
 同时限制扰动不能太大：
 
-$$
-||\delta||_{\infty} \leq \epsilon
-$$
+$$ ||\delta||_{\infty} \leq \epsilon $$
 
 其中 $L_\infty$ 约束表示：
 
@@ -261,33 +253,23 @@ $$
 
 为了简化问题，对 loss 做一阶泰勒展开：
 
-$$
-J(x+\delta) \approx J(x) + \delta^T \nabla_x J(x)
-$$
+$$ J(x+\delta) \approx J(x) + \delta^T \nabla_x J(x) $$
 
 其中 $J(x)$ 是固定的，所以要最大化：
 
-$$
-\delta^T \nabla_x J(x)
-$$
+$$ \delta^T \nabla_x J(x) $$
 
 在约束：
 
-$$
-||\delta||_{\infty} \leq \epsilon
-$$
+$$ ||\delta||_{\infty} \leq \epsilon $$
 
 最优选择是：
 
-$$
-\delta = \epsilon \cdot sign(\nabla_x J(x))
-$$
+$$ \delta = \epsilon \cdot sign(\nabla_x J(x)) $$
 
 所以得到 FGSM：
 
-$$
-x_{adv}=x+\epsilon \cdot sign(\nabla_x J(x))
-$$
+$$ x_{adv}=x+\epsilon \cdot sign(\nabla_x J(x)) $$
 
 代码中对应：
 
@@ -339,9 +321,7 @@ image + epsilon * data_grad.sign()
 
 这样正好满足：
 
-$$
-||\delta||_\infty \leq \epsilon
-$$
+$$ ||\delta||_\infty \leq \epsilon $$
 
 ---
 
@@ -430,9 +410,7 @@ self.conv1 = nn.Conv2d(1, 32, 3, 1)
 
 没有 padding，kernel size 是 3，所以：
 
-$$
-28 - 3 + 1 = 26
-$$
+$$ 28 - 3 + 1 = 26 $$
 
 得到：
 
@@ -448,9 +426,7 @@ self.conv2 = nn.Conv2d(32, 64, 3, 1)
 
 尺寸：
 
-$$
-26 - 3 + 1 = 24
-$$
+$$ 26 - 3 + 1 = 24 $$
 
 得到：
 
@@ -472,9 +448,7 @@ F.max_pool2d(x, 2)
 
 展平之后：
 
-$$
-64 \times 12 \times 12 = 9216
-$$
+$$ 64 \times 12 \times 12 = 9216 $$
 
 所以：
 
@@ -514,9 +488,7 @@ x = F.relu(x)
 
 ReLU 公式：
 
-$$
-ReLU(x)=max(0,x)
-$$
+$$ ReLU(x)=max(0,x) $$
 
 作用是引入非线性。
 
@@ -687,9 +659,7 @@ transforms.Normalize((0.1307,), (0.3081,))
 
 MNIST 的图片被标准化为：
 
-$$
-x_{norm} = \frac{x - 0.1307}{0.3081}
-$$
+$$ x_{norm} = \frac{x - 0.1307}{0.3081} $$
 
 这里：
 
@@ -714,15 +684,11 @@ $$
 
 例如：
 
-$$
-x=0
-$$
+$$ x=0 $$
 
 标准化后：
 
-$$
-\frac{0-0.1307}{0.3081} \approx -0.424
-$$
+$$ \frac{0-0.1307}{0.3081} \approx -0.424 $$
 
 所以模型实际吃到的不是原始图，而是标准化后的图。
 
@@ -774,15 +740,11 @@ def denorm(batch, mean=[0.1307], std=[0.3081]):
 
 标准化是：
 
-$$
-x_{norm} = \frac{x - mean}{std}
-$$
+$$ x_{norm} = \frac{x - mean}{std} $$
 
 反归一化是：
 
-$$
-x = x_{norm} \cdot std + mean
-$$
+$$ x = x_{norm} \cdot std + mean $$
 
 代码：
 
@@ -934,9 +896,7 @@ output = model(data)
 
 所以必须计算：
 
-$$
-\nabla_x J(\theta,x,y)
-$$
+$$ \nabla_x J(\theta,x,y) $$
 
 也就是 loss 对输入 (x) 的梯度。
 
@@ -1113,9 +1073,7 @@ data.grad
 
 它表示：
 
-$$
-\frac{\partial loss}{\partial data}
-$$
+$$ \frac{\partial loss}{\partial data} $$
 
 也就是每个像素对 loss 的影响方向。
 
@@ -1376,9 +1334,7 @@ ReLU(x)=max(0,x)
 
 标准化输入：
 
-$$
-x_{norm} = \frac{x - mean}{std}
-$$
+$$ x_{norm} = \frac{x - mean}{std} $$
 
 ---
 
@@ -1551,9 +1507,7 @@ data.grad
 
 也就是说，攻击者可以直接计算：
 
-$$
-\nabla_x J(\theta,x,y)
-$$
+$$ \nabla_x J(\theta,x,y) $$
 
 如果攻击者不知道模型结构和参数，那就是黑盒攻击。
 
@@ -1608,17 +1562,13 @@ FGSM 可以理解为一步攻击。
 
 公式：
 
-$$
-x_{adv}=x+\epsilon sign(\nabla_x J)
-$$
+$$ x_{adv}=x+\epsilon sign(\nabla_x J) $$
 
 PGD 可以理解为多步 FGSM。
 
 它每次走一小步：
 
-$$
-x^{t+1}=Proj_{B_\epsilon(x)}(x^t+\alpha sign(\nabla_x J))
-$$
+$$ x^{t+1}=Proj_{B_\epsilon(x)}(x^t+\alpha sign(\nabla_x J)) $$
 
 其中：
 
@@ -1655,9 +1605,7 @@ perturbed_data = fgsm_attack(data_denorm, epsilon, data_grad)
 
 不过对于 `sign` 来说，标准化是线性变换：
 
-$$
-x_{norm} = \frac{x - mean}{std}
-$$
+$$ x_{norm} = \frac{x - mean}{std} $$
 
 当 `std` 是正数时，梯度符号方向通常不会因为正比例缩放而改变。
 
@@ -1741,9 +1689,7 @@ final_acc = correct / float(len(test_loader))
 
 也就是：
 
-$$
-RobustAcc = \frac{\text{原本正确且攻击后仍正确的样本数}}{\text{原本正确的样本数}}
-$$
+$$ RobustAcc = \frac{\text{原本正确且攻击后仍正确的样本数}}{\text{原本正确的样本数}} $$
 
 这可以避免把模型原本就错的样本混入攻击效果分析。
 
@@ -1999,9 +1945,7 @@ Adversarial Training
 
 经典目标是：
 
-$$
-\min_\theta \mathbb{E}*{(x,y)} \left[ \max*{\delta \in S} J(\theta, x+\delta, y) \right]
-$$
+$$ \min_\theta \mathbb{E}_{(x,y)} \left[ \max_{\delta \in S} J(\theta, x+\delta, y) \right] $$
 
 外层是训练模型，内层是寻找最强攻击。
 
@@ -2039,4 +1983,3 @@ $$
 # 三十一、最终理解版
 
 > 模型先正常看一张 MNIST 图片，比如它认为这是数字 7。然后我们反过来问模型：如果想让你的 loss 变大，图片的每个像素应该往哪个方向变化？模型通过梯度告诉我们方向。于是我们沿着这个方向轻轻改动图片，得到一张人眼可能仍然认为是 7 的新图片。但模型再次看到它时，可能会认为它是 2。这就是 FGSM 对抗攻击。
-

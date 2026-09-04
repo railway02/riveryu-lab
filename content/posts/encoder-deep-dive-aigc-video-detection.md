@@ -17,23 +17,19 @@ relations:
 
 编码器 Encoder 的本质是：
 
-$$z = E_\theta(x)$$
+$$ z = E_\theta(x) $$
 
 它把原始输入 (x) 映射成特征表示 (z)。
 
 对于图像：
 
-$$
-x \in \mathbb{R}^{3 \times H \times W}
-$$
+$$ x \in \mathbb{R}^{3 \times H \times W} $$
 
 表示一张 RGB 图像。
 
 经过编码器后：
 
-$$
-z \in \mathbb{R}^{d}
-$$
+$$ z \in \mathbb{R}^{d} $$
 
 表示一个 (d) 维特征向量。
 
@@ -93,9 +89,7 @@ $$
 
 数学上：
 
-$$
-x \rightarrow h_1 \rightarrow h_2 \rightarrow h_3 \rightarrow z
-$$
+$$ x \rightarrow h_1 \rightarrow h_2 \rightarrow h_3 \rightarrow z $$
 
 其中：
 
@@ -112,13 +106,9 @@ $$
 
 例如：
 
-$$
-x \in \mathbb{R}^{150528}
-$$
+$$ x \in \mathbb{R}^{150528} $$
 
-$$
-z \in \mathbb{R}^{512}
-$$
+$$ z \in \mathbb{R}^{512} $$
 
 这意味着编码器必须做信息选择。它会保留一部分信息，也会压缩、弱化甚至丢掉一部分信息。
 
@@ -214,9 +204,7 @@ CLIP 图像编码器更偏语义空间。
 
 在多证据系统里，CLIP 更适合作为语义编码器：
 
-$$
-E_{sem}(x_t)
-$$
+$$ E_{sem}(x_t) $$
 
 ---
 
@@ -251,9 +239,7 @@ DINOv2 很适合作为 AIGC 视频检测的强视觉表征编码器。
 
 ArcFace 这类模型输出身份特征：
 
-$$
-f_t^{id} = E_{id}(x_t)
-$$
+$$ f_t^{id} = E_{id}(x_t) $$
 
 它适合检测：
 
@@ -282,9 +268,7 @@ $$
 
 可以通过 FFT、DCT、小波变换或专门 CNN 提取频域特征：
 
-$$
-f_t^{freq} = E_{freq}(x_t)
-$$
+$$ f_t^{freq} = E_{freq}(x_t) $$
 
 适合检测：
 
@@ -301,9 +285,7 @@ $$
 
 运动编码器关注相邻帧之间的关系：
 
-$$
-f_t^{motion} = E_{motion}(x_{t-1}, x_t)
-$$
+$$ f_t^{motion} = E_{motion}(x_{t-1}, x_t) $$
 
 常见输入包括：
 
@@ -333,25 +315,15 @@ Warp 残差
 
 更稳的设计是多编码器：
 
-$$
-f_t^{id} = E_{id}(x_t)
-$$
+$$ f_t^{id} = E_{id}(x_t) $$
 
-$$
-f_t^{motion} = E_{motion}(x_{t-1},x_t)
-$$
+$$ f_t^{motion} = E_{motion}(x_{t-1},x_t) $$
 
-$$
-f_t^{freq} = E_{freq}(x_t)
-$$
+$$ f_t^{freq} = E_{freq}(x_t) $$
 
-$$
-f_t^{tex} = E_{tex}(x_t)
-$$
+$$ f_t^{tex} = E_{tex}(x_t) $$
 
-$$
-f_t^{sem} = E_{sem}(x_t)
-$$
+$$ f_t^{sem} = E_{sem}(x_t) $$
 
 分别对应：
 
@@ -365,21 +337,15 @@ $$
 
 然后构造证据向量：
 
-$$
-e_t = [e_t^{id}, e_t^{motion}, e_t^{freq}, e_t^{texture}, e_t^{semantic}]
-$$
+$$ e_t = [e_t^{id}, e_t^{motion}, e_t^{freq}, e_t^{texture}, e_t^{semantic}] $$
 
 再用 Softmax 做证据分配：
 
-$$
-\alpha_t = Softmax(W e_t)
-$$
+$$ \alpha_t = Softmax(W e_t) $$
 
 最终异常分数：
 
-$$
-R_t = \sum_k \alpha_{t,k} e_{t,k}
-$$
+$$ R_t = \sum_k \alpha_{t,k} e_{t,k} $$
 
 含义是：
 
@@ -404,25 +370,19 @@ $$
 
 对于 Transformer：
 
-$$
-h_i^l
-$$
+$$ h_i^l $$
 
 表示第 (l) 层、第 (i) 个 token 的 hidden state。
 
 对于视频检测：
 
-$$
-f_t = E(x_t)
-$$
+$$ f_t = E(x_t) $$
 
 可以看成第 (t) 帧的观测特征。
 
 经过时序模型后：
 
-$$
-s_t = F_\theta(f_1,\dots,f_t)
-$$
+$$ s_t = F_\theta(f_1,\dots,f_t) $$
 
 这里的 $s_t$ 就是视频状态 hidden state。
 
@@ -443,13 +403,9 @@ Transformer 编码器通常由 Attention 和 MLP 堆叠而成。
 
 一层 Transformer 可以写成：
 
-$$
-x' = x + Attention(Norm(x))
-$$
+$$ x' = x + Attention(Norm(x)) $$
 
-$$
-x_{next} = x' + MLP(Norm(x'))
-$$
+$$ x_{next} = x' + MLP(Norm(x')) $$
 
 其中：
 
@@ -484,9 +440,7 @@ Residual：保留信息通路
 
 Pre-Norm 公式：
 
-$$
-x_{l+1}=x_l+F(Norm(x_l))
-$$
+$$ x_{l+1}=x_l+F(Norm(x_l)) $$
 
 它的核心思想是：
 
@@ -496,21 +450,15 @@ $$
 
 每帧特征：
 
-$$
-f_t = \Phi(x_t)
-$$
+$$ f_t = \Phi(x_t) $$
 
 先归一化：
 
-$$
-\tilde{f}_t = Norm(f_t)
-$$
+$$ \tilde{f}_t = Norm(f_t) $$
 
 再做时序残差：
 
-$$
-r_t = |\tilde{f}_t - A_\theta(\tilde{f}_{t-1})|
-$$
+$$ r_t = |\tilde{f}_t - A_\theta(\tilde{f}_{t-1})| $$
 
 这样可以降低以下因素带来的干扰：
 
@@ -533,15 +481,11 @@ $$
 
 逐帧编码后得到：
 
-$$
-f_1, f_2, \dots, f_T
-$$
+$$ f_1, f_2, \dots, f_T $$
 
 为了建模时间状态，可以使用 GRU：
 
-$$
-s_t = GRU(f_t, s_{t-1})
-$$
+$$ s_t = GRU(f_t, s_{t-1}) $$
 
 其中：
 
@@ -553,9 +497,7 @@ s_t：当前状态
 
 GRU 的门控形式：
 
-$$
-h_t = z_t \odot h_{t-1} + (1-z_t)\odot \tilde{h}_t
-$$
+$$ h_t = z_t \odot h_{t-1} + (1-z_t)\odot \tilde{h}_t $$
 
 ```text
 z_t 大：更多保留旧状态
@@ -573,17 +515,11 @@ AIGC 视频异常常常体现在：
 
 所以可以设计：
 
-$$
-f_t = E(x_t)
-$$
+$$ f_t = E(x_t) $$
 
-$$
-s_t = GRU(f_t, s_{t-1})
-$$
+$$ s_t = GRU(f_t, s_{t-1}) $$
 
-$$
-r_t = |s_t - A_\theta(s_{t-1})|
-$$
+$$ r_t = |s_t - A_\theta(s_{t-1})| $$
 
 其中 $r_t$ 表示当前状态和预测状态之间的偏差。这个偏差越大，说明视频状态演化越可疑。
 
@@ -595,16 +531,11 @@ Diffusion 的生成过程可以理解成一个去噪动力系统。
 
 前向加噪：
 
-$$
-q(x_t|x_{t-1})=
-\mathcal{N}(\sqrt{1-\beta_t}x_{t-1}, \beta_t I)
-$$
+$$ q(x_t|x_{t-1})= \mathcal{N}(\sqrt{1-\beta_t}x_{t-1}, \beta_t I) $$
 
 反向去噪：
 
-$$
-p_\theta(x_{t-1}|x_t)
-$$
+$$ p_\theta(x_{t-1}|x_t) $$
 
 它的过程是：
 
@@ -640,15 +571,11 @@ $$
 
 编码器在这里承担观测函数：
 
-$$
-s_t = E(x_t)
-$$
+$$ s_t = E(x_t) $$
 
 然后检测：
 
-$$
-r_t = |s_t - A_\theta(s_{t-1})|
-$$
+$$ r_t = |s_t - A_\theta(s_{t-1})| $$
 
 这可以理解成：
 
@@ -676,46 +603,29 @@ x_hat
 
 编码器输出潜变量分布：
 
-$$
-q_\phi(z|x)
-$$
+$$ q_\phi(z|x) $$
 
 通常输出：
 
-$$
-\mu(x), \log\sigma^2(x)
-$$
+$$ \mu(x), \log\sigma^2(x) $$
 
 然后采样：
 
-$$
-z = \mu + \sigma \epsilon
-$$
+$$ z = \mu + \sigma \epsilon $$
 
 其中：
 
-$$
-\epsilon \sim \mathcal{N}(0,I)
-$$
+$$ \epsilon \sim \mathcal{N}(0,I) $$
 
 VAE 的目标：
 
-$$
-\mathcal{L}
-=
-
-\mathbb{E}_{q_\phi(z|x)}[\log p_\theta(x|z)]
--
-D_{KL}(q_\phi(z|x)\,\|\,p(z))
-$$
+$$ \mathcal{L} = \mathbb{E}_{q_\phi(z|x)}[\log p_\theta(x|z)] - D_{KL}(q_\phi(z|x)\,\|\,p(z)) $$
 
 第一项希望重建效果好。
 
 第二项希望 latent 分布接近标准正态：
 
-$$
-p(z)=\mathcal{N}(0,I)
-$$
+$$ p(z)=\mathcal{N}(0,I) $$
 
 VAE 对编码器的启发：
 
@@ -731,13 +641,9 @@ VAE 对编码器的启发：
 
 可以设计：
 
-$$
-z_t = E(x_t)
-$$
+$$ z_t = E(x_t) $$
 
-$$
-r_t^{latent} = |z_t - A_\theta(z_{t-1})|
-$$
+$$ r_t^{latent} = |z_t - A_\theta(z_{t-1})| $$
 
 用来检测 latent 状态演化异常。
 
@@ -747,29 +653,17 @@ $$
 
 可以把整个检测框架写成：
 
-$$
-o_t = \Phi(x_t)
-$$
+$$ o_t = \Phi(x_t) $$
 
-$$
-\tilde{o}_t = Norm(o_t)
-$$
+$$ \tilde{o}_t = Norm(o_t) $$
 
-$$
-s_t = F_\theta(\tilde{o}_1,\dots,\tilde{o}_t)
-$$
+$$ s_t = F_\theta(\tilde{o}_1,\dots,\tilde{o}_t) $$
 
-$$
-\hat{s}_t = A_\theta(s_{t-1})
-$$
+$$ \hat{s}_t = A_\theta(s_{t-1}) $$
 
-$$
-r_t = |s_t - \hat{s}_t|
-$$
+$$ r_t = |s_t - \hat{s}_t| $$
 
-$$
-p_{fake}=C(Pool({s_t,r_t}_{t=1}^{T}))
-$$
+$$ p_{fake}=C(Pool({s_t,r_t}_{t=1}^{T})) $$
 
 解释：
 
@@ -827,9 +721,7 @@ resize 后是否稳定
 
 真实视频和生成视频在特征空间是否可分：
 
-$$
-E(x_{real}) \neq E(x_{fake})
-$$
+$$ E(x_{real}) \neq E(x_{fake}) $$
 
 可以用 t-SNE / UMAP 可视化。
 
@@ -839,9 +731,7 @@ $$
 
 良性变换前后，特征是否稳定：
 
-$$
-E(x) \approx E(T(x))
-$$
+$$ E(x) \approx E(T(x)) $$
 
 其中 (T) 可以是：
 
@@ -927,21 +817,13 @@ real / fake 分类
 
 公式：
 
-$$
-f_t = E(x_t)
-$$
+$$ f_t = E(x_t) $$
 
-$$
-\tilde{f}_t = Norm(f_t)
-$$
+$$ \tilde{f}_t = Norm(f_t) $$
 
-$$
-s_t = GRU(\tilde{f}_t, s_{t-1})
-$$
+$$ s_t = GRU(\tilde{f}_t, s_{t-1}) $$
 
-$$
-p_{fake}=C(Pool(s_1,\dots,s_T))
-$$
+$$ p_{fake}=C(Pool(s_1,\dots,s_T)) $$
 
 目标：
 
@@ -974,13 +856,9 @@ $$
 
 公式：
 
-$$
-\hat{f}_t = A_\theta(\tilde{f}_{t-1})
-$$
+$$ \hat{f}_t = A_\theta(\tilde{f}_{t-1}) $$
 
-$$
-r_t = |\tilde{f}_t-\hat{f}_t|
-$$
+$$ r_t = |\tilde{f}_t-\hat{f}_t| $$
 
 目标：
 
@@ -1006,15 +884,11 @@ CLIP 语义编码器
 
 构造：
 
-$$
-e_t = [e_t^{id}, e_t^{motion}, e_t^{freq}, e_t^{texture}, e_t^{semantic}]
-$$
+$$ e_t = [e_t^{id}, e_t^{motion}, e_t^{freq}, e_t^{texture}, e_t^{semantic}] $$
 
 用 Softmax 融合：
 
-$$
-R_t = \sum_k \alpha_{t,k}e_{t,k}
-$$
+$$ R_t = \sum_k \alpha_{t,k}e_{t,k} $$
 
 目标：
 

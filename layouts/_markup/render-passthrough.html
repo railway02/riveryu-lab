@@ -1,0 +1,15 @@
+{{- $displayMode := eq .Type "block" -}}
+{{- $options := dict "output" "htmlAndMathml" "displayMode" $displayMode -}}
+{{- with try (transform.ToMath .Inner $options) -}}
+  {{- with .Err -}}
+    {{- warnf "Unable to render mathematical markup at %s: %s" $.Position . -}}
+    {{- if $displayMode }}
+      <pre class="math-fallback"><code>{{ $.Inner }}</code></pre>
+    {{- else -}}
+      <code class="math-fallback">{{ $.Inner }}</code>
+    {{- end -}}
+  {{- else -}}
+    {{- .Value -}}
+    {{- $.Page.Store.Set "hasMath" true -}}
+  {{- end -}}
+{{- end -}}

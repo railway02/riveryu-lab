@@ -152,9 +152,10 @@ markup:
         enable: true
         delimiters:
           block:
+            - [ "\\[", "\\]" ]
             - [ "$$", "$$" ]
-            - [ "\\(", "\\)" ]
           inline:
+            - [ "\\(", "\\)" ]
             - [ "$", "$" ]
             
   highlight:

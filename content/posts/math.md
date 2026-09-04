@@ -12,7 +12,7 @@ summary: "数学整理"
 
 所有计算机视觉与 AI 研究问题，大致都可以拆成这条链：
 
-$$\text{数据} \rightarrow \text{表示} \rightarrow \text{比较} \rightarrow \text{损失} \rightarrow \text{优化} \rightarrow \text{泛化} \rightarrow \text{解释}$$
+$$ \text{数据} \rightarrow \text{表示} \rightarrow \text{比较} \rightarrow \text{损失} \rightarrow \text{优化} \rightarrow \text{泛化} \rightarrow \text{解释} $$
 
 对应数学是：
 
@@ -40,11 +40,11 @@ $$\text{数据} \rightarrow \text{表示} \rightarrow \text{比较} \rightarrow 
 
 深度学习里，数据最终都会变成向量。一张图片 $224 \times 224 \times 3$ 可以看成：
 
-$$x \in \mathbb{R}^{150528}$$
+$$ x \in \mathbb{R}^{150528} $$
 
 模型提取特征 $z = f_\theta(x)$，比如：
 
-$$z \in \mathbb{R}^{512}$$
+$$ z \in \mathbb{R}^{512} $$
 
 这个 $z$ 就是模型对图片的理解。
 
@@ -82,7 +82,7 @@ q.unsqueeze(2).shape = [B, D, 1]
 
 此时执行 `torch.bmm(k_neg, q.unsqueeze(2))`，对应的就是：
 
-$$[B, N, D] \times [B, D, 1] \rightarrow [B, N, 1]$$
+$$ [B, N, D] \times [B, D, 1] \rightarrow [B, N, 1] $$
 
 再执行 `.squeeze(2)` 就会变成 $[B, N]$。这就是 Batch Matrix Multiplication。
 
@@ -90,11 +90,11 @@ $$[B, N, D] \times [B, D, 1] \rightarrow [B, N, 1]$$
 
 两个向量 $a, b \in \mathbb{R}^d$ 的内积：
 
-$$a^\top b = \sum_i a_i b_i$$
+$$ a^\top b = \sum_i a_i b_i $$
 
 如果两个向量都归一化（$|a|=1, |b|=1$），那么 $a^\top b = \cos\theta$，这就是**余弦相似度**。CLIP、对比学习、检索系统都在用：
 
-$$\text{sim}(a,b) = \frac{a^\top b}{|a||b|}$$
+$$ \text{sim}(a,b) = \frac{a^\top b}{|a||b|} $$
 
 > **💡 直觉**：两个特征方向越接近，它们的语义越相似。
 
@@ -108,7 +108,7 @@ $$\text{sim}(a,b) = \frac{a^\top b}{|a||b|}$$
 
 Self-Attention 公式：
 
-$$\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d}}\right)V$$
+$$ \text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d}}\right)V $$
 
 拆解来看：
 
@@ -122,7 +122,7 @@ $$\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d}}\right)V
 
 SVD 分解：
 
-$$A = U\Sigma V^\top$$
+$$ A = U\Sigma V^\top $$
 
 * $V^\top$：旋转输入空间
 * $\Sigma$：按重要方向缩放
@@ -144,7 +144,7 @@ $$A = U\Sigma V^\top$$
 
 在多维参数 $\theta = [\theta_1, \theta_2, \dots, \theta_n]$ 下，loss 函数 $\mathcal{L}(\theta)$ 的梯度为：
 
-$$\nabla_\theta\mathcal{L} = \left[ \frac{\partial \mathcal{L}}{\partial \theta_1}, \dots, \frac{\partial \mathcal{L}}{\partial \theta_n} \right]$$
+$$ \nabla_\theta\mathcal{L} = \left[ \frac{\partial \mathcal{L}}{\partial \theta_1}, \dots, \frac{\partial \mathcal{L}}{\partial \theta_n} \right] $$
 
 梯度方向是 loss 增长最快的方向，所以**训练要往反方向走**。
 
@@ -160,15 +160,15 @@ optimizer.step()       # 根据梯度更新参数
 
 一阶泰勒展开：
 
-$$\mathcal{L}(\theta+\Delta\theta) \approx \mathcal{L}(\theta) + \nabla_\theta \mathcal{L}^\top \Delta\theta$$
+$$ \mathcal{L}(\theta+\Delta\theta) \approx \mathcal{L}(\theta) + \nabla_\theta \mathcal{L}^\top \Delta\theta $$
 
 如果选择 $\Delta\theta = -\eta\nabla_\theta\mathcal{L}$，那么：
 
-$$\mathcal{L}(\theta+\Delta\theta) \approx \mathcal{L}(\theta) - \eta |\nabla_\theta\mathcal{L}|^2$$
+$$ \mathcal{L}(\theta+\Delta\theta) \approx \mathcal{L}(\theta) - \eta |\nabla_\theta\mathcal{L}|^2 $$
 
 所以只要学习率 $\eta$ 合适，loss 必定会下降。这就是梯度下降的数学保证：
 
-$$\theta_{t+1} = \theta_t - \eta\nabla_\theta\mathcal{L}$$
+$$ \theta_{t+1} = \theta_t - \eta\nabla_\theta\mathcal{L} $$
 
 ### 2.3 链式法则：反向传播的本质
 
@@ -176,7 +176,7 @@ $$\theta_{t+1} = \theta_t - \eta\nabla_\theta\mathcal{L}$$
 
 神经网络是很多函数复合：$x \rightarrow h_1 \rightarrow h_2 \rightarrow h_3 \rightarrow \hat{y} \rightarrow \mathcal{L}$。要求第一层参数 $W_1$ 对 loss 的影响，就是从后往前连乘：
 
-$$\frac{\partial \mathcal{L}}{\partial W_1} = \frac{\partial \mathcal{L}}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial h_3} \cdot \frac{\partial h_3}{\partial h_2} \cdot \frac{\partial h_2}{\partial h_1} \cdot \frac{\partial h_1}{\partial W_1}$$
+$$ \frac{\partial \mathcal{L}}{\partial W_1} = \frac{\partial \mathcal{L}}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial h_3} \cdot \frac{\partial h_3}{\partial h_2} \cdot \frac{\partial h_2}{\partial h_1} \cdot \frac{\partial h_1}{\partial W_1} $$
 
 ### 2.4 Jacobian 与 Hessian
 
@@ -193,7 +193,7 @@ $$\frac{\partial \mathcal{L}}{\partial W_1} = \frac{\partial \mathcal{L}}{\parti
 
 期望是加权平均：
 
-$$\mathbb{E}_{x\sim p(x)}[f(x)] = \int p(x)f(x)dx$$
+$$ \mathbb{E}_{x\sim p(x)}[f(x)] = \int p(x)f(x)dx $$
 
 代码里通常用 batch 平均近似：$\mathbb{E}[f(x)] \approx \frac{1}{B} \sum_{i=1}^B f(x_i)$。
 论文里写 $\mathbb{E}_{x\sim p_{data}}[\ell(x)]$，代码里大概率就是 `loss = loss_per_sample.mean()`。
@@ -210,7 +210,7 @@ $$\mathbb{E}_{x\sim p(x)}[f(x)] = \int p(x)f(x)dx$$
 
 贝叶斯公式贯穿始终：
 
-$$p(\theta|D) = \frac{p(D|\theta)p(\theta)}{p(D)}$$
+$$ p(\theta|D) = \frac{p(D|\theta)p(\theta)}{p(D)} $$
 
 > **💡 科研思维**：看到一个好结果，我们应该追问：这结果来自方法本身的概率有多大？来自数据泄漏的概率多大？来自 random seed 的概率多大？来自 shortcut 的概率多大？
 
@@ -256,7 +256,7 @@ $$p(\theta|D) = \frac{p(D|\theta)p(\theta)}{p(D)}$$
 
 **KL 散度**：用 $q$ 去近似 $p$ 会额外损失多少信息：
 
-$$KL(p||q) = \sum_x p(x)\log\frac{p(x)}{q(x)}$$
+$$ KL(p||q) = \sum_x p(x)\log\frac{p(x)}{q(x)} $$
 
 注意，KL 散度是有方向的（$KL(p||q) \neq KL(q||p)$）：
 
@@ -269,7 +269,7 @@ $$KL(p||q) = \sum_x p(x)\log\frac{p(x)}{q(x)}$$
 
 对比学习的核心 loss：
 
-$$\mathcal{L} = -\log \frac{\exp(q^\top k^+/\tau)}{\exp(q^\top k^+/\tau) + \sum_i \exp(q^\top k_i^-/\tau)}$$
+$$ \mathcal{L} = -\log \frac{\exp(q^\top k^+/\tau)}{\exp(q^\top k^+/\tau) + \sum_i \exp(q^\top k_i^-/\tau)} $$
 
 > **💡 直觉**：本质是分类——给定 query，拉近正样本（$k^+$），推远负样本（$k^-$）。让同一语义对象的不同视图之间互信息更高。
 
@@ -279,7 +279,7 @@ $$\mathcal{L} = -\log \frac{\exp(q^\top k^+/\tau)}{\exp(q^\top k^+/\tau) + \sum_
 
 论文里的目标函数通常长这样：
 
-$$\mathcal{L} = \mathcal{L}_{\text{task}} + \lambda_1\mathcal{L}_{\text{reg}} + \lambda_2\mathcal{L}_{\text{contrast}} + \lambda_3\mathcal{L}_{\text{recon}}$$
+$$ \mathcal{L} = \mathcal{L}_{\text{task}} + \lambda_1\mathcal{L}_{\text{reg}} + \lambda_2\mathcal{L}_{\text{contrast}} + \lambda_3\mathcal{L}_{\text{recon}} $$
 
 读论文时必须问：每一项在惩罚什么？去掉会怎样？$\lambda$ 怎么选？
 
@@ -312,7 +312,7 @@ $$\mathcal{L} = \mathcal{L}_{\text{task}} + \lambda_1\mathcal{L}_{\text{reg}} + 
 
 3D 点 $X = [X,Y,Z,1]^\top$ 投影到图像平面的基本方程：
 
-$$s \begin{bmatrix} u \\ v \\ 1 \end{bmatrix} = K[R|t] \begin{bmatrix} X \\ Y \\ Z \\ 1 \end{bmatrix}$$
+$$ s \begin{bmatrix} u \\ v \\ 1 \end{bmatrix} = K[R|t] \begin{bmatrix} X \\ Y \\ Z \\ 1 \end{bmatrix} $$
 
 其中 $K$ 是内参，$R,t$ 是外参。真实观测点与预测投影点之间的**重投影误差**（Reprojection Error）是 SfM、COLMAP 和 3DGS 优化的绝对核心。
 

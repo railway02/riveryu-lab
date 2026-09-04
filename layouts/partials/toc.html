@@ -1,0 +1,13 @@
+{{- $headers := findRE "<h[1-6].*?>(.|\n])+?</h[1-6]>" .Content -}}
+{{- if ge (len $headers) 1 -}}
+<aside class="toc" aria-label="On this page">
+  <details {{ if (.Param "TocOpen") }}open{{ end }}>
+    <summary accesskey="c" title="(Alt + C)">
+      <span class="details">On this page</span>
+    </summary>
+    <div class="inner">
+      {{- .TableOfContents -}}
+    </div>
+  </details>
+</aside>
+{{- end -}}

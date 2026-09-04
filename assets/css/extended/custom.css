@@ -48,6 +48,9 @@ samp {
     --river-accent: #376f82;
     --river-accent-strong: #28596a;
     --river-accent-soft: rgba(55, 111, 130, 0.08);
+    --river-gradient-a: #2d7885;
+    --river-gradient-b: #5f74b4;
+    --river-gradient-c: #a86691;
 
     /* 文本与背景 */
     --text-main: var(--primary);
@@ -86,6 +89,9 @@ samp {
     --river-accent: #83b6c4;
     --river-accent-strong: #a1cad5;
     --river-accent-soft: rgba(131, 182, 196, 0.1);
+    --river-gradient-a: #7ad2d7;
+    --river-gradient-b: #9b9fe8;
+    --river-gradient-c: #d28eb7;
 
     --text-main: var(--primary);
     --text-muted: var(--secondary);
@@ -172,45 +178,175 @@ a:focus-visible {
 
 
 /* =================================
-   首页简介：像研究者的扉页，而不是营销卡片
+   独立首页：研究者的个人入口，而不是文章流水账
    ================================= */
 
-.first-entry {
-    min-height: auto;
-    margin: 2rem 0 2.75rem;
+body:has(.home-landing) {
+    min-height: 100vh;
 }
 
-.home-info {
-    padding-inline-start: 0;
-    border-inline-start: 0;
+body:has(.home-landing) .main {
+    display: flex;
+    width: 100%;
+    max-width: none;
+    flex: 1;
+    padding: 0 24px;
 }
 
-.home-info .entry-header h1 {
-    color: var(--primary);
-    font-size: clamp(1.9rem, 4vw, 2.125rem);
-    font-weight: 650;
-    letter-spacing: -0.025em;
+.home-landing {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    width: min(1480px, 100%);
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
+    margin: 0 auto;
+    place-items: center;
+    overflow: hidden;
 }
 
-.home-info .entry-content {
-    max-width: 60ch;
+.home-landing__outline {
+    position: absolute;
+    z-index: -2;
+    top: 47%;
+    left: 50%;
+    color: transparent;
+    font-size: clamp(9rem, 22vw, 22rem);
+    font-weight: 760;
+    letter-spacing: -0.085em;
+    line-height: 0.75;
+    opacity: 0.6;
+    transform: translate(-52%, -50%);
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--primary) 12%, transparent);
+    white-space: nowrap;
+    user-select: none;
+}
+
+.home-landing__current {
+    position: absolute;
+    z-index: -1;
+    width: min(70vw, 940px);
+    height: min(38vw, 460px);
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 24% 50%, color-mix(in srgb, var(--river-gradient-a) 17%, transparent), transparent 46%),
+        radial-gradient(circle at 76% 46%, color-mix(in srgb, var(--river-gradient-c) 13%, transparent), transparent 44%);
+    filter: blur(46px);
+    opacity: 0.9;
+    animation: river-current 12s ease-in-out infinite alternate;
+}
+
+.home-landing__content {
+    width: min(760px, 92vw);
+    padding: 4rem 0 6rem;
+    text-align: center;
+}
+
+.home-landing__eyebrow {
+    margin: 0 0 1.1rem;
     color: var(--secondary);
-    font-size: 1rem;
-    line-height: 1.68 !important;
+    font-size: 0.78rem;
+    font-weight: 650;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
 }
 
-.home-info .social-icons {
-    margin-top: 0.65rem;
-    margin-inline-start: -0.55rem;
-    padding-block: 0;
+.home-landing__title {
+    display: inline-block;
+    margin: 0;
+    background: linear-gradient(105deg, var(--river-gradient-a), var(--river-gradient-b), var(--river-gradient-c), var(--river-gradient-a));
+    background-size: 260% 100%;
+    color: transparent;
+    font-size: clamp(4.8rem, 11vw, 9.2rem);
+    font-weight: 760;
+    letter-spacing: -0.085em;
+    line-height: 0.9;
+    animation: river-gradient 9s ease-in-out infinite;
+    -webkit-background-clip: text;
+    background-clip: text;
 }
 
-.home-info .social-icons a {
+.home-landing__tagline {
+    margin: 1.55rem 0 0;
     color: var(--primary);
+    font-family: Georgia, "Times New Roman", "Noto Serif", serif;
+    font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+    letter-spacing: -0.015em;
+    line-height: 1.45;
 }
 
-.home-info .social-icons a:hover {
+.home-landing__intro {
+    max-width: 37rem;
+    margin: 0.75rem auto 0;
+    color: var(--secondary);
+    font-size: 0.95rem;
+    line-height: 1.75;
+}
+
+.home-landing__links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.55rem 1.5rem;
+    margin-top: 2rem;
+}
+
+.home-landing__links a {
+    position: relative;
+    padding: 0.25rem 0;
+    color: var(--primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.home-landing__links a::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--river-gradient-a), var(--river-gradient-b), var(--river-gradient-c));
+    content: "";
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 180ms ease;
+}
+
+.home-landing__links a:hover {
+    color: var(--river-accent-strong);
+}
+
+.home-landing__links a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.home-landing .social-icons {
+    margin-top: 1rem;
+}
+
+.home-landing .social-icons a {
+    color: var(--secondary);
+}
+
+.home-landing .social-icons a:hover {
     color: var(--river-accent);
+}
+
+.home-landing .social-icons svg {
+    width: 21px;
+    height: 21px;
+}
+
+@keyframes river-gradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes river-current {
+    from { transform: translate3d(-4%, -2%, 0) scale(0.96); }
+    to { transform: translate3d(5%, 3%, 0) scale(1.04); }
 }
 
 
@@ -295,15 +431,56 @@ textarea {
 
 /* ✅ 补回：移动端适配 */
 @media (max-width: 640px) {
-    .first-entry {
-        margin: 2.25rem 0 2.25rem;
-    }
-
-    .home-info {
-        padding-inline-start: 0;
-    }
-
     .main {
         padding: 0 16px 48px;
+    }
+
+    body:has(.home-landing) .main {
+        padding: 0 16px;
+    }
+
+    .home-landing {
+        min-height: calc(100svh - var(--header-height) - var(--footer-height));
+    }
+
+    .home-landing__outline {
+        top: 44%;
+        font-size: clamp(7.5rem, 38vw, 11rem);
+        opacity: 0.48;
+    }
+
+    .home-landing__content {
+        padding: 3rem 0 4.5rem;
+    }
+
+    .home-landing__eyebrow {
+        margin-bottom: 0.85rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.13em;
+    }
+
+    .home-landing__title {
+        font-size: clamp(4.1rem, 23vw, 5.8rem);
+    }
+
+    .home-landing__tagline {
+        margin-top: 1.25rem;
+    }
+
+    .home-landing__intro {
+        max-width: 24rem;
+        font-size: 0.9rem;
+    }
+
+    .home-landing__links {
+        gap: 0.45rem 1.1rem;
+        margin-top: 1.65rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-landing__current,
+    .home-landing__title {
+        animation: none;
     }
 }

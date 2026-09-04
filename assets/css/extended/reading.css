@@ -186,9 +186,27 @@
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content .katex-display {
   max-width: 100%;
   margin: 1.4rem 0;
-  padding: 0.35rem 0.1rem;
+  padding: 0.45rem 0.1rem;
   overflow-x: auto;
   overflow-y: hidden;
+}
+
+:where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content .katex {
+  font-size: 1.03em;
+}
+
+:where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content .math-fallback {
+  display: block;
+  max-width: 100%;
+  margin: 1.4rem 0;
+  padding: 0.8rem 1rem;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--code-bg);
+  color: var(--content);
+  font-size: 0.9em;
+  white-space: pre-wrap;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content :not(pre) > code {
@@ -213,10 +231,16 @@
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc summary {
-  color: var(--primary);
-  font-size: 0.84rem;
-  font-weight: 600;
+  width: fit-content;
+  background: linear-gradient(90deg, var(--river-gradient-a), var(--river-gradient-b), var(--river-gradient-c));
+  color: transparent;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
   cursor: pointer;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc details[open] summary {
@@ -228,25 +252,73 @@
   padding: 0;
 }
 
+:where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc #TableOfContents {
+  margin: 0;
+}
+
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc ul {
   margin: 0;
-  padding-inline-start: 1rem;
-  line-height: 1.48;
+  padding-inline-start: 0.75rem;
+  line-height: 1.42;
+  list-style: none;
+}
+
+:where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc #TableOfContents > ul {
+  padding-inline-start: 0;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc li {
-  margin: 0.3rem 0;
+  margin: 0.16rem 0;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc a {
+  position: relative;
+  display: block;
+  margin-inline-start: -0.38rem;
+  padding: 0.42rem 0.5rem 0.42rem 0.62rem;
+  border-radius: 9px;
   color: var(--secondary);
   font-size: 0.8rem;
   font-weight: 400;
+  line-height: 1.45;
   text-decoration: none;
+  transition: color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc a:hover {
   color: var(--river-accent);
+  background: color-mix(in srgb, var(--river-gradient-a) 7%, transparent);
+}
+
+:where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc a::before {
+  position: absolute;
+  top: 0.38rem;
+  bottom: 0.38rem;
+  left: 0;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--river-gradient-a), var(--river-gradient-b), var(--river-gradient-c));
+  content: "";
+  opacity: 0;
+  transform: scaleY(0.35);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+:where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc a.is-active {
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--river-gradient-a) 13%, transparent),
+    color-mix(in srgb, var(--river-gradient-b) 9%, transparent),
+    color-mix(in srgb, var(--river-gradient-c) 7%, transparent)
+  );
+  color: var(--river-accent-strong);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--river-gradient-b) 10%, transparent);
+}
+
+:where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc a.is-active::before {
+  opacity: 1;
+  transform: scaleY(1);
 }
 
 /* Fenced code block component */
@@ -433,7 +505,13 @@
     padding: 0.15rem 0 0.15rem 1rem;
     overflow-y: auto;
     border: 0;
-    border-inline-start: 1px solid var(--border);
+    border-inline-start: 1px solid transparent;
+    border-image: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--river-gradient-a) 75%, transparent),
+      color-mix(in srgb, var(--river-gradient-b) 45%, transparent),
+      color-mix(in srgb, var(--river-gradient-c) 12%, var(--border))
+    ) 1;
     border-radius: 0;
     scrollbar-width: none;
   }
@@ -479,6 +557,10 @@
 
   :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .code-block__toolbar {
     padding-inline: 0.7rem 0.4rem;
+  }
+
+  :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content .katex {
+    font-size: 0.98em;
   }
 }
 
