@@ -18,13 +18,13 @@
 .post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"])) > .toc,
 .post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"])) > .post-footer {
   width: 100%;
-  max-width: min(72ch, 720px);
+  max-width: 720px;
   margin-inline: auto;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .post-header {
   order: 1;
-  margin-bottom: 2rem;
+  margin-bottom: 1.6rem;
   text-align: start;
 }
 
@@ -35,8 +35,9 @@
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-title {
   margin: 0.7rem 0 0.75rem;
   color: var(--primary);
-  font-size: clamp(2rem, 4vw, 2.45rem);
-  line-height: 1.28;
+  font-size: clamp(1.95rem, 4vw, 2.25rem);
+  font-weight: 650;
+  line-height: 1.3;
   letter-spacing: -0.025em;
 }
 
@@ -65,7 +66,7 @@
   margin-block: 0;
   color: var(--content);
   font-size: 17px;
-  line-height: 1.78;
+  line-height: 1.82;
   overflow-wrap: break-word;
 }
 
@@ -106,18 +107,25 @@
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content h2 {
-  margin: 3rem 0 1rem;
-  font-size: 1.65em;
+  margin: 2.55rem 0 0.9rem;
+  font-size: 1.45em;
+  font-weight: 650;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content h3 {
-  margin: 2.2rem 0 0.8rem;
-  font-size: 1.3em;
+  margin: 2.1rem 0 0.75rem;
+  font-size: 1.22em;
+  font-weight: 650;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content h4 {
   margin: 1.75rem 0 0.65rem;
-  font-size: 1.1em;
+  font-size: 1.05em;
+  font-weight: 650;
+}
+
+:where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content > h2:first-child {
+  margin-top: 1.4rem;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content a {
@@ -205,8 +213,8 @@
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc summary {
-  color: var(--river-accent);
-  font-size: 0.9rem;
+  color: var(--primary);
+  font-size: 0.84rem;
   font-weight: 600;
   cursor: pointer;
 }
@@ -223,16 +231,17 @@
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc ul {
   margin: 0;
   padding-inline-start: 1rem;
-  line-height: 1.55;
+  line-height: 1.48;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc li {
-  margin: 0.35rem 0;
+  margin: 0.3rem 0;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc a {
   color: var(--secondary);
-  font-size: 0.84rem;
+  font-size: 0.8rem;
+  font-weight: 400;
   text-decoration: none;
 }
 
@@ -242,10 +251,10 @@
 
 /* Fenced code block component */
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .code-block {
-  --code-panel: #17232d;
-  --code-toolbar: #13202a;
-  --code-border: #2b3c47;
-  --code-muted: #a8bbc5;
+  --code-panel: #202326;
+  --code-toolbar: #1b1d1f;
+  --code-border: #34383b;
+  --code-muted: #aeb4b7;
   --code-font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
   margin: 1.6rem 0;
   overflow: hidden;
@@ -257,10 +266,10 @@
 }
 
 [data-theme="dark"] :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .code-block {
-  --code-panel: #111b22;
-  --code-toolbar: #0d171d;
-  --code-border: #2a3c47;
-  --code-muted: #a9bec8;
+  --code-panel: #151618;
+  --code-toolbar: #111214;
+  --code-border: #36383b;
+  --code-muted: #adb0b3;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .code-block__toolbar {
@@ -387,14 +396,14 @@
 
 @media (min-width: 1120px) {
   body:has(.post-single > .toc) .main {
-    max-width: 1160px;
+    max-width: 1120px;
   }
 
   :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))):has(> .toc) {
     display: grid;
-    grid-template-columns: minmax(0, 720px) minmax(190px, 220px);
+    grid-template-columns: minmax(0, 720px) minmax(180px, 200px);
     grid-template-rows: auto auto auto auto;
-    column-gap: clamp(2.5rem, 4vw, 4rem);
+    column-gap: clamp(2.5rem, 4vw, 3.5rem);
     align-items: start;
     justify-content: center;
   }
@@ -426,8 +435,11 @@
     border: 0;
     border-inline-start: 1px solid var(--border);
     border-radius: 0;
-    scrollbar-color: color-mix(in srgb, var(--river-accent) 36%, transparent) transparent;
-    scrollbar-width: thin;
+    scrollbar-width: none;
+  }
+
+  :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))):has(> .toc) > .toc::-webkit-scrollbar {
+    display: none;
   }
 
   :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))):has(> .toc) > .post-footer {
@@ -448,7 +460,7 @@
 
   :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content h2 {
     margin-top: 2.6rem;
-    font-size: 1.48em;
+    font-size: 1.42em;
   }
 
   :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .code-block {
