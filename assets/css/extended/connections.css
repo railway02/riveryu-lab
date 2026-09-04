@@ -1,7 +1,7 @@
 .knowledge-connections {
   order: 5;
   width: 100%;
-  max-width: min(75ch, 760px);
+  max-width: min(72ch, 720px);
   margin: 3rem auto 0;
   padding-top: 1.5rem;
   border-top: 1px solid var(--border);
@@ -44,12 +44,12 @@
 }
 
 .connection-group a {
-  color: var(--primary);
+  color: var(--river-accent);
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.5;
   text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--primary) 30%, transparent);
+  text-decoration-color: color-mix(in srgb, var(--river-accent) 30%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
   overflow-wrap: anywhere;
@@ -62,7 +62,7 @@
 
 .connection-group a:focus-visible {
   border-radius: 2px;
-  outline: 2px solid var(--primary);
+  outline: 2px solid var(--river-accent);
   outline-offset: 3px;
 }
 
@@ -88,7 +88,7 @@
   white-space: nowrap;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 1120px) {
   .post-single:has(> .toc):has(> .knowledge-connections) > .knowledge-connections {
     grid-column: 1;
     grid-row: 4;

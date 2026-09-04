@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: none;
   padding: 0;
   border: 0;
   border-radius: 0;
@@ -17,14 +18,14 @@
 .post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"])) > .toc,
 .post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"])) > .post-footer {
   width: 100%;
-  max-width: min(75ch, 760px);
+  max-width: min(72ch, 720px);
   margin-inline: auto;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .post-header {
   order: 1;
-  margin-bottom: 2.25rem;
-  text-align: center;
+  margin-bottom: 2rem;
+  text-align: start;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .breadcrumbs {
@@ -33,21 +34,22 @@
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-title {
   margin: 0.7rem 0 0.75rem;
-  font-size: clamp(2rem, 5vw, 2.8rem);
-  line-height: 1.25;
-  letter-spacing: -0.02em;
+  color: var(--primary);
+  font-size: clamp(2rem, 4vw, 2.45rem);
+  line-height: 1.28;
+  letter-spacing: -0.025em;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-description {
   max-width: 62ch;
-  margin: 0 auto 0.8rem;
+  margin: 0 0 0.8rem;
   color: var(--secondary);
   font-size: 1rem;
   line-height: 1.65;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-meta {
-  justify-content: center;
+  justify-content: flex-start;
   color: var(--secondary);
   font-size: 0.875rem;
   line-height: 1.6;
@@ -59,7 +61,7 @@
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .post-content {
-  order: 3;
+  order: 4;
   margin-block: 0;
   color: var(--content);
   font-size: 17px;
@@ -68,7 +70,7 @@
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc {
-  order: 4;
+  order: 3;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .post-footer {
@@ -98,6 +100,7 @@
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content h3,
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content h4 {
   line-height: 1.35;
+  color: var(--primary);
   letter-spacing: -0.01em;
   scroll-margin-top: 90px;
 }
@@ -118,6 +121,7 @@
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content a {
+  color: var(--river-accent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
 }
@@ -125,7 +129,7 @@
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content blockquote {
   margin: 1.5rem 0;
   padding: 0.8rem 1rem;
-  border-inline-start: 3px solid var(--primary);
+  border-inline-start: 3px solid var(--river-accent);
   border-radius: 0 6px 6px 0;
   background: color-mix(in srgb, var(--tertiary) 55%, transparent);
   color: var(--content);
@@ -182,10 +186,10 @@
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content :not(pre) > code {
   margin: 0 0.12em;
   padding: 0.12em 0.35em;
-  border: 1px solid color-mix(in srgb, var(--primary) 18%, var(--border));
+  border: 1px solid color-mix(in srgb, var(--river-accent) 22%, var(--border));
   border-radius: 4px;
-  background: color-mix(in srgb, var(--primary) 8%, var(--code-bg));
-  color: var(--primary);
+  background: color-mix(in srgb, var(--river-accent) 7%, var(--code-bg));
+  color: var(--river-accent-strong);
   font-size: 0.88em;
   line-height: inherit;
   overflow-wrap: anywhere;
@@ -201,7 +205,7 @@
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc summary {
-  color: var(--primary);
+  color: var(--river-accent);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -233,35 +237,35 @@
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc a:hover {
-  color: var(--primary);
+  color: var(--river-accent);
 }
 
 /* Fenced code block component */
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .code-block {
-  --code-panel: #24273a;
-  --code-toolbar: #1e2030;
-  --code-border: #41465f;
-  --code-muted: #a5adcb;
+  --code-panel: #17232d;
+  --code-toolbar: #13202a;
+  --code-border: #2b3c47;
+  --code-muted: #a8bbc5;
   --code-font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
   margin: 1.6rem 0;
   overflow: hidden;
   border: 1px solid var(--code-border);
-  border-radius: 9px;
+  border-radius: 6px;
   background: var(--code-panel);
   box-shadow: none;
   direction: ltr;
 }
 
 [data-theme="dark"] :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .code-block {
-  --code-panel: #1e2030;
-  --code-toolbar: #181926;
-  --code-border: #363a4f;
-  --code-muted: #b7bdf8;
+  --code-panel: #111b22;
+  --code-toolbar: #0d171d;
+  --code-border: #2a3c47;
+  --code-muted: #a9bec8;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .code-block__toolbar {
   display: flex;
-  min-height: 2.4rem;
+  min-height: 2.25rem;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
@@ -305,12 +309,12 @@
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .code-block__button:focus-visible,
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .code-block__button[aria-pressed="true"] {
   border-color: var(--code-border);
-  color: #cad3f5;
+  color: #d6e2e8;
   background: color-mix(in srgb, var(--code-muted) 10%, transparent);
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .code-block__button:focus-visible {
-  outline: 2px solid #8aadf4;
+  outline: 2px solid var(--river-accent);
   outline-offset: 1px;
 }
 
@@ -349,7 +353,7 @@
   border: 0;
   border-radius: 0;
   background: transparent !important;
-  color: #cad3f5;
+  color: #d6e2e8;
   font-size: inherit;
   line-height: inherit;
   white-space: pre;
@@ -378,19 +382,19 @@
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content table::-webkit-scrollbar-thumb,
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content .katex-display::-webkit-scrollbar-thumb {
   border-radius: 999px;
-  background: color-mix(in srgb, var(--primary) 30%, transparent);
+  background: color-mix(in srgb, var(--river-accent) 36%, transparent);
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 1120px) {
   body:has(:where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc) .main {
     max-width: 1160px;
   }
 
   :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))):has(> .toc) {
     display: grid;
-    grid-template-columns: minmax(0, 760px) minmax(210px, 250px);
+    grid-template-columns: minmax(0, 720px) minmax(190px, 220px);
     grid-template-rows: auto auto auto auto;
-    column-gap: clamp(2rem, 4vw, 3.5rem);
+    column-gap: clamp(2.5rem, 4vw, 4rem);
     align-items: start;
     justify-content: center;
   }
@@ -417,10 +421,13 @@
     grid-row: 3;
     max-height: calc(100vh - 120px);
     margin: 0;
-    padding: 0.9rem 1rem;
+    padding: 0.15rem 0 0.15rem 1rem;
     overflow-y: auto;
-    border: 1px solid var(--border);
-    border-radius: 8px;
+    border: 0;
+    border-inline-start: 1px solid var(--border);
+    border-radius: 0;
+    scrollbar-color: color-mix(in srgb, var(--river-accent) 36%, transparent) transparent;
+    scrollbar-width: thin;
   }
 
   :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))):has(> .toc) > .post-footer {
@@ -431,7 +438,7 @@
 
 @media (max-width: 640px) {
   :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-title {
-    font-size: clamp(1.8rem, 8vw, 2.25rem);
+    font-size: clamp(1.8rem, 8vw, 2.15rem);
   }
 
   :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .post-content {
@@ -441,6 +448,7 @@
 
   :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .post-content h2 {
     margin-top: 2.6rem;
+    font-size: 1.48em;
   }
 
   :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) .code-block {

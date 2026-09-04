@@ -33,75 +33,77 @@ samp {
 
 
 /* ================================
-   1. 颜色变量：水色主题
+   1. 颜色变量：克制的水色研究笔记
    ================================ */
 
 :root {
-    /* 主水色：青色，高亮用 */
-    --primary: #0ea5e9;
-    /* 稍深一点的蓝，用于链接等 */
-    --primary-strong: #0284c7;
-    /* 很浅的水色，用在背景/hover 等柔和场景 */
-    --primary-soft: #e0f2fe;
+    /* PaperMod 的 --primary 是主文字色，不应拿来当强调色。 */
+    --theme: #f8fafb;
+    --entry: #ffffff;
+    --primary: #17232d;
+    --secondary: #667681;
+    --tertiary: #e8eff2;
+    --content: #2b3740;
+    --border: #dce5e9;
+
+    /* River blue 只用于链接、焦点和少量身份标记。 */
+    --river-accent: #087da3;
+    --river-accent-strong: #075f7d;
+    --river-accent-soft: rgba(8, 125, 163, 0.09);
 
     /* 文本与背景 */
-    --text-main: #0b1220;
-    --text-muted: #475569;
+    --text-main: var(--primary);
+    --text-muted: var(--secondary);
     --surface: #ffffff;
-    --surface-strong: #f4f8fb;
-    --surface-border: rgba(2, 132, 199, 0.18);
-    --body-bg: #eef5fa;
-    --body-bg-dark: #020617;
+    --surface-strong: #f3f7f8;
+    --surface-border: var(--border);
+    --body-bg: var(--theme);
 
-    /* 阴影系统 */
-    --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.08);
-    --shadow-hover: 0 14px 36px rgba(15, 23, 42, 0.14);
-    --shadow-strong: 0 16px 40px rgba(15, 23, 42, 0.12);
-    --image-shadow: 0 16px 32px rgba(15, 23, 42, 0.18);
-    --code-shadow: 0 16px 30px rgba(15, 23, 42, 0.25);
-
-    /* 代码块颜色 */
-    --code-bg: #0f172a;
-    --code-text: #e2e8f0;
-    --code-border: rgba(148, 163, 184, 0.2);
+    /* PaperMod 区分行内代码和代码块。 */
+    --code-bg: #edf2f4;
+    --code-block-bg: #17232d;
+    --code-text: #dbe7ec;
+    --code-border: #263944;
 
     /* 链接颜色 */
-    --link-color: var(--primary-strong);
-    --link-hover-color: var(--primary);
+    --link-color: var(--river-accent);
+    --link-hover-color: var(--river-accent-strong);
 
     /* 辅助色 */
-    --blockquote-bg: rgba(14, 165, 233, 0.1);
-    --selection-bg: rgba(56, 189, 248, 0.3);
-    --table-border: #e2e8f0;
+    --blockquote-bg: var(--river-accent-soft);
+    --selection-bg: rgba(8, 125, 163, 0.18);
+    --table-border: var(--border);
 }
 
 /* 深色模式下的变量重写 */
-:root.dark {
-    --primary: #38bdf8;
-    --primary-strong: #0ea5e9;
-    --primary-soft: #0b3b5b;
+:root[data-theme="dark"] {
+    --theme: #0d151b;
+    --entry: #111c23;
+    --primary: #e5edf1;
+    --secondary: #94a3ad;
+    --tertiary: #1b2a33;
+    --content: #c9d4da;
+    --border: #273842;
 
-    --text-main: #e2e8f0;
-    --text-muted: #94a3b8;
-    --surface: #0b1220;
-    --surface-strong: #0f172a;
-    --surface-border: rgba(56, 189, 248, 0.2);
-    --body-bg: #020617;
-    --body-bg-dark: #020617;
+    --river-accent: #65bdd4;
+    --river-accent-strong: #8ccddd;
+    --river-accent-soft: rgba(101, 189, 212, 0.1);
 
-    --shadow-soft: 0 12px 32px rgba(2, 6, 23, 0.55);
-    --shadow-hover: 0 16px 40px rgba(2, 6, 23, 0.6);
-    --shadow-strong: 0 18px 42px rgba(2, 6, 23, 0.65);
-    --image-shadow: 0 16px 34px rgba(2, 6, 23, 0.6);
-    --code-shadow: 0 16px 32px rgba(2, 6, 23, 0.7);
+    --text-main: var(--primary);
+    --text-muted: var(--secondary);
+    --surface: var(--entry);
+    --surface-strong: #14212a;
+    --surface-border: var(--border);
+    --body-bg: var(--theme);
 
-    --code-bg: #0b1220;
-    --code-text: #e2e8f0;
-    --code-border: rgba(148, 163, 184, 0.18);
+    --code-bg: #19252d;
+    --code-block-bg: #111b22;
+    --code-text: #d6e2e8;
+    --code-border: #2a3c47;
 
-    --blockquote-bg: rgba(15, 23, 42, 0.7);
-    --selection-bg: rgba(56, 189, 248, 0.25);
-    --table-border: #1f2937;
+    --blockquote-bg: var(--river-accent-soft);
+    --selection-bg: rgba(101, 189, 212, 0.2);
+    --table-border: var(--border);
 }
 
 
@@ -109,12 +111,12 @@ samp {
    2. 背景与全局
    ================================ */
 
-:root:not(.dark) body {
+:root:not([data-theme="dark"]) body {
     background-color: var(--body-bg);
 }
 
-:root.dark body {
-    background-color: var(--body-bg-dark);
+:root[data-theme="dark"] body {
+    background-color: var(--body-bg);
 }
 
 ::selection {
@@ -126,18 +128,21 @@ samp {
    3. 导航与链接状态
    ================================ */
 
-.header .menu .active {
-    border-bottom: 2px solid var(--primary);
+#menu .active {
+    border-bottom-color: var(--river-accent);
 }
 
-.header .menu a {
-    padding: 6px 10px;
-    border-radius: 10px;
-    transition: background-color 0.2s ease, color 0.2s ease;
+#menu a {
+    color: var(--secondary);
+    transition: color 0.18s ease;
 }
 
-.header .menu a:hover {
-    background-color: var(--primary-soft);
+#menu a:hover {
+    color: var(--river-accent);
+}
+
+.logo a {
+    color: var(--primary);
 }
 
 a {
@@ -150,18 +155,50 @@ a:hover {
 }
 
 a:focus-visible {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--river-accent);
     outline-offset: 2px;
 }
 
 .footer-motto {
-    color: var(--primary);
+    color: var(--river-accent);
     font-weight: 600;
     letter-spacing: 0.03em;
 }
 
-:root.dark .footer-motto {
-    color: var(--primary-strong);
+:root[data-theme="dark"] .footer-motto {
+    color: var(--river-accent);
+}
+
+
+/* =================================
+   首页简介：像研究者的扉页，而不是营销卡片
+   ================================= */
+
+.first-entry {
+    min-height: auto;
+    margin: 3.75rem 0 3rem;
+}
+
+.home-info {
+    padding-inline-start: 1.35rem;
+    border-inline-start: 2px solid var(--river-accent);
+}
+
+.home-info .entry-header h1 {
+    color: var(--primary);
+    font-size: clamp(1.95rem, 4vw, 2.35rem);
+    letter-spacing: -0.025em;
+}
+
+.home-info .entry-content {
+    max-width: 64ch;
+    color: var(--secondary);
+    font-size: 1rem;
+    line-height: 1.75 !important;
+}
+
+.home-info .social-icons {
+    margin-inline-start: -0.6rem;
 }
 
 
@@ -177,34 +214,36 @@ a:focus-visible {
 }
 
 .entry-header h2 {
-    font-size: 22px;
-    margin-bottom: 5px;
-    font-weight: 700;
+    margin-bottom: 0.35rem;
+    color: var(--primary);
+    font-size: 21px;
+    font-weight: 650;
+    line-height: 1.42;
+    transition: color 0.18s ease;
 }
 
 .post-entry {
-    border: 1px solid var(--surface-border);
-    border-radius: 16px;
-    padding: 18px 20px;
-    background: var(--surface);
-    box-shadow: var(--shadow-soft);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    margin-bottom: 20px;
-    /* 增加卡片间距 */
+    margin-bottom: 0;
+    padding: 1.45rem 0.15rem 1.55rem;
+    border: 0;
+    border-top: 1px solid var(--border);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    transition: border-color 0.18s ease;
 }
 
 .post-entry:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
-    border-color: var(--primary);
+    transform: none;
+    border-color: color-mix(in srgb, var(--river-accent) 48%, var(--border));
 }
 
-:root.dark .post-entry {
-    background: var(--surface);
+.post-entry:hover .entry-header h2 {
+    color: var(--river-accent);
 }
 
-:root.dark .post-entry:hover {
-    border-color: var(--primary);
+.post-entry:active {
+    transform: none;
 }
 
 .post-entry h2,
@@ -230,7 +269,7 @@ input[type="search"],
 input[type="text"],
 input[type="email"],
 textarea {
-    border-radius: 12px;
+    border-radius: 6px;
     border: 1px solid var(--surface-border);
     padding: 10px 12px;
     background: var(--surface);
@@ -243,6 +282,14 @@ textarea {
 
 /* ✅ 补回：移动端适配 */
 @media (max-width: 640px) {
+    .first-entry {
+        margin: 2.25rem 0 2.25rem;
+    }
+
+    .home-info {
+        padding-inline-start: 1rem;
+    }
+
     .main {
         padding: 0 16px 48px;
     }
