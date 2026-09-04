@@ -6,6 +6,138 @@
   if (!canvas || !landing) return;
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const startCanvasFallback = () => {
+    const context = canvas.getContext("2d");
+    if (!context) return;
+
+    let cssWidth = 1;
+    let cssHeight = 1;
+    let frame = 0;
+    let visible = true;
+    let lastFrame = 0;
+    let pointerX = 0.5;
+    let pointerY = 0.5;
+    let targetX = 0.5;
+    let targetY = 0.5;
+
+    const resize = () => {
+      const rect = landing.getBoundingClientRect();
+      const scale = Math.min(window.devicePixelRatio || 1, 1.25);
+      cssWidth = Math.max(1, rect.width);
+      cssHeight = Math.max(1, rect.height);
+      canvas.width = Math.round(cssWidth * scale);
+      canvas.height = Math.round(cssHeight * scale);
+      context.setTransform(scale, 0, 0, scale, 0, 0);
+    };
+
+    const waveY = (x, index, time) => {
+      const base = cssHeight * (0.2 + index / 24 * 0.6);
+      const primary = Math.sin(x * 0.0065 + time * 0.00036 + index * 0.57) * cssHeight * 0.018;
+      const secondary = Math.sin(x * 0.0021 - time * 0.00021 + index * 0.83) * cssHeight * 0.025;
+      const dx = (x / cssWidth - pointerX) * 4.4;
+      const wake = Math.exp(-(dx * dx)) * (pointerY - base / cssHeight) * cssHeight * 0.12;
+      return base + primary + secondary + wake;
+    };
+
+    const draw = (time) => {
+      if (!visible || document.hidden) {
+        frame = 0;
+        return;
+      }
+      if (!reducedMotion.matches && time - lastFrame < 32) {
+        frame = requestAnimationFrame(draw);
+        return;
+      }
+
+      lastFrame = time;
+      pointerX += (targetX - pointerX) * 0.045;
+      pointerY += (targetY - pointerY) * 0.045;
+      context.clearRect(0, 0, cssWidth, cssHeight);
+
+      const dark = document.documentElement.dataset.theme === "dark";
+      const gradient = context.createLinearGradient(cssWidth * 0.12, 0, cssWidth * 0.88, 0);
+      gradient.addColorStop(0, dark ? "rgba(74, 205, 214, .16)" : "rgba(34, 120, 139, .11)");
+      gradient.addColorStop(0.52, dark ? "rgba(126, 139, 234, .18)" : "rgba(78, 102, 177, .105)");
+      gradient.addColorStop(1, dark ? "rgba(215, 114, 180, .13)" : "rgba(163, 86, 139, .09)");
+
+      const animatedTime = reducedMotion.matches ? 6000 : time;
+      for (let index = 0; index < 25; index += 1) {
+        context.beginPath();
+        for (let x = -24; x <= cssWidth + 24; x += 18) {
+          const y = waveY(x, index, animatedTime);
+          if (x === -24) context.moveTo(x, y); else context.lineTo(x, y);
+        }
+        context.strokeStyle = gradient;
+        context.lineWidth = index % 5 === 0 ? 1.15 : 0.68;
+        context.stroke();
+      }
+
+      for (let index = 0; index < 18; index += 1) {
+        const progress = ((animatedTime * (0.013 + index % 3 * 0.003) + index * 83) % (cssWidth + 140)) - 70;
+        const line = 3 + index % 19;
+        const y = waveY(progress, line, animatedTime);
+        context.beginPath();
+        context.arc(progress, y, index % 4 === 0 ? 1.6 : 0.9, 0, Math.PI * 2);
+        context.fillStyle = dark ? "rgba(146, 225, 232, .24)" : "rgba(45, 118, 147, .16)";
+        context.fill();
+      }
+
+      landing.classList.add("is-ocean-ready");
+      frame = reducedMotion.matches ? 0 : requestAnimationFrame(draw);
+    };
+
+    const start = () => {
+      if (!frame && visible && !document.hidden) frame = requestAnimationFrame(draw);
+    };
+    const stop = () => {
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+    };
+
+    landing.addEventListener("pointermove", (event) => {
+      const rect = landing.getBoundingClientRect();
+      targetX = (event.clientX - rect.left) / rect.width;
+      targetY = (event.clientY - rect.top) / rect.height;
+    }, { passive: true });
+    landing.addEventListener("pointerleave", () => {
+      targetX = 0.5;
+      targetY = 0.5;
+    }, { passive: true });
+
+    if ("ResizeObserver" in window) {
+      new ResizeObserver(() => {
+        resize();
+        if (reducedMotion.matches) start();
+      }).observe(landing);
+    } else {
+      window.addEventListener("resize", resize, { passive: true });
+    }
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) start(); else stop();
+      }).observe(landing);
+    }
+
+    const handleMotionPreference = () => {
+      stop();
+      start();
+    };
+    if ("addEventListener" in reducedMotion) {
+      reducedMotion.addEventListener("change", handleMotionPreference);
+    } else {
+      reducedMotion.addListener(handleMotionPreference);
+    }
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) stop(); else start();
+    });
+
+    resize();
+    start();
+  };
+
   const gl = canvas.getContext("webgl", {
     alpha: true,
     antialias: false,
@@ -14,7 +146,10 @@
     premultipliedAlpha: true,
   });
 
-  if (!gl) return;
+  if (!gl) {
+    startCanvasFallback();
+    return;
+  }
 
   const vertexSource = `
     attribute vec2 a_position;
