@@ -61,7 +61,7 @@
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .post-content {
-  order: 4;
+  order: 3;
   margin-block: 0;
   color: var(--content);
   font-size: 17px;
@@ -70,7 +70,7 @@
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .toc {
-  order: 3;
+  order: 4;
 }
 
 :where(.post-single:has(.breadcrumbs a:is([href$="/posts/"], [href$="/notes/"]))) > .post-footer {
