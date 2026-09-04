@@ -8,12 +8,12 @@
   {{- end -}}
 {{- end -}}
 {{- if .IsHome -}}
-  {{- $oceanHero := resources.Get "js/ocean-hero.js" | minify -}}
+  {{- $homeParticles := resources.Get "js/home-particles.js" | minify -}}
   {{- if not site.Params.assets.disableFingerprinting -}}
-    {{- $oceanHero = $oceanHero | fingerprint -}}
-    <script defer crossorigin="anonymous" src="{{ $oceanHero.RelPermalink }}" integrity="{{ $oceanHero.Data.Integrity }}"></script>
+    {{- $homeParticles = $homeParticles | fingerprint -}}
+    <script defer crossorigin="anonymous" src="{{ $homeParticles.RelPermalink }}" integrity="{{ $homeParticles.Data.Integrity }}"></script>
   {{- else -}}
-    <script defer crossorigin="anonymous" src="{{ $oceanHero.RelPermalink }}"></script>
+    <script defer crossorigin="anonymous" src="{{ $homeParticles.RelPermalink }}"></script>
   {{- end -}}
 {{- end -}}
 {{- if and (eq .Kind "page") (ne .Layout "archives") (ne .Layout "search") -}}
