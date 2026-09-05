@@ -1,15 +1,14 @@
 ---
-title: "揭开 tmux 的底牌：从操作系统原理看远程终端复用"
+title: "tmux：从操作系统原理看远程终端复用"
 date: 2026-05-10T22:00:00+08:00
 draft: false
 tags: ["Linux", "tmux", "Operating System", "Engineering", "Server"]
-summary: "程序不是跑在窗口里，而是跑在进程里。从 PTY 伪终端、SIGHUP 信号到进程树模型，带你彻底搞懂 tmux 为什么能保护你的深度学习训练任务。"
+summary: "从 PTY 伪终端、SIGHUP 信号到进程树模型"
 ---
 
 ## 0. 理解 tmux
 
 **tmux 是一个运行在服务器上的“长期终端工作台”。**
-
 
 普通 SSH：
 
@@ -1515,6 +1514,3 @@ session/window/pane 管理
 SSH、TCP、远程连接、网络断开、客户端/服务器模型
 ```
 
-一句话总结：
-
-> 程序不是跑在“窗口”里，而是跑在操作系统的进程模型里；窗口只是你观察和控制程序的入口。tmux 的价值，就是把这个入口和真正运行的程序解耦。

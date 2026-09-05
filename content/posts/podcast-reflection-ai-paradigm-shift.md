@@ -1,5 +1,5 @@
 ---
-title: "从罗福莉访谈里，我看到的不是大模型，而是一种新范式下的做事方式"
+title: "从罗福莉访谈里，我看到了一种新范式下的做事方式"
 date: 2026-05-04T10:00:00+08:00
 draft: false
 tags: ["Cognitive Upgrade", "AI", "Agent", "Methodology", "Reflection"]
