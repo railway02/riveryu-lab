@@ -6,11 +6,12 @@
   --header-height: 44px;
   --footer-height: 88px;
   --radius: 16px;
+  --radius-small: 8px;
   --river-canvas: #fcfcfd;
   --river-surface: #ffffff;
-  --river-muted-surface: #f3f4f5;
-  --river-foreground: #0b0d0f;
-  --river-content: #3f4549;
+  --river-muted-surface: #f2f2f3;
+  --river-foreground: #09090b;
+  --river-content: #45454a;
   --river-muted: #6f7479;
   --river-faint: #92979c;
   --river-primary: #4f8094;
@@ -22,16 +23,6 @@
   --river-shadow: rgba(25, 31, 35, 0.08);
   --river-selection: rgba(87, 151, 178, 0.22);
   --river-code-inline: #eef1f2;
-  --river-code-panel: #14191c;
-  --river-code-toolbar: #101416;
-  --river-code-border: #2b3338;
-  --river-code-text: #e4e9eb;
-  --river-code-muted: #98a3a8;
-  --river-code-hover: rgba(255, 255, 255, 0.07);
-  --river-toc-start: #8bbccb;
-  --river-flow-start: #bfe4ee;
-  --river-flow-mid: #63aec6;
-  --river-flow-end: #d7edf3;
   --river-ink: var(--river-foreground);
   --river-accent: var(--river-primary);
   --river-accent-strong: var(--river-primary-strong);
@@ -45,11 +36,11 @@
   --content: var(--river-content);
   --border: var(--river-border);
   --code-bg: var(--river-code-inline);
-  --code-block-bg: var(--river-code-panel);
+  --code-block-bg: var(--river-muted-surface);
   --river-font-sans: "Satoshi", "Noto Sans SC Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans CJK SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
   --river-font-display: "Satoshi", "Noto Sans SC Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --river-font-signature: "Allura", "Segoe Script", cursive;
-  --river-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  --river-font-mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Noto Sans SC Variable", "Noto Sans CJK SC", monospace;
   --river-reading-width: 760px;
   --river-wide-width: 1040px;
   color-scheme: light;
@@ -72,16 +63,6 @@
   --river-shadow: rgba(0, 0, 0, 0.28);
   --river-selection: rgba(129, 201, 222, 0.24);
   --river-code-inline: #15242b;
-  --river-code-panel: #071015;
-  --river-code-toolbar: #0a1419;
-  --river-code-border: #2a3c44;
-  --river-code-text: #e3eaed;
-  --river-code-muted: #93a4ac;
-  --river-code-hover: rgba(255, 255, 255, 0.08);
-  --river-toc-start: #83cadc;
-  --river-flow-start: #245f72;
-  --river-flow-mid: #4e9db6;
-  --river-flow-end: #1e4c5b;
   color-scheme: dark;
 }
 
@@ -176,20 +157,24 @@ pre, code, kbd, samp { font-family: var(--river-font-mono); }
   width: max-content;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.28rem 0.65rem;
+  padding: 0.25rem 0.5rem;
   border: 1px solid var(--river-border);
   border-radius: 7px;
   background: var(--river-muted-surface);
   color: var(--river-muted);
-  font-size: 0.79rem;
+  font-size: 0.875rem;
   font-weight: 480;
   line-height: 1.35;
   transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease;
 }
+.back-button svg, .soft-button svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.5; }
+.back-button__line { opacity: 0; transform: translateX(3px) scaleX(0); transform-origin: right center; transition: opacity 300ms ease, transform 300ms ease; }
+.back-button__chevron { transform: translateX(1px); transition: transform 300ms ease; }
+.back-button:hover .back-button__line { opacity: 1; transform: translateX(0) scaleX(1); }
+.back-button:hover .back-button__chevron { transform: translateX(0); }
 .back-button:hover, .soft-button:hover { border-color: color-mix(in srgb, var(--river-primary) 35%, var(--river-border)); background: var(--river-primary-soft); color: var(--river-primary-strong); }
-.back-button > span { font-size: 1.15rem; line-height: 0.8; }
 .collection-page { width: 100%; margin: 0; }
-.collection-header { margin: 2.15rem 0 1.35rem; }
+.collection-header { margin: 2.55rem 0 1.35rem; }
 .collection-header h1 { margin: 0; color: var(--river-foreground); font-size: 1.9rem; font-weight: 520; letter-spacing: -0.035em; line-height: 1.2; }
 .collection-header h1 + p { max-width: 60ch; margin: 0.8rem 0 0; color: var(--river-muted); font-size: 0.93rem; }
 .collection-intro { width: min(100%, var(--river-reading-width)); margin: 0 0 2.25rem; color: var(--river-muted); }
@@ -202,7 +187,7 @@ pre, code, kbd, samp { font-family: var(--river-font-mono); }
 .post-preview__link { position: relative; display: block; width: 100%; overflow: hidden; border: 1px solid var(--river-border); border-radius: var(--radius); background: transparent; color: inherit; transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease; }
 .post-preview__link:hover { border-color: color-mix(in srgb, var(--river-primary) 22%, var(--river-border)); background: var(--river-muted-surface); color: var(--river-primary-strong); }
 .post-preview__content { position: relative; z-index: 1; min-width: 0; }
-.post-list--compact .post-preview__link { padding: 0.58rem 1.15rem; }
+.post-list--compact .post-preview__link { padding: 0.625rem 1.25rem; }
 .post-list--compact .post-preview__content { display: grid; grid-template-columns: 98px minmax(0, 1fr); gap: 0.85rem; align-items: center; }
 .post-preview__date { color: var(--river-muted); font-size: 0.75rem; font-variant-numeric: tabular-nums; letter-spacing: 0.015em; white-space: nowrap; }
 .post-preview__heading { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 1rem; }
@@ -253,8 +238,14 @@ pre, code, kbd, samp { font-family: var(--river-font-mono); }
 .search-result__title { display: block; color: var(--river-foreground); font-size: 0.92rem; font-weight: 560; }
 .search-result__summary { display: -webkit-box; margin-top: 0.2rem; overflow: hidden; color: var(--river-muted); font-size: 0.78rem; line-height: 1.5; -webkit-box-orient: vertical; -webkit-line-clamp: 1; }
 
-.footer { display: flex; width: min(calc(100% - 32px), var(--main-width)); max-width: none; min-height: var(--footer-height); align-items: flex-start; justify-content: space-between; margin: 0 auto; padding: 1.5rem 0; border-top: 1px solid var(--river-border); color: var(--river-muted); font-size: 0.72rem; line-height: 1.6; text-align: left; }
+.footer { display: block; width: min(calc(100% - 32px), var(--main-width)); max-width: none; min-height: 0; margin: 4rem auto 1.25rem; padding: 0; color: var(--river-muted); font-size: 0.875rem; line-height: 1.5; text-align: left; }
+.footer-meta { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 1.25rem; border-top: 1px solid var(--river-border); }
 .footer a, .footer-motto { color: var(--river-muted); border: 0; }
+.footer-rss { display: inline-flex; transition: opacity 180ms ease; }
+.footer-rss:hover { opacity: 0.75; }
+.footer-rss svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-width: 1.8; }
+.footer-card { width: 100%; margin-top: 1.5rem; overflow: hidden; white-space: nowrap; }
+.footer-card span { display: block; color: var(--river-foreground); font-size: clamp(5rem, 17.8vw, 11.6rem); font-weight: 650; letter-spacing: -0.075em; line-height: 0.82; text-align: center; transform: translateY(0.06em); }
 .top-link { position: fixed; z-index: 90; right: 1.35rem; bottom: 1.35rem; display: grid; width: 42px; height: 42px; place-items: center; padding: 0; visibility: hidden; border: 1px solid var(--river-border); border-radius: 50%; background: var(--river-header); color: var(--river-muted); opacity: 0; transform: translateY(8px); transition: opacity 180ms ease, transform 180ms ease, visibility 180ms; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
 .top-link.is-visible { visibility: visible; opacity: 1; transform: translateY(0); }
 .top-link svg { width: 17px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.5; }
@@ -296,6 +287,9 @@ pre, code, kbd, samp { font-family: var(--river-font-mono); }
   .river-pagination { grid-template-columns: 1fr 1fr; gap: 1rem; }
   .river-pagination > span:not(:first-child):not(:last-child) { display: none; }
   .footer { width: calc(100% - 32px); }
+  .footer-meta { flex-direction: column; gap: 0.75rem; text-align: center; }
+  .footer-card { margin-top: 2rem; }
+  .footer-card span { font-size: 24.2vw; }
 }
 
 @media (prefers-reduced-motion: reduce) {
