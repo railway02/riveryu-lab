@@ -5,23 +5,13 @@
 
 <div class="home-hero-stage">
   <section class="home-hero" aria-labelledby="river-hero-title">
-    <p class="home-hero__tagline">Researcher &amp; Builder</p>
-    <div class="home-hero__title" data-shadow="RiverYu">
-      <svg class="home-hero__river" viewBox="0 0 620 170" aria-hidden="true" focusable="false">
-        <defs>
-          <linearGradient id="river-flow-gradient" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stop-color="var(--river-flow-start)"/>
-            <stop offset="0.48" stop-color="var(--river-flow-mid)"/>
-            <stop offset="1" stop-color="var(--river-flow-end)"/>
-          </linearGradient>
-        </defs>
-        <path class="home-hero__river-bed" d="M-18 109C55 48 122 41 198 87c79 48 151 43 222-13 67-53 129-45 218 20"/>
-        <path class="home-hero__river-current home-hero__river-current--one" d="M-18 109C55 48 122 41 198 87c79 48 151 43 222-13 67-53 129-45 218 20"/>
-        <path class="home-hero__river-current home-hero__river-current--two" d="M-4 127c84-38 133-67 211-24 81 45 156 24 221-30 58-48 118-42 202 9"/>
-      </svg>
-      <h1 id="river-hero-title">RiverYu</h1>
+    <div class="home-hero__content">
+      <p class="home-hero__tagline">Researcher &amp; Builder</p>
+      <div class="home-hero__title" data-shadow="RiverYu">
+        <h1 id="river-hero-title">RiverYu</h1>
+      </div>
+      <p class="home-hero__description">To explore, and to feel.<br>去探索，也去感受</p>
     </div>
-    <p class="home-hero__description">To explore, to build, and to keep moving.<br>去探索，去创造，也继续向前流动。</p>
   </section>
 </div>
 
@@ -61,11 +51,11 @@
   {{- end -}}
 
   <section class="home-section" aria-labelledby="home-focus-title">
-    <div class="home-section__label"><h2 id="home-focus-title">Focus</h2></div>
+    <div class="home-section__label"><h2 id="home-focus-title">Skills</h2></div>
     <div class="home-section__content home-skills">
-      <div class="home-skill"><h3>Research</h3><p>3D Generation &amp; Editing · 3D Reconstruction · Representation Learning</p></div>
-      <div class="home-skill"><h3>Build</h3><p>Python · C++ · PyTorch · CUDA</p></div>
-      <div class="home-skill"><h3>Tools</h3><p>Git · Linux · LaTeX · Hugo</p></div>
+      <div class="home-skill"><h3>Research</h3><div class="home-skill__items"><span>3D Generation</span><span>3D Reconstruction</span><span>Representation Learning</span></div></div>
+      <div class="home-skill"><h3>Programming</h3><div class="home-skill__items"><span>Python</span><span>C++</span><span>PyTorch</span><span>CUDA</span></div></div>
+      <div class="home-skill"><h3>Tools</h3><div class="home-skill__items"><span>Git</span><span>Linux</span><span>LaTeX</span><span>Hugo</span></div></div>
     </div>
   </section>
 </div>

@@ -4,15 +4,15 @@
   {{- $options = dict "type" "text" -}}
 {{- end -}}
 {{- $result := transform.HighlightCodeBlock . $options -}}
-<div class="code-block" data-code-block data-language="{{ $language }}">
-  <div class="code-block__toolbar">
-    <span class="code-block__language">{{ $language }}</span>
-    <div class="code-block__actions">
-      <button class="code-block__button" type="button" data-code-copy>Copy</button>
-      <button class="code-block__button" type="button" data-code-wrap aria-pressed="false">Wrap</button>
-    </div>
-  </div>
-  <div class="code-block__body">
-    {{- $result.Wrapped -}}
-  </div>
+<div class="astro-code" data-code-block data-language="{{ $language }}" tabindex="0">
+  {{- $result.Wrapped -}}
+  <span class="language">{{ $language }}</span>
+  <button class="copy" type="button" data-code-copy aria-label="Copy code">
+    <span class="ready" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h2"/></svg>
+    </span>
+    <span class="success" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg>
+    </span>
+  </button>
 </div>

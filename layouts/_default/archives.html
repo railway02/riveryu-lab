@@ -1,6 +1,6 @@
 {{- define "main" -}}
 <section class="collection-page archive-page" aria-labelledby="collection-title">
-  <a class="back-button" href="{{ "/" | absLangURL }}"><span aria-hidden="true">‹</span> Back</a>
+  {{- partial "back-button.html" ("/" | absLangURL) -}}
   <header class="collection-header">
     <h1 id="collection-title">{{ .Title }}</h1>
     {{- with .Description }}<p>{{ . }}</p>{{- end }}

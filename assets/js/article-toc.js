@@ -1,71 +1,88 @@
 (() => {
-  const toc = document.querySelector(".post-single > .toc");
-  const content = document.querySelector(".post-single > .post-content");
+  "use strict";
 
+  const toc = document.getElementById("article-toc");
+  const content = document.getElementById("content");
   if (!toc || !content) return;
 
-  const details = toc.querySelector("details");
-  const links = Array.from(toc.querySelectorAll('a[href^="#"]'));
-  const headings = links
-    .map((link) => {
-      const id = decodeURIComponent(link.hash.slice(1));
-      return { link, heading: document.getElementById(id) };
-    })
-    .filter(({ heading }) => heading);
+  const links = Array.from(toc.querySelectorAll('a[href^="#"]')).map((link) => {
+    const slug = decodeURIComponent(link.hash.slice(1));
+    const heading = document.getElementById(slug);
+    const progress = document.createElement("span");
+    progress.className = "toc-progress";
+    link.parentElement?.classList.add("toc-entry");
+    link.parentElement?.insertBefore(progress, link);
+    link.classList.add("toc-item");
+    return { link, heading, progress };
+  }).filter(({ heading }) => heading);
 
-  if (!headings.length) return;
+  if (!links.length) return;
 
-  const desktop = window.matchMedia("(min-width: 1120px)");
-  if (details && !desktop.matches) details.open = false;
-
-  let currentLink = null;
+  const articleHeadings = links.map(({ heading }) => heading);
   let frame = 0;
 
-  const revealInToc = (link) => {
-    if (!desktop.matches) return;
-    const top = link.offsetTop;
-    const bottom = top + link.offsetHeight;
-    if (top < toc.scrollTop + 12) toc.scrollTop = Math.max(0, top - 12);
-    if (bottom > toc.scrollTop + toc.clientHeight - 12) {
-      toc.scrollTop = bottom - toc.clientHeight + 12;
-    }
-  };
-
-  const activate = (link) => {
-    if (!link || link === currentLink) return;
-    links.forEach((item) => {
-      item.classList.remove("is-active");
-      item.removeAttribute("aria-current");
-    });
-    link.classList.add("is-active");
-    link.setAttribute("aria-current", "location");
-    currentLink = link;
-    revealInToc(link);
-  };
-
-  const update = () => {
+  function update() {
     frame = 0;
-    const offset = Math.min(180, window.innerHeight * 0.24);
-    let active = headings[0].link;
+    const viewportHeight = window.innerHeight;
+    const contentTop = content.offsetTop;
+    const pageOffset = window.scrollY - contentTop;
+    const postOffset = content.offsetHeight + 127;
+    const state = new Map();
 
-    for (const item of headings) {
-      if (item.heading.getBoundingClientRect().top <= offset) active = item.link;
-      else break;
-    }
+    articleHeadings.forEach((heading, index) => {
+      const nextTop = articleHeadings[index + 1]?.offsetTop || postOffset;
+      const start = heading.offsetTop - pageOffset;
+      const end = nextTop - pageOffset - heading.offsetHeight;
+      const progress = Math.max(0, Math.min(1, (viewportHeight - start) / Math.max(1, end - start)));
+      state.set(heading.id, { inView: start < viewportHeight && end > 0, progress });
+    });
 
-    activate(active);
-  };
+    links.forEach(({ link, heading, progress }, index) => {
+      const item = state.get(heading.id);
+      const previous = links[index - 1] ? state.get(links[index - 1].heading.id) : null;
+      const next = links[index + 1] ? state.get(links[index + 1].heading.id) : null;
+      link.classList.toggle("highlight", item.inView);
+      link.classList.toggle("rounded-top", item.inView && !previous?.inView);
+      link.classList.toggle("rounded-bottom", item.inView && !next?.inView);
+      link.toggleAttribute("aria-current", item.inView);
+      progress.classList.toggle("is-read", !item.inView && item.progress === 1);
+      progress.classList.toggle("highlight", item.inView);
+      progress.style.height = `${item.progress * 90}%`;
+    });
+  }
 
-  const requestUpdate = () => {
+  function scheduleUpdate() {
     if (!frame) frame = window.requestAnimationFrame(update);
-  };
+  }
 
-  window.addEventListener("scroll", requestUpdate, { passive: true });
-  window.addEventListener("resize", requestUpdate);
-  window.addEventListener("hashchange", requestUpdate);
-  desktop.addEventListener?.("change", (event) => {
-    if (details) details.open = event.matches;
-    requestUpdate();
+  const toggle = document.getElementById("toc-toggle");
+  const shade = document.getElementById("toc-shade");
+
+  function closeDrawer() {
+    toc.classList.remove("show");
+    toggle?.setAttribute("aria-expanded", "false");
+    if (shade) shade.hidden = true;
+  }
+
+  links.forEach(({ link, heading }) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      history.pushState(null, heading.textContent || "", link.getAttribute("href"));
+      heading.scrollIntoView({ behavior: "smooth" });
+      closeDrawer();
+    });
   });
+
+  toggle?.addEventListener("click", () => {
+    const open = toc.classList.toggle("show");
+    toggle.setAttribute("aria-expanded", String(open));
+    if (shade) shade.hidden = !open;
+  });
+  shade?.addEventListener("click", closeDrawer);
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeDrawer();
+  });
+  window.addEventListener("scroll", scheduleUpdate, { passive: true });
+  window.addEventListener("resize", scheduleUpdate);
   update();
 })();
