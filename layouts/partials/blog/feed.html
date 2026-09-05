@@ -1,14 +1,31 @@
-<div class="river-feed">
+{{- $detailed := .Detailed | default false -}}
+<ul class="post-list{{ if $detailed }} post-list--detailed{{ else }} post-list--compact{{ end }}">
   {{- range .Pages -}}
-  <a class="river-feed__item" href="{{ .RelPermalink }}">
-    <time class="river-feed__date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>
-    <span class="river-feed__body">
-      <span class="river-feed__title">{{ .Title }}</span>
-      {{- if ne (.Param "hideSummary") true -}}
-      <span class="river-feed__summary">{{ .Summary | plainify | htmlUnescape | truncate 150 }}</span>
-      {{- end -}}
-    </span>
-    <svg class="river-feed__arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13m-5-5 5 5-5 5" /></svg>
-  </a>
+  <li class="post-preview">
+    <a class="post-preview__link" href="{{ .RelPermalink }}">
+      <div class="post-preview__content">
+        <time class="post-preview__date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+        <span class="post-preview__heading">
+          <span class="post-preview__title">{{ .Title }}</span>
+          <svg class="post-preview__arrow" viewBox="0 0 24 24" aria-hidden="true">
+            <path class="post-preview__arrow-line" d="M5 12h14"/>
+            <path d="m12 5 7 7-7 7"/>
+          </svg>
+        </span>
+        {{- if and $detailed (ne (.Param "hideSummary") true) -}}
+        <span class="post-preview__summary">{{ .Summary | plainify | htmlUnescape | truncate 170 }}</span>
+        <span class="post-preview__meta">
+          <span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>{{ .ReadingTime }} min</span>
+          <span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M3 10h14M10 3c2 2 3 4.3 3 7s-1 5-3 7c-2-2-3-4.3-3-7s1-5 3-7Z"/></svg>{{ .Language.LanguageName | default "中文" }}</span>
+        </span>
+        {{- with .Params.tags -}}
+        <span class="post-preview__tags">
+          {{- range . -}}<span>{{ . }}</span>{{- end -}}
+        </span>
+        {{- end -}}
+        {{- end -}}
+      </div>
+    </a>
+  </li>
   {{- end -}}
-</div>
+</ul>

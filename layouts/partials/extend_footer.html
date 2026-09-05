@@ -6,16 +6,6 @@
   <script defer crossorigin="anonymous" src="{{ $siteScript.RelPermalink }}"></script>
 {{- end -}}
 
-{{- if .IsHome -}}
-  {{- $homeWater := resources.Get "js/home-water.js" | minify -}}
-  {{- if not site.Params.assets.disableFingerprinting -}}
-    {{- $homeWater = $homeWater | fingerprint -}}
-    <script defer crossorigin="anonymous" src="{{ $homeWater.RelPermalink }}" integrity="{{ $homeWater.Data.Integrity }}"></script>
-  {{- else -}}
-    <script defer crossorigin="anonymous" src="{{ $homeWater.RelPermalink }}"></script>
-  {{- end -}}
-{{- end -}}
-
 {{- if eq .Layout "river-search" -}}
   {{- $searchScript := resources.Get "js/search.js" | minify -}}
   {{- if not site.Params.assets.disableFingerprinting -}}

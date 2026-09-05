@@ -1,8 +1,7 @@
 {{- define "main" -}}
 <section class="collection-page" aria-labelledby="collection-title">
+  <a class="back-button" href="{{ "/" | absLangURL }}"><span aria-hidden="true">‹</span> Back</a>
   <header class="collection-header">
-    {{- partial "breadcrumbs.html" . -}}
-    <p class="section-kicker">{{ .Section | default .Kind | title }}</p>
     <h1 id="collection-title">{{ .Title }}</h1>
     {{- with .Description }}<p>{{ . | markdownify }}</p>{{- end }}
   </header>
@@ -13,7 +12,7 @@
 
   {{- $pages := union .RegularPages .Sections -}}
   {{- $paginator := .Paginate $pages.ByDate.Reverse 10 -}}
-  {{- partial "blog/feed.html" (dict "Pages" $paginator.Pages) -}}
+  {{- partial "blog/feed.html" (dict "Pages" $paginator.Pages "Detailed" true) -}}
   {{- partial "pagination.html" . -}}
 </section>
 {{- end -}}

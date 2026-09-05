@@ -1,9 +1,11 @@
-# RiverYu's Lab 
+# RiverYu's Home
 
 This is the source code for my personal academic website & portfolio.
 It documents my journey in **CS, AI, and 3D Editing**.
 
-🔗 **Live Site:** [https://riveryu-lab.vercel.app](https://riveryu-lab.vercel.app)
+🔗 **Live Site:** [https://www.ruyaohui.com/](https://www.ruyaohui.com/)
+
+The current layout is adapted from Seeridia's Home with the owner's permission. Latin UI typography uses Satoshi; the RiverYu signature uses Allura (SIL Open Font License 1.1), and Chinese text uses Noto Sans SC (SIL Open Font License 1.1).
 
 ## Tech Stack
 - **Generator:** [Hugo](https://gohugo.io/)

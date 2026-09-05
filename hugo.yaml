@@ -1,5 +1,5 @@
-baseURL: "https://ruyaohui.com"
-title: "RiverYu's Lab"
+baseURL: "https://www.ruyaohui.com/"
+title: "RiverYu's Home"
 languageCode: "zh-cn"
 theme: "PaperMod"
 
@@ -46,7 +46,7 @@ outputFormats:
 # Site-wide metadata
 # -----------------------------------------------------------------------------
 copyright: >
-  &copy; 2025 RiverYu's Lab ·
+  &copy; 2026 RiverYu's Home ·
   <span class="footer-motto">Per aspera ad astra</span>
 
 # -----------------------------------------------------------------------------
@@ -72,8 +72,8 @@ params:
     favicon16x16: /river-logo.svg
     favicon32x32: /river-logo.svg
     apple_touch_icon: /river-logo.svg
-    theme_color: "#F5FAFC"
-    msapplication_TileColor: "#F5FAFC"
+    theme_color: "#FCFCFD"
+    msapplication_TileColor: "#FCFCFD"
 
   # Content behavior
   math: true

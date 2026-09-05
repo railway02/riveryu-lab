@@ -1,7 +1,7 @@
 {{- define "main" -}}
 <section class="collection-page search-page" aria-labelledby="collection-title">
+  <a class="back-button" href="{{ "/" | absLangURL }}"><span aria-hidden="true">‹</span> Back</a>
   <header class="collection-header">
-    <p class="section-kicker">Find</p>
     <h1 id="collection-title">{{ .Title }}</h1>
     {{- with .Description }}<p>{{ . }}</p>{{- end }}
   </header>
