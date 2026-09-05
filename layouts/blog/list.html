@@ -1,15 +1,35 @@
 {{- define "main" -}}
 <section class="collection-page" aria-labelledby="collection-title">
+  <a class="back-button" href="{{ "/" | absLangURL }}"><span aria-hidden="true">‹</span> Back</a>
   <header class="collection-header">
-    {{- partial "breadcrumbs.html" . -}}
-    <p class="section-kicker">Writing</p>
     <h1 id="collection-title">{{ .Title }}</h1>
-    {{- with .Description }}<p>{{ . }}</p>{{- end }}
   </header>
 
   {{- $pages := where site.RegularPages "Section" "in" (slice "posts" "notes") -}}
-  {{- $paginator := .Paginate $pages.ByDate.Reverse 10 -}}
-  {{- partial "blog/feed.html" (dict "Pages" $paginator.Pages) -}}
-  {{- partial "pagination.html" . -}}
+  {{- $paginator := .Paginate $pages.ByDate.Reverse 8 -}}
+  <div class="blog-overview">
+    <section class="blog-posts" aria-label="Blog posts">
+      <div class="blog-list-meta">
+        <span>Page {{ $paginator.PageNumber }} · Showing {{ len $paginator.Pages }} of {{ len $pages }} posts</span>
+        <a href="{{ "/archives/" | absLangURL }}">View all posts by years →</a>
+      </div>
+      {{- partial "blog/feed.html" (dict "Pages" $paginator.Pages "Detailed" true) -}}
+      {{- partial "pagination.html" . -}}
+    </section>
+    {{- with site.Taxonomies.tags.ByCount -}}
+    <aside class="blog-tags" aria-labelledby="blog-tags-title">
+      <h2 id="blog-tags-title">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13 13 20 4 11V4h7l9 9Z"/><circle cx="8.5" cy="8.5" r="1.2"/></svg>
+        Tags
+      </h2>
+      <ul>
+        {{- range first 24 . -}}
+        <li><a href="{{ .Page.RelPermalink }}">{{ .Page.LinkTitle }}</a></li>
+        {{- end -}}
+      </ul>
+      <a class="blog-tags__all" href="{{ "/tags/" | absLangURL }}">View all →</a>
+    </aside>
+    {{- end -}}
+  </div>
 </section>
 {{- end -}}

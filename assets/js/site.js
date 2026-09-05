@@ -2,19 +2,51 @@
   "use strict";
 
   const root = document.documentElement;
+  const header = document.querySelector("[data-site-header]");
+  const menuToggle = document.getElementById("menu-toggle");
   const themeToggle = document.getElementById("theme-toggle");
+
   themeToggle?.addEventListener("click", () => {
     const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
     root.dataset.theme = nextTheme;
     localStorage.setItem("pref-theme", nextTheme);
   });
 
+  let previousScrollY = window.scrollY;
+  function updateHeader() {
+    const currentScrollY = window.scrollY;
+    header?.classList.toggle("not-top", currentScrollY > 20);
+    if (header) {
+      header.dataset.show = String(currentScrollY < 350 || currentScrollY < previousScrollY || header.classList.contains("expanded"));
+    }
+    previousScrollY = currentScrollY;
+  }
+
+  function setMenu(open) {
+    header?.classList.toggle("expanded", open);
+    menuToggle?.setAttribute("aria-expanded", String(open));
+    updateHeader();
+  }
+
+  menuToggle?.addEventListener("click", () => {
+    setMenu(!header?.classList.contains("expanded"));
+  });
+
+  header?.querySelectorAll("#menu a").forEach((link) => {
+    link.addEventListener("click", () => setMenu(false));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setMenu(false);
+  });
+
   const topLink = document.getElementById("top-link");
-  function updateTopLink() {
+  function updateScrollState() {
+    updateHeader();
     topLink?.classList.toggle("is-visible", window.scrollY > 720);
   }
-  window.addEventListener("scroll", updateTopLink, { passive: true });
-  updateTopLink();
+  window.addEventListener("scroll", updateScrollState, { passive: true });
+  updateScrollState();
 
   document.addEventListener("click", (event) => {
     const anchor = event.target.closest('a[href^="#"]');

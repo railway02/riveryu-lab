@@ -1,32 +1,72 @@
 {{- define "main" -}}
-<section class="river-hero" aria-labelledby="river-hero-title">
-  <canvas class="river-hero__water" data-river-water aria-hidden="true"></canvas>
-  <div class="river-hero__identity">
-    <h1 id="river-hero-title">RiverYu</h1>
-  </div>
-  <a class="river-hero__scroll" href="#latest-writing" aria-label="Scroll to latest writing">
-    <span></span>
-  </a>
-</section>
-
 {{- $pages := where site.RegularPages "Section" "in" (slice "posts" "notes") -}}
 {{- $pages = $pages.ByDate.Reverse -}}
-<section class="home-writing" id="latest-writing" aria-labelledby="latest-writing-title">
-  <header class="section-heading">
-    <div>
-      <p class="section-kicker">Blog</p>
-      <h2 id="latest-writing-title">Latest writing</h2>
+{{- $projects := where site.RegularPages "Section" "projects" -}}
+
+<div class="home-hero-stage">
+  <section class="home-hero" aria-labelledby="river-hero-title">
+    <p class="home-hero__tagline">Researcher &amp; Builder</p>
+    <div class="home-hero__title" data-shadow="RiverYu">
+      <svg class="home-hero__river" viewBox="0 0 620 170" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="river-flow-gradient" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="var(--river-flow-start)"/>
+            <stop offset="0.48" stop-color="var(--river-flow-mid)"/>
+            <stop offset="1" stop-color="var(--river-flow-end)"/>
+          </linearGradient>
+        </defs>
+        <path class="home-hero__river-bed" d="M-18 109C55 48 122 41 198 87c79 48 151 43 222-13 67-53 129-45 218 20"/>
+        <path class="home-hero__river-current home-hero__river-current--one" d="M-18 109C55 48 122 41 198 87c79 48 151 43 222-13 67-53 129-45 218 20"/>
+        <path class="home-hero__river-current home-hero__river-current--two" d="M-4 127c84-38 133-67 211-24 81 45 156 24 221-30 58-48 118-42 202 9"/>
+      </svg>
+      <h1 id="river-hero-title">RiverYu</h1>
     </div>
-    <p class="section-note">Research notes, experiments, and reflections.</p>
-  </header>
+    <p class="home-hero__description">To explore, to build, and to keep moving.<br>去探索，去创造，也继续向前流动。</p>
+  </section>
+</div>
 
-  {{- partial "blog/feed.html" (dict "Pages" (first 9 $pages)) -}}
+<div class="home-directory" id="content">
+  <section class="home-section" aria-labelledby="home-about-title">
+    <div class="home-section__label"><h2 id="home-about-title">About</h2></div>
+    <div class="home-section__content home-about">
+      <p>Hi, I'm RiverYu — an undergraduate researcher working on computer vision, 3D generation, and reconstruction.</p>
+      <a class="soft-button" href="{{ "/about/" | absLangURL }}">More about me <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
 
-  <div class="home-writing__footer">
-    <a class="text-link" href="{{ "/blog/" | absLangURL }}">
-      <span>View all posts</span>
-      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13m-5-5 5 5-5 5" /></svg>
-    </a>
-  </div>
-</section>
+  <section class="home-section" id="latest-writing" aria-labelledby="latest-writing-title">
+    <div class="home-section__label"><h2 id="latest-writing-title">Posts</h2></div>
+    <div class="home-section__content">
+      {{- partial "blog/feed.html" (dict "Pages" (first 10 $pages) "Detailed" false) -}}
+      <a class="soft-button home-section__more" href="{{ "/blog/" | absLangURL }}">More posts <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  {{- if $projects -}}
+  <section class="home-section" aria-labelledby="home-works-title">
+    <div class="home-section__label"><h2 id="home-works-title">Works</h2></div>
+    <div class="home-section__content">
+      <div class="home-projects">
+        {{- range $projects.ByDate.Reverse -}}
+        <a class="home-project" href="{{ .RelPermalink }}">
+          <span class="home-project__title">{{ .Title }}</span>
+          <span class="home-project__summary">{{ .Summary | plainify | htmlUnescape | truncate 110 }}</span>
+          <span class="home-project__arrow" aria-hidden="true">→</span>
+        </a>
+        {{- end -}}
+      </div>
+      <a class="soft-button home-section__more" href="{{ "/projects/" | absLangURL }}">More projects <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+  {{- end -}}
+
+  <section class="home-section" aria-labelledby="home-focus-title">
+    <div class="home-section__label"><h2 id="home-focus-title">Focus</h2></div>
+    <div class="home-section__content home-skills">
+      <div class="home-skill"><h3>Research</h3><p>3D Generation &amp; Editing · 3D Reconstruction · Representation Learning</p></div>
+      <div class="home-skill"><h3>Build</h3><p>Python · C++ · PyTorch · CUDA</p></div>
+      <div class="home-skill"><h3>Tools</h3><p>Git · Linux · LaTeX · Hugo</p></div>
+    </div>
+  </section>
+</div>
 {{- end -}}
