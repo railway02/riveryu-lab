@@ -5,12 +5,20 @@
   const header = document.querySelector("[data-site-header]");
   const menuToggle = document.getElementById("menu-toggle");
   const themeToggle = document.getElementById("theme-toggle");
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+
+  function updateThemeColor() {
+    themeColor?.setAttribute("content", root.dataset.theme === "dark" ? "#091116" : "#F4F9FC");
+  }
 
   themeToggle?.addEventListener("click", () => {
     const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
     root.dataset.theme = nextTheme;
     localStorage.setItem("pref-theme", nextTheme);
+    updateThemeColor();
   });
+
+  updateThemeColor();
 
   let previousScrollY = window.scrollY;
   function updateHeader() {

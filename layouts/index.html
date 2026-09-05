@@ -4,11 +4,35 @@
 {{- $projects := where site.RegularPages "Section" "projects" -}}
 
 <div class="home-hero-stage">
-  <section class="home-hero" aria-labelledby="river-hero-title">
+  <section class="home-hero" aria-labelledby="river-hero-title" data-river-hero>
+    <span class="home-hero__watermark" aria-hidden="true">RiverYu</span>
+    <canvas class="home-hero__flow" data-river-flow data-word="RiverYu" aria-hidden="true"></canvas>
     <div class="home-hero__content">
       <p class="home-hero__tagline">Researcher &amp; Builder</p>
-      <div class="home-hero__title" data-shadow="RiverYu">
-        <h1 id="river-hero-title">RiverYu</h1>
+      <div class="home-hero__title">
+        <h1 id="river-hero-title" class="home-hero__sr-only">RiverYu</h1>
+        <svg class="home-signature" viewBox="0 0 600 190" role="img" aria-label="RiverYu">
+          {{- /* EMS Allure centerlines reveal the matching Allura letterforms in writing order. */ -}}
+          <defs>
+            <mask id="river-signature-reveal" x="0" y="0" width="600" height="190" maskUnits="userSpaceOnUse" style="mask-type: luminance">
+              <rect width="600" height="190" fill="black" />
+              <g transform="translate(107.6 132) scale(.14 -.14)">
+            <path class="home-signature__stroke" pathLength="1" style="--draw-delay: 0ms; --draw-duration: 700ms" d="M498 573L419 564L356 501L340 438L293 334L208 198L154 85.1L142 34.6L161 3.15L198 18.9L220 37.8L227 44.1" />
+            <path class="home-signature__stroke" pathLength="1" style="--draw-delay: 250ms; --draw-duration: 1000ms" d="M81.9 369L28.4 419L22 495L53.5 561L161 636L274 671L406 696L558 693L671 680L772 617L813 536L788 447L677 365L554 321L432 284L334 280L202 293L198 315L312 230L381 117L498-22L627-117L762-176L882-176L945-139L970-101L976-66.1" />
+            <path class="home-signature__stroke" pathLength="1" transform="translate(548.7)" style="--draw-delay: 1050ms; --draw-duration: 450ms" d="M-31.5 183L37.8 236L59.9 328L-37.8 85.1L-18.9 22L53.5 6.3L132 69.3L183 129L217 183" />
+            <path class="home-signature__stroke" pathLength="1" transform="translate(548.7)" style="--draw-delay: 1250ms; --draw-duration: 220ms" d="M123 476L94.5 438" />
+            <path class="home-signature__stroke" pathLength="1" transform="translate(785.4)" style="--draw-delay: 1350ms; --draw-duration: 240ms" d="M-31.5 183L56.7 274L72.5 312L69.3 337L34.6 356L0 356" />
+            <path class="home-signature__stroke" pathLength="1" transform="translate(785.4)" style="--draw-delay: 1450ms; --draw-duration: 520ms" d="M41 334L28.4 170L0 85.1L0 9.45L126 186L224 299L318 381L403 432L447 419" />
+            <path class="home-signature__stroke" pathLength="1" transform="translate(1110.1)" style="--draw-delay: 1800ms; --draw-duration: 520ms" d="M66.1 170L148 211L217 249L252 306L239 350L180 356L63 287L15.8 252L-34.6 192L-66.1 139L-72.4 88.2L-50.4 44.1L31.5 9.45L170 44.1L214 81.9L277 135L315 183" />
+            <path class="home-signature__stroke" pathLength="1" transform="translate(1439.9)" style="--draw-delay: 2150ms; --draw-duration: 560ms" d="M-31.5 183L34.6 287L154 463L47.2 391L47.2 365L59.9 356L258 353L145 214L81.9 101L97.6 22L186 28.4L296 132L337 183" />
+            <path class="home-signature__stroke" pathLength="1" transform="translate(1764.6)" style="--draw-delay: 2450ms; --draw-duration: 900ms" d="M28.4 482L34.6 485L120 523L195 583L252 646L277 665L287 668L230 554L142 394L69.3 230L56.7 154L50.4 75.6L85 15.8L158 15.8L233 53.6L334 145L403 220L463 306L542 416L595 510L621 586L662 649L715 674L759 680L684 633L633 576L583 400L526 205L457-6.3L406-113L346-211L296-284L233-346L148-400L69.3-413L31.5-400L3.15-350L6.3-296L37.8-233L107-151L205-59.9L331 9.45L416 40.9L570 91.4L598 91.4" />
+            <path class="home-signature__stroke" pathLength="1" transform="translate(2301.3)" style="--draw-delay: 3050ms; --draw-duration: 680ms" d="M47.2 309L-18.9 217L-53.6 123L-56.7 56.7L-9.45 28.4L78.8 53.6L145 139L227 239L293 353L324 343L214 164L205 97.6L202 53.6L255 22L321 40.9L413 120L463 183" />
+              </g>
+              <rect class="home-signature__mask-complete" width="600" height="190" fill="white" />
+            </mask>
+          </defs>
+          <text class="home-signature__ink" x="300" y="132" text-anchor="middle" mask="url(#river-signature-reveal)">RiverYu</text>
+        </svg>
       </div>
       <p class="home-hero__description">To explore, and to feel.<br>去探索，也去感受</p>
     </div>
@@ -19,7 +43,7 @@
   <section class="home-section" aria-labelledby="home-about-title">
     <div class="home-section__label"><h2 id="home-about-title">About</h2></div>
     <div class="home-section__content home-about">
-      <p>👋 Hi, I'm RiverYu!</p>
+      <p>Hi, I'm RiverYu!</p>
       <p>I'm an undergraduate researcher working on computer vision, 3D generation, and reconstruction.</p>
       <a class="soft-button" href="{{ "/about/" | absLangURL }}">More about me <span aria-hidden="true">→</span></a>
     </div>

@@ -1,4 +1,12 @@
 @font-face {
+  font-family: "Allura";
+  src: url("/fonts/allura-latin-400-normal.woff2") format("woff2");
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+}
+
+@font-face {
   font-family: "Satoshi";
   src: url("/fonts/Satoshi-Variable.ttf") format("truetype");
   font-style: normal;
@@ -12,14 +20,6 @@
   font-style: italic;
   font-display: swap;
   font-weight: 300 900;
-}
-
-@font-face {
-  font-family: "Allura";
-  src: url("/fonts/allura-latin-400-normal.woff2") format("woff2");
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
 }
 
 /* noto-sans-sc-[4]-wght-normal */

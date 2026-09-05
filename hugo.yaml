@@ -73,8 +73,8 @@ params:
     favicon16x16: /river-logo.svg
     favicon32x32: /river-logo.svg
     apple_touch_icon: /river-logo.svg
-    theme_color: "#FCFCFD"
-    msapplication_TileColor: "#FCFCFD"
+    theme_color: "#F4F9FC"
+    msapplication_TileColor: "#F4F9FC"
 
   # Content behavior
   math: true
