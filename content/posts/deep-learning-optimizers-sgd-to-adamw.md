@@ -5,9 +5,6 @@ draft: false
 tags: ["Deep Learning", "Mathematics", "Optimization", "PyTorch"]
 summary: "SGD、Momentum、RMSProp 到 AdamW"
 ---
-
-# 深度学习优化算法系统笔记：从梯度下降到 AdamW
-
 ## 0. 优化器到底在做什么？
 
 神经网络训练的目标是最小化损失函数：

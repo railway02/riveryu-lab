@@ -16,7 +16,7 @@ relations:
   - target: adversarial-reality
     type: applies-to
     note: "把低能量、时空平滑的控制场思路迁移为反取证扰动约束与检测轨迹线索。"
-----------
+---
 
 ## 导语
 

@@ -1,5 +1,5 @@
 ---
-title: "脑力提升：把自己训练成高耐力、高抽象、高产出的科研型大脑"
+title: "提高一些精力，我才不是ADHD！"
 date: 2026-05-24T10:00:00+08:00
 draft: false
 tags: ["Cognitive Upgrade", "Methodology", "Research WorkFlow", "Self Management", "Productivity"]
