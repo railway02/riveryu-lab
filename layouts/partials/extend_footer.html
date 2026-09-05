@@ -16,6 +16,16 @@
   {{- end -}}
 {{- end -}}
 
+{{- if .IsHome -}}
+  {{- $homeFlow := resources.Get "js/home-flow.js" | minify -}}
+  {{- if not site.Params.assets.disableFingerprinting -}}
+    {{- $homeFlow = $homeFlow | fingerprint -}}
+    <script defer crossorigin="anonymous" src="{{ $homeFlow.RelPermalink }}" integrity="{{ $homeFlow.Data.Integrity }}"></script>
+  {{- else -}}
+    <script defer crossorigin="anonymous" src="{{ $homeFlow.RelPermalink }}"></script>
+  {{- end -}}
+{{- end -}}
+
 {{- if and (eq .Kind "page") (ne .Layout "archives") (ne .Layout "search") -}}
   {{- $codeTools := resources.Get "js/code-tools.js" | minify -}}
   {{- if not site.Params.assets.disableFingerprinting -}}

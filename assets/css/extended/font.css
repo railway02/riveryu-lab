@@ -14,14 +14,6 @@
   font-weight: 300 900;
 }
 
-@font-face {
-  font-family: "Allura";
-  src: url("/fonts/allura-latin-400-normal.woff2") format("woff2");
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-}
-
 /* noto-sans-sc-[4]-wght-normal */
 @font-face {
   font-family: 'Noto Sans SC Variable';

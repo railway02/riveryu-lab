@@ -4,11 +4,22 @@
 {{- $projects := where site.RegularPages "Section" "projects" -}}
 
 <div class="home-hero-stage">
-  <section class="home-hero" aria-labelledby="river-hero-title">
+  <section class="home-hero" aria-labelledby="river-hero-title" data-river-hero>
+    <span class="home-hero__watermark" aria-hidden="true">RiverYu</span>
+    <canvas class="home-hero__flow" data-river-flow data-word="RiverYu" aria-hidden="true"></canvas>
     <div class="home-hero__content">
       <p class="home-hero__tagline">Researcher &amp; Builder</p>
-      <div class="home-hero__title" data-shadow="RiverYu">
-        <h1 id="river-hero-title">RiverYu</h1>
+      <div class="home-hero__title">
+        <h1 id="river-hero-title" class="home-hero__sr-only">RiverYu</h1>
+        <svg class="home-signature" viewBox="0 0 600 190" role="img" aria-label="RiverYu">
+          <path class="home-signature__stroke" pathLength="1" style="--draw-delay: 0ms; --draw-duration: 1250ms" d="M20 153C38 141 42 105 48 60C51 39 52 24 47 18C76 10 128 12 145 34C160 54 141 76 118 83C98 90 73 88 53 84C81 82 112 89 132 105C150 119 161 136 177 148" />
+          <path class="home-signature__stroke" pathLength="1" style="--draw-delay: 920ms; --draw-duration: 1150ms" d="M168 116C180 110 189 97 194 84C190 98 181 122 190 130C200 139 214 119 220 105C218 118 220 132 228 136C236 127 250 103 258 92C257 100 261 104 268 105C283 106 290 100 294 104C299 110 285 119 267 121C270 135 289 138 305 127C316 119 321 106 325 96C322 111 318 129 325 134C333 139 340 115 346 106C351 97 360 96 367 101" />
+          <path class="home-signature__stroke" pathLength="1" style="--draw-delay: 1510ms; --draw-duration: 280ms" d="M194 65C199 62 205 62 208 66" />
+          <path class="home-signature__stroke" pathLength="1" style="--draw-delay: 1840ms; --draw-duration: 420ms" d="M378 41C391 51 403 71 413 91" />
+          <path class="home-signature__stroke" pathLength="1" style="--draw-delay: 2030ms; --draw-duration: 760ms" d="M451 27C438 49 426 72 413 91C408 105 406 124 402 144C398 162 387 175 373 178" />
+          <path class="home-signature__stroke" pathLength="1" style="--draw-delay: 2420ms; --draw-duration: 820ms" d="M456 103C449 121 446 139 456 142C468 146 482 121 490 105C485 122 482 138 491 142C501 146 516 133 527 117" />
+          <path class="home-signature__stroke home-signature__stroke--current" pathLength="1" style="--draw-delay: 2920ms; --draw-duration: 820ms" d="M102 171C220 147 402 151 568 166" />
+        </svg>
       </div>
       <p class="home-hero__description">To explore, and to feel.<br>去探索，也去感受</p>
     </div>
@@ -19,7 +30,7 @@
   <section class="home-section" aria-labelledby="home-about-title">
     <div class="home-section__label"><h2 id="home-about-title">About</h2></div>
     <div class="home-section__content home-about">
-      <p>👋 Hi, I'm RiverYu!</p>
+      <p>Hi, I'm RiverYu!</p>
       <p>I'm an undergraduate researcher working on computer vision, 3D generation, and reconstruction.</p>
       <a class="soft-button" href="{{ "/about/" | absLangURL }}">More about me <span aria-hidden="true">→</span></a>
     </div>
