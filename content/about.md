@@ -5,7 +5,7 @@ ShowToc = false
 draft = false
 +++
 
-## Hi, I'm RiverYu 👋
+## Hi, I'm RiverYu
 
 I am an undergraduate student majoring in **CS (Network Engineering)** at **Henan Normal University**.  
 My research interests lie in **Computer Vision**, the way machines see the world, and perhaps one way we imagine the future of computing.

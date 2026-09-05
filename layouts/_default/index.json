@@ -1,0 +1,14 @@
+{{- $index := slice -}}
+{{- range site.RegularPages -}}
+  {{- if and (not .Params.searchHidden) (ne .Layout "archives") (ne .Layout "river-search") -}}
+    {{- $index = $index | append (dict
+      "title" .Title
+      "content" .Plain
+      "permalink" .Permalink
+      "summary" (.Summary | plainify)
+      "section" .Section
+      "date" (.Date.Format "2006-01-02")
+    ) -}}
+  {{- end -}}
+{{- end -}}
+{{- $index | jsonify -}}

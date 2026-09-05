@@ -1,0 +1,15 @@
+{{- define "main" -}}
+<section class="collection-page search-page" aria-labelledby="collection-title">
+  <header class="collection-header">
+    <p class="section-kicker">Find</p>
+    <h1 id="collection-title">{{ .Title }}</h1>
+    {{- with .Description }}<p>{{ . }}</p>{{- end }}
+  </header>
+  <div id="searchbox" class="river-search">
+    <label class="river-search__label" for="searchInput">Search the current</label>
+    <input id="searchInput" autofocus placeholder="Title, topic, or keyword" aria-label="Search" type="search" autocomplete="off" maxlength="64">
+    <p id="searchStatus" class="river-search__status" aria-live="polite"></p>
+    <ul id="searchResults" aria-label="Search results"></ul>
+  </div>
+</section>
+{{- end -}}

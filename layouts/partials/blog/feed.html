@@ -1,0 +1,14 @@
+<div class="river-feed">
+  {{- range .Pages -}}
+  <a class="river-feed__item" href="{{ .RelPermalink }}">
+    <time class="river-feed__date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>
+    <span class="river-feed__body">
+      <span class="river-feed__title">{{ .Title }}</span>
+      {{- if ne (.Param "hideSummary") true -}}
+      <span class="river-feed__summary">{{ .Summary | plainify | htmlUnescape | truncate 150 }}</span>
+      {{- end -}}
+    </span>
+    <svg class="river-feed__arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h13m-5-5 5 5-5 5" /></svg>
+  </a>
+  {{- end -}}
+</div>

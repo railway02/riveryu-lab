@@ -1,3 +1,31 @@
+{{- $siteScript := resources.Get "js/site.js" | minify -}}
+{{- if not site.Params.assets.disableFingerprinting -}}
+  {{- $siteScript = $siteScript | fingerprint -}}
+  <script defer crossorigin="anonymous" src="{{ $siteScript.RelPermalink }}" integrity="{{ $siteScript.Data.Integrity }}"></script>
+{{- else -}}
+  <script defer crossorigin="anonymous" src="{{ $siteScript.RelPermalink }}"></script>
+{{- end -}}
+
+{{- if .IsHome -}}
+  {{- $homeWater := resources.Get "js/home-water.js" | minify -}}
+  {{- if not site.Params.assets.disableFingerprinting -}}
+    {{- $homeWater = $homeWater | fingerprint -}}
+    <script defer crossorigin="anonymous" src="{{ $homeWater.RelPermalink }}" integrity="{{ $homeWater.Data.Integrity }}"></script>
+  {{- else -}}
+    <script defer crossorigin="anonymous" src="{{ $homeWater.RelPermalink }}"></script>
+  {{- end -}}
+{{- end -}}
+
+{{- if eq .Layout "river-search" -}}
+  {{- $searchScript := resources.Get "js/search.js" | minify -}}
+  {{- if not site.Params.assets.disableFingerprinting -}}
+    {{- $searchScript = $searchScript | fingerprint -}}
+    <script defer crossorigin="anonymous" src="{{ $searchScript.RelPermalink }}" integrity="{{ $searchScript.Data.Integrity }}"></script>
+  {{- else -}}
+    <script defer crossorigin="anonymous" src="{{ $searchScript.RelPermalink }}"></script>
+  {{- end -}}
+{{- end -}}
+
 {{- if and (eq .Kind "page") (ne .Layout "archives") (ne .Layout "search") -}}
   {{- $codeTools := resources.Get "js/code-tools.js" | minify -}}
   {{- if not site.Params.assets.disableFingerprinting -}}
@@ -7,16 +35,8 @@
     <script defer crossorigin="anonymous" src="{{ $codeTools.RelPermalink }}"></script>
   {{- end -}}
 {{- end -}}
-{{- if .IsHome -}}
-  {{- $homeParticles := resources.Get "js/home-particles.js" | minify -}}
-  {{- if not site.Params.assets.disableFingerprinting -}}
-    {{- $homeParticles = $homeParticles | fingerprint -}}
-    <script defer crossorigin="anonymous" src="{{ $homeParticles.RelPermalink }}" integrity="{{ $homeParticles.Data.Integrity }}"></script>
-  {{- else -}}
-    <script defer crossorigin="anonymous" src="{{ $homeParticles.RelPermalink }}"></script>
-  {{- end -}}
-{{- end -}}
-{{- if and (eq .Kind "page") (ne .Layout "archives") (ne .Layout "search") -}}
+
+{{- if and (eq .Kind "page") (.Param "ShowToc") -}}
   {{- $articleToc := resources.Get "js/article-toc.js" | minify -}}
   {{- if not site.Params.assets.disableFingerprinting -}}
     {{- $articleToc = $articleToc | fingerprint -}}

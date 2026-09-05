@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+{{- $theme := site.Params.defaultTheme | default "light" -}}
+<html lang="{{ site.Language }}" dir="{{ .Language.LanguageDirection | default "auto" }}" data-theme="{{ $theme }}">
+<head>
+  {{- partial "head.html" . -}}
+</head>
+<body id="top" class="site-body kind-{{ .Kind }} section-{{ .Section }}{{ if .IsHome }} is-home{{ end }}">
+  {{- partialCached "header.html" . .Page -}}
+  <main class="main">
+    {{- block "main" . }}{{ end -}}
+  </main>
+  {{- partialCached "footer.html" . .Layout .Kind (.Param "hideFooter") -}}
+</body>
+</html>

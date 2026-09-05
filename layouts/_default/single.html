@@ -4,7 +4,8 @@
 */}}
 {{- define "main" }}
 
-<article class="post-single">
+{{- $isWriting := in (slice "posts" "notes") .Section -}}
+<article class="post-single{{ if $isWriting }} post-single--writing{{ else }} post-single--page{{ end }}">
   <header class="post-header">
     {{ partial "breadcrumbs.html" . }}
     <h1 class="post-title entry-hint-parent">
