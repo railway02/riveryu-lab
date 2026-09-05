@@ -76,7 +76,7 @@
     sampleContext.fillText(word, centerX, centerY);
 
     const pixels = sampleContext.getImageData(0, 0, sample.width, sample.height).data;
-    const gap = width < 680 ? 4 : 5;
+    const gap = 3;
     const targets = [];
 
     for (let y = 0; y < sample.height; y += gap) {
@@ -113,11 +113,11 @@
         targetY: target.y,
         velocityX: entersFromLeft ? randomBetween(0.25, 0.9) : randomBetween(-0.6, -0.2),
         velocityY: randomBetween(-0.2, 0.2),
-        spring: randomBetween(0.0075, 0.014),
-        friction: randomBetween(0.875, 0.91),
+        ease: randomBetween(0.018, 0.06),
+        friction: 0.2,
         phase: randomBetween(0, Math.PI * 2),
         delay: settled ? 0 : randomBetween(0, 1150),
-        length: randomBetween(2.2, 5.8),
+        size: gap - 1,
         tone: index % 3,
         alpha: target.alpha,
       };
@@ -125,7 +125,7 @@
   };
 
   const buildStreamParticles = () => {
-    const count = Math.min(210, Math.max(width < 680 ? 52 : 90, Math.round(width * height / 10500)));
+    const count = Math.min(150, Math.max(width < 680 ? 42 : 72, Math.round(width * height / 14500)));
     return Array.from({ length: count }, (_, index) => ({
       x: Math.random() * width,
       y: Math.random() * height,
@@ -141,18 +141,19 @@
     }));
   };
 
-  const applyPointerCurrent = (particle, timestamp) => {
+  const applyPointerCollision = (particle, timestamp) => {
     if (!pointer.active || timestamp - pointer.movedAt > 1200) return;
 
     const distanceX = particle.x - pointer.x;
     const distanceY = particle.y - pointer.y;
-    const distance = Math.hypot(distanceX, distanceY);
-    const radius = Math.min(170, Math.max(100, width * 0.11));
-    if (!distance || distance >= radius) return;
+    const distanceSquared = distanceX * distanceX + distanceY * distanceY;
+    const interactionArea = width < 680 ? 200 : 300;
+    if (distanceSquared <= 0 || distanceSquared >= interactionArea) return;
 
-    const influence = 1 - distance / radius;
-    particle.velocityX += (-distanceY / distance) * influence * 0.055;
-    particle.velocityY += (distanceX / distance) * influence * 0.055;
+    const distance = Math.sqrt(distanceSquared);
+    const force = (interactionArea * 2000) / distanceSquared;
+    particle.velocityX += (distanceX / distance) * force;
+    particle.velocityY += (distanceY / distance) * force;
   };
 
   const updateWordParticles = (time, elapsed, timestamp) => {
@@ -171,18 +172,17 @@
       const targetX = particle.targetX + targetCurrent.x * 2.1;
       const targetY = particle.targetY + targetCurrent.y * 2.7;
 
-      if (elapsed >= particle.delay) {
-        particle.velocityX += (targetX - particle.x) * particle.spring;
-        particle.velocityY += (targetY - particle.y) * particle.spring;
-      }
-
-      particle.velocityX += current.x * 0.018;
-      particle.velocityY += current.y * 0.018;
-      applyPointerCurrent(particle, timestamp);
+      applyPointerCollision(particle, timestamp);
       particle.velocityX *= particle.friction;
       particle.velocityY *= particle.friction;
-      particle.x += particle.velocityX;
-      particle.y += particle.velocityY;
+
+      if (elapsed >= particle.delay) {
+        particle.x += particle.velocityX + (targetX - particle.x) * particle.ease + current.x * 0.06;
+        particle.y += particle.velocityY + (targetY - particle.y) * particle.ease + current.y * 0.06;
+      } else {
+        particle.x += particle.velocityX + current.x * 0.06;
+        particle.y += particle.velocityY + current.y * 0.06;
+      }
     }
   };
 
@@ -207,37 +207,28 @@
     const dark = document.documentElement.dataset.theme === "dark";
     return dark
       ? {
-        word: ["rgba(94, 194, 220, .32)", "rgba(132, 218, 236, .4)", "rgba(184, 236, 246, .34)"],
-        stream: ["rgba(91, 187, 211, .08)", "rgba(129, 207, 225, .1)", "rgba(182, 230, 240, .08)"],
+        word: ["rgba(83, 187, 217, .38)", "rgba(125, 211, 232, .46)", "rgba(178, 231, 242, .4)"],
+        stream: ["rgba(91, 187, 211, .055)", "rgba(129, 207, 225, .07)", "rgba(182, 230, 240, .055)"],
         composite: "screen",
       }
       : {
-        word: ["rgba(34, 137, 177, .25)", "rgba(60, 166, 202, .3)", "rgba(116, 199, 222, .34)"],
-        stream: ["rgba(36, 137, 174, .075)", "rgba(71, 171, 205, .1)", "rgba(117, 198, 220, .08)"],
+        word: ["rgba(27, 128, 169, .31)", "rgba(47, 153, 191, .38)", "rgba(100, 190, 216, .42)"],
+        stream: ["rgba(36, 137, 174, .045)", "rgba(71, 171, 205, .06)", "rgba(117, 198, 220, .05)"],
         composite: "multiply",
       };
   };
 
-  const drawParticles = (particles, colors, isWord) => {
+  const drawStreamParticles = (particles, colors) => {
     context.lineCap = "round";
 
     for (let tone = 0; tone < colors.length; tone += 1) {
       context.strokeStyle = colors[tone];
-      context.lineWidth = isWord ? 0.85 + tone * 0.18 : 0.55 + tone * 0.12;
+      context.lineWidth = 0.55 + tone * 0.12;
       context.beginPath();
 
       for (const particle of particles) {
         if (particle.tone !== tone) continue;
-
-        if (isWord) {
-          const velocity = Math.hypot(particle.velocityX, particle.velocityY);
-          const directionX = velocity > 0.08 ? particle.velocityX / velocity : 1;
-          const directionY = velocity > 0.08 ? particle.velocityY / velocity : 0;
-          const length = particle.length * (0.8 + particle.alpha * 0.2);
-          context.moveTo(particle.x - directionX * length, particle.y - directionY * length);
-        } else {
-          context.moveTo(particle.previousX, particle.previousY);
-        }
+        context.moveTo(particle.previousX, particle.previousY);
         context.lineTo(particle.x, particle.y);
       }
 
@@ -245,12 +236,24 @@
     }
   };
 
+  const drawWordParticles = (particles, colors) => {
+    for (let tone = 0; tone < colors.length; tone += 1) {
+      context.fillStyle = colors[tone];
+
+      for (const particle of particles) {
+        if (particle.tone !== tone) continue;
+        const size = particle.size * (0.78 + particle.alpha * 0.22);
+        context.fillRect(particle.x - size / 2, particle.y - size / 2, size, size);
+      }
+    }
+  };
+
   const draw = () => {
     context.clearRect(0, 0, width, height);
     const colors = palette();
-    drawParticles(streamParticles, colors.stream, false);
+    drawStreamParticles(streamParticles, colors.stream);
     context.globalCompositeOperation = colors.composite;
-    drawParticles(wordParticles, colors.word, true);
+    drawWordParticles(wordParticles, colors.word);
     context.globalCompositeOperation = "source-over";
   };
 
@@ -260,7 +263,7 @@
       return;
     }
 
-    const frameInterval = width < 680 ? 1000 / 30 : 1000 / 40;
+    const frameInterval = 1000 / 30;
     if (timestamp - lastFrame >= frameInterval || reducedMotion.matches) {
       const time = timestamp * 0.001;
       updateStreamParticles(time);

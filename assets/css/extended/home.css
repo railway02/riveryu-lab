@@ -6,54 +6,16 @@
   margin-left: calc(50% - 50vw);
   overflow: hidden;
   background:
-    radial-gradient(ellipse 70% 52% at 50% 48%, rgba(132, 207, 229, 0.26), transparent 72%),
-    radial-gradient(ellipse 54% 42% at 8% 76%, rgba(97, 188, 218, 0.16), transparent 76%),
-    radial-gradient(ellipse 48% 38% at 93% 20%, rgba(186, 229, 241, 0.34), transparent 74%),
-    linear-gradient(160deg, #f7fcfe 0%, #e9f6fb 48%, #dff1f8 100%);
-}
-
-.home-hero-stage::before,
-.home-hero-stage::after {
-  position: absolute;
-  z-index: 0;
-  border-radius: 50%;
-  content: "";
-  filter: blur(2px);
-  pointer-events: none;
-}
-
-.home-hero-stage::before {
-  top: 31%;
-  left: -12%;
-  width: 70%;
-  height: 26%;
-  background: linear-gradient(102deg, transparent 7%, rgba(92, 182, 213, 0.08) 46%, rgba(255, 255, 255, 0.38) 68%, transparent 92%);
-  transform: rotate(-8deg);
-}
-
-.home-hero-stage::after {
-  right: -19%;
-  bottom: 17%;
-  width: 68%;
-  height: 24%;
-  background: linear-gradient(106deg, transparent 4%, rgba(74, 170, 204, 0.09) 45%, rgba(255, 255, 255, 0.34) 72%, transparent 96%);
-  transform: rotate(7deg);
+    radial-gradient(circle at 50% 47%, rgba(89, 181, 214, 0.16), transparent 34%),
+    radial-gradient(circle at 12% 17%, rgba(255, 255, 255, 0.86), transparent 28%),
+    linear-gradient(158deg, #f8fcfe 0%, #ebf7fb 54%, #deeff6 100%);
 }
 
 :root[data-theme="dark"] .home-hero-stage {
   background:
-    radial-gradient(ellipse 68% 50% at 50% 48%, rgba(44, 124, 151, 0.2), transparent 72%),
-    radial-gradient(ellipse 52% 40% at 8% 76%, rgba(26, 96, 122, 0.14), transparent 76%),
-    radial-gradient(ellipse 48% 38% at 93% 20%, rgba(71, 145, 169, 0.13), transparent 74%),
-    linear-gradient(160deg, #0b171e 0%, #0c1c24 52%, #102630 100%);
-}
-
-:root[data-theme="dark"] .home-hero-stage::before {
-  background: linear-gradient(102deg, transparent 7%, rgba(57, 141, 169, 0.08) 46%, rgba(157, 215, 231, 0.12) 68%, transparent 92%);
-}
-
-:root[data-theme="dark"] .home-hero-stage::after {
-  background: linear-gradient(106deg, transparent 4%, rgba(45, 127, 155, 0.08) 45%, rgba(142, 204, 222, 0.1) 72%, transparent 96%);
+    radial-gradient(circle at 50% 47%, rgba(52, 140, 169, 0.18), transparent 36%),
+    radial-gradient(circle at 12% 17%, rgba(65, 133, 155, 0.08), transparent 30%),
+    linear-gradient(158deg, #0a171e 0%, #0d2029 54%, #102a35 100%);
 }
 
 :root[data-theme="dark"] .home-hero__watermark {
@@ -76,7 +38,7 @@
 .home-hero__flow,
 .home-hero__watermark {
   position: absolute;
-  z-index: -1;
+  z-index: 0;
   inset: 0;
   width: 100%;
   height: 100%;
@@ -108,7 +70,7 @@
 
 .home-hero.is-flow-ready .home-hero__watermark {
   opacity: 0;
-  transition-delay: 900ms;
+  transition-delay: 2.8s;
 }
 
 .home-hero__content {
@@ -156,18 +118,26 @@
 
 .home-signature__stroke {
   fill: none;
-  stroke: var(--river-foreground);
+  stroke: #fff;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 5.2;
+  stroke-width: 110;
   animation: signature-draw var(--draw-duration) cubic-bezier(0.55, 0, 0.3, 1) var(--draw-delay) forwards;
-  vector-effect: non-scaling-stroke;
 }
 
-.home-signature__stroke--current {
-  stroke: color-mix(in srgb, var(--river-primary-strong) 72%, var(--river-foreground));
+.home-signature__ink {
+  fill: var(--river-foreground);
+  font-family: "Allura", cursive;
+  font-size: 140px;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+}
+
+.home-signature__mask-complete {
+  opacity: 0;
+  animation: signature-mask-complete 220ms ease 3.72s forwards;
 }
 
 .home-hero__description {
@@ -178,11 +148,15 @@
   line-height: 1.6;
   opacity: 0;
   transform: translateY(20px);
-  animation: hero-reveal 600ms ease 3.55s forwards;
+  animation: hero-reveal 600ms ease 3.78s forwards;
 }
 
 @keyframes signature-draw {
   to { stroke-dashoffset: 0; }
+}
+
+@keyframes signature-mask-complete {
+  to { opacity: 1; }
 }
 
 @keyframes hero-reveal {
@@ -389,6 +363,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .home-hero__flow {
+    transition: none;
+  }
+
+  .home-hero.is-flow-ready .home-hero__watermark {
+    opacity: 0;
+    transition: none;
+  }
+
   .home-hero__tagline,
   .home-hero__description,
   .home-directory {
@@ -399,6 +382,11 @@
 
   .home-signature__stroke {
     stroke-dashoffset: 0;
+    animation: none;
+  }
+
+  .home-signature__mask-complete {
+    opacity: 1;
     animation: none;
   }
 }
