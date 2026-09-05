@@ -1,6 +1,7 @@
 baseURL: "https://www.ruyaohui.com/"
 title: "RiverYu's Home"
 languageCode: "zh-cn"
+hasCJKLanguage: true
 theme: "PaperMod"
 
 # -----------------------------------------------------------------------------
