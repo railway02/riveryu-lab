@@ -2,30 +2,34 @@
 <ul class="post-list{{ if $detailed }} post-list--detailed{{ else }} post-list--compact{{ end }}">
   {{- range .Pages -}}
   <li class="post-preview">
-    <a class="post-preview__link" href="{{ .RelPermalink }}">
-      <div class="post-preview__content">
-        <time class="post-preview__date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
-        <span class="post-preview__heading">
+    <div class="post-preview__content">
+      <time class="post-preview__date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+      <div class="post-preview__heading">
+        <a class="post-preview__link" href="{{ .RelPermalink }}">
           <span class="post-preview__title">{{ .Title }}</span>
           <svg class="post-preview__arrow" viewBox="0 0 24 24" aria-hidden="true">
             <path class="post-preview__arrow-line" d="M5 12h14"/>
             <path d="m12 5 7 7-7 7"/>
           </svg>
-        </span>
-        {{- if and $detailed (ne (.Param "hideSummary") true) -}}
-        <span class="post-preview__summary">{{ .Summary | plainify | htmlUnescape | truncate 170 }}</span>
-        <span class="post-preview__meta">
+        </a>
+      </div>
+      {{- if $detailed -}}
+        {{- if ne (.Param "hideSummary") true -}}
+        <p class="post-preview__summary">{{ .Summary | plainify | htmlUnescape | truncate 170 }}</p>
+        {{- end -}}
+        <div class="post-preview__meta">
           <span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>{{ .ReadingTime }} min</span>
           <span><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M3 10h14M10 3c2 2 3 4.3 3 7s-1 5-3 7c-2-2-3-4.3-3-7s1-5 3-7Z"/></svg>{{ .Language.LanguageName | default "中文" }}</span>
-        </span>
-        {{- with .Params.tags -}}
-        <span class="post-preview__tags">
-          {{- range . -}}<span>{{ . }}</span>{{- end -}}
-        </span>
-        {{- end -}}
-        {{- end -}}
-      </div>
-    </a>
+        </div>
+      {{- end -}}
+    </div>
+    {{- if $detailed -}}
+      {{- with .GetTerms "tags" -}}
+      <ul class="post-preview__tags" aria-label="Tags">
+        {{- range . -}}<li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>{{- end -}}
+      </ul>
+      {{- end -}}
+    {{- end -}}
   </li>
   {{- end -}}
 </ul>
