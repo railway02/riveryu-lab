@@ -1,25 +1,10 @@
 .home-hero-stage {
   position: relative;
   width: 100vw;
-  height: calc(100vh - 92px);
-  min-height: 680px;
+  height: 100svh;
   margin-left: calc(50% - 50vw);
   overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 47%, rgba(89, 181, 214, 0.16), transparent 34%),
-    radial-gradient(circle at 12% 17%, rgba(255, 255, 255, 0.86), transparent 28%),
-    linear-gradient(158deg, #f8fcfe 0%, #ebf7fb 54%, #deeff6 100%);
-}
-
-:root[data-theme="dark"] .home-hero-stage {
-  background:
-    radial-gradient(circle at 50% 47%, rgba(52, 140, 169, 0.18), transparent 36%),
-    radial-gradient(circle at 12% 17%, rgba(65, 133, 155, 0.08), transparent 30%),
-    linear-gradient(158deg, #0a171e 0%, #0d2029 54%, #102a35 100%);
-}
-
-:root[data-theme="dark"] .home-hero__watermark {
-  color: rgba(126, 207, 229, 0.075);
+  background: var(--river-canvas);
 }
 
 .home-hero {
@@ -27,64 +12,26 @@
   z-index: 1;
   display: flex;
   width: 100%;
-  min-height: 100%;
+  min-height: 80svh;
   align-items: center;
   justify-content: center;
   isolation: isolate;
-  padding: 5.5rem 2rem 4rem;
+  padding: 6rem 2rem 4rem;
   text-align: center;
-}
-
-.home-hero__flow,
-.home-hero__watermark {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.home-hero__flow {
-  opacity: 0;
-  transition: opacity 900ms ease;
-}
-
-.home-hero.is-flow-ready .home-hero__flow {
-  opacity: 1;
-}
-
-.home-hero__watermark {
-  display: grid;
-  place-items: center;
-  color: rgba(47, 145, 184, 0.055);
-  font-family: var(--river-font-display);
-  font-size: clamp(8rem, 21vw, 19rem);
-  font-weight: 650;
-  letter-spacing: -0.055em;
-  line-height: 1;
-  opacity: 1;
-  transition: opacity 700ms ease;
-  white-space: nowrap;
-}
-
-.home-hero.is-flow-ready .home-hero__watermark {
-  opacity: 0;
-  transition-delay: 2.8s;
 }
 
 .home-hero__content {
   position: relative;
   z-index: 2;
-  width: min(88vw, 640px);
+  width: clamp(220px, 60vw, 407px);
 }
 
 .home-hero__tagline {
-  margin: 0 0 1.75rem;
-  color: color-mix(in srgb, var(--river-primary-strong) 68%, transparent);
+  margin: 1.5rem 0 0;
+  color: color-mix(in srgb, var(--river-foreground) 50%, transparent);
   font-size: clamp(1rem, 2vw, 1.25rem);
   font-weight: 500;
-  letter-spacing: 0.035em;
+  letter-spacing: 0.02em;
   opacity: 0;
   transform: translateY(20px);
   animation: hero-reveal 600ms ease forwards;
@@ -95,6 +42,7 @@
   margin: 0;
   color: var(--river-foreground);
   line-height: 1;
+  transform: translateY(30px);
 }
 
 .home-hero__sr-only {
@@ -110,7 +58,7 @@
 
 .home-signature {
   display: block;
-  width: min(100%, 600px);
+  width: 100%;
   height: auto;
   margin-inline: auto;
   overflow: visible;
@@ -118,46 +66,56 @@
 
 .home-signature__stroke {
   fill: none;
-  stroke: #fff;
+  stroke: currentColor;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 110;
-  animation: signature-draw var(--draw-duration) cubic-bezier(0.55, 0, 0.3, 1) var(--draw-delay) forwards;
-}
-
-.home-signature__ink {
-  fill: var(--river-foreground);
-  font-family: "Allura", cursive;
-  font-size: 140px;
-  font-weight: 400;
-  letter-spacing: 1.5px;
-}
-
-.home-signature__mask-complete {
-  opacity: 0;
-  animation: signature-mask-complete 220ms ease 3.72s forwards;
+  stroke-width: 3.4;
+  animation: signature-draw var(--draw-duration) cubic-bezier(.32, .05, .38, 1) var(--draw-delay) both;
 }
 
 .home-hero__description {
-  margin: 3.75rem 0 0;
-  color: color-mix(in srgb, var(--river-foreground) 72%, transparent);
+  margin: 6rem 0 0;
+  color: color-mix(in srgb, var(--river-foreground) 70%, transparent);
   font-size: clamp(1rem, 2vw, 1.3rem);
   font-weight: 400;
   line-height: 1.6;
   opacity: 0;
   transform: translateY(20px);
-  animation: hero-reveal 600ms ease 3.78s forwards;
+  animation: hero-reveal 700ms ease 2.4s forwards;
 }
 
 @keyframes signature-draw {
   to { stroke-dashoffset: 0; }
 }
 
-@keyframes signature-mask-complete {
-  to { opacity: 1; }
+@media (min-width: 768px) {
+  .home-hero__title::after {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    width: max-content;
+    color: transparent;
+    content: attr(data-shadow);
+    font-family: var(--river-font-display);
+    font-size: clamp(10rem, 30vw, 20rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    opacity: 0;
+    transform: translate(-50%, -63%);
+    -webkit-text-stroke: 2px #a9a9a924;
+    animation: hero-title-shadow 400ms ease 3.1s forwards;
+    transition: -webkit-text-stroke 200ms ease;
+    pointer-events: none;
+  }
+
+  .home-hero__title:hover::after { -webkit-text-stroke-color: #a9a9a942; }
 }
+
+@keyframes hero-title-shadow { to { opacity: 1; } }
 
 @keyframes hero-reveal {
   to { opacity: 1; transform: translateY(0); }
@@ -313,18 +271,17 @@
 
 @media (max-width: 767px) {
   .home-hero-stage {
-    height: calc(100svh - 92px);
-    min-height: 680px;
+    height: 100svh;
     margin-left: calc(50% - 50vw);
   }
 
   .home-hero {
-    min-height: 100%;
-    padding: 5rem 1.25rem 3rem;
+    min-height: 80svh;
+    padding: 6rem 2rem 4rem;
   }
 
   .home-hero__description {
-    margin-top: 3.25rem;
+    margin-top: 6rem;
   }
 
   .home-directory {
@@ -363,15 +320,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-hero__flow {
-    transition: none;
-  }
-
-  .home-hero.is-flow-ready .home-hero__watermark {
-    opacity: 0;
-    transition: none;
-  }
-
   .home-hero__tagline,
   .home-hero__description,
   .home-directory {
@@ -380,13 +328,14 @@
     animation: none;
   }
 
+  .home-hero__title::after {
+    opacity: 1;
+    animation: none;
+  }
+
   .home-signature__stroke {
     stroke-dashoffset: 0;
     animation: none;
   }
 
-  .home-signature__mask-complete {
-    opacity: 1;
-    animation: none;
-  }
 }

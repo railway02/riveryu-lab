@@ -8,7 +8,7 @@
   const themeColor = document.querySelector('meta[name="theme-color"]');
 
   function updateThemeColor() {
-    themeColor?.setAttribute("content", root.dataset.theme === "dark" ? "#091116" : "#F4F9FC");
+    themeColor?.setAttribute("content", getComputedStyle(root).getPropertyValue("--river-canvas").trim());
   }
 
   themeToggle?.addEventListener("click", () => {
