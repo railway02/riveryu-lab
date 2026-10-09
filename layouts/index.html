@@ -8,10 +8,12 @@
     <div class="home-hero__content">
       <p class="home-hero__tagline">Researcher &amp; Builder</p>
       <div class="home-hero__title" data-shadow="RiverYu">
-        <h1 id="river-hero-title">RiverYu</h1>
+        <h1 id="river-hero-title" class="home-hero__sr-only">RiverYu</h1>
+        {{- partial "home/signature.html" . -}}
       </div>
-      <p class="home-hero__description">To explore, and to feel.<br>去探索，也去感受</p>
+      <p class="home-hero__description">To explore, and to feel.<span lang="zh-CN">去探索，也去感受</span></p>
     </div>
+    <a class="home-hero__scroll" href="#content">向下阅读 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 4v16m-5-5 5 5 5-5"/></svg></a>
   </section>
 </div>
 
@@ -19,8 +21,8 @@
   <section class="home-section" aria-labelledby="home-about-title">
     <div class="home-section__label"><h2 id="home-about-title">About</h2></div>
     <div class="home-section__content home-about">
-      <p>👋 Hi, I'm RiverYu!</p>
-      <p>I'm an undergraduate researcher working on computer vision, 3D generation, and reconstruction.</p>
+      <p>Hi，我是 RiverYu。</p>
+      <p>河南师范大学网络工程专业在读，关注计算机视觉、三维生成与重建。这里记录论文阅读、实验进展，也记下一些日常想法。</p>
       <a class="soft-button" href="{{ "/about/" | absLangURL }}">More about me <span aria-hidden="true">→</span></a>
     </div>
   </section>
